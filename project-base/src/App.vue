@@ -11,7 +11,7 @@ import MyComponent from './components/MyComponent.vue'
 
   <RouterView />
 
-  <MyComponent />
+  
 </template>
 
 <style scoped>
