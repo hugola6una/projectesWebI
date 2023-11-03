@@ -58,4 +58,10 @@
     display: block;
     height: 50px;
   }
+
+  .startOptions:hover {
+    background: #440042;
+    color: #FFFF;
+  }
+
 </style>
