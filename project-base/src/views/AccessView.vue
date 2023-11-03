@@ -5,7 +5,7 @@
 <template>
   <div class="container">
     <div class="left">
-      <img src="" alt="Logo" class="gameImage">
+      <img src="project-base/src/assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
       <h1 class="gameTitle">ROBOT</h1>
       <h1 class="gameTitle">BATTLE</h1>
       <h2 class="gameSubTitle">ARENA</h2>
@@ -29,7 +29,7 @@
   .left {
     text-align: center;
     color: white;
-    font-family: 'PRESS START 2P', sans-serif;
+    font-family: 'PressStart2P', sans-serif;
   }
 
   .gameTitle {
