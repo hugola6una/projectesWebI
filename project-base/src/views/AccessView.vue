@@ -5,7 +5,7 @@
 <template>
   <div class="container">
     <div class="left">
-      <img src="project-base/src/assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
+      <img src="../assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
       <h1 class="gameTitle">ROBOT</h1>
       <h1 class="gameTitle">BATTLE</h1>
       <h2 class="gameSubTitle">ARENA</h2>
@@ -32,6 +32,10 @@
     font-family: 'PressStart2P', sans-serif;
   }
 
+  .gameImage {
+    width: 100px;
+  }
+
   .gameTitle {
     margin: 0;
   }
@@ -53,6 +57,5 @@
     margin: 0.5rem;
     display: block;
     height: 50px;
-    border-radius: 5px;
   }
 </style>
