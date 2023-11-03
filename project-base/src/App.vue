@@ -4,10 +4,7 @@ import MyComponent from './components/MyComponent.vue'
 </script>
 
 <template>
-  <nav>
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
-  </nav>
+  
 
   <RouterView />
 
@@ -15,4 +12,5 @@ import MyComponent from './components/MyComponent.vue'
 </template>
 
 <style scoped>
+  
 </style>
