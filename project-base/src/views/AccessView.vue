@@ -6,35 +6,48 @@
 <template>
   <div class="container">
     <div class="left">
-      <img src="../assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
-      <h1 class="gameTitle">ROBOT</h1>
-      <h1 class="gameTitle">BATTLE</h1>
-      <h2 class="gameSubTitle">ARENA</h2>
+      <div class="left-content">
+        <img src="../assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
+        <h1 class="gameTitle">ROBOT</h1>
+        <h1 class="gameTitle">BATTLE</h1>
+        <h2 class="gameSubTitle">ARENA</h2>
+      </div>
     </div>
     <div class="right">
-      <router-link to="/create-player">
-        <button class="buttonOptions">CREATE PLAYER</button>
-      </router-link>
-      <router-link to="/login-player">
-        <button class="buttonOptions">I HAVE A PLAYER</button>
-      </router-link>
+      <div class="right-content">
+        <router-link to="/create-player">
+          <button class="buttonOptions">CREATE PLAYER</button>
+        </router-link>
+        <router-link to="/login-player">
+          <button class="buttonOptions">I HAVE A PLAYER</button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
   .container {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to right, #633FC3, #362864);
+    
   }
 
   .left {
-    text-align: center;
+    height: 100%;
+    text-align: end;
     color: white;
-    font-family: 'PressStart2P', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: linear-gradient(to right, #633FC3, #362864);
+  }
+
+  .left-content {
+    text-align: center;
+    margin-right: 3rem;
   }
 
   .gameImage {
@@ -50,10 +63,21 @@
   }
 
   .right {
-   margin-left: 3rem;
-   display: flex;
-   flex-direction: column;
-   align-items: center
+    height: 100%;
+    text-align: start;
+    color: white;
+    display: flex;
+    align-items: center;
+    background-color: white;
+  }
+
+  .right-content {
+    margin-left: 3rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .buttonOptions {
@@ -65,8 +89,6 @@
   }
 
   .buttonOptions:hover {
-    background: #440042;
-    color: #FFFF;
+    background: #80547f;
   }
-
 </style>
