@@ -1,5 +1,6 @@
 <script setup>
   import MySecondComponent from '../components/MySecondComponent.vue'
+  import router from '../router';
 </script>
 
 <template>
@@ -11,8 +12,12 @@
       <h2 class="gameSubTitle">ARENA</h2>
     </div>
     <div class="right">
-      <button class="startOptions">CREATE PLAYER</button>
-      <button class="startOptions">I HAVE A PLAYER</button>
+      <router-link to="/create-player">
+        <button class="buttonOptions">CREATE PLAYER</button>
+      </router-link>
+      <router-link to="/login-player">
+        <button class="buttonOptions">I HAVE A PLAYER</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -33,7 +38,7 @@
   }
 
   .gameImage {
-    width: 100px;
+    width: 130px;
   }
 
   .gameTitle {
@@ -48,10 +53,10 @@
    margin-left: 3rem;
    display: flex;
    flex-direction: column;
-   align-items: center;
+   align-items: center
   }
 
-  .startOptions {
+  .buttonOptions {
     background: #362864;
     color: #FFFF;
     margin: 0.5rem;
@@ -59,7 +64,7 @@
     height: 50px;
   }
 
-  .startOptions:hover {
+  .buttonOptions:hover {
     background: #440042;
     color: #FFFF;
   }
