@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AccessViewView from '../views/AccessView.vue'
 import CreatePlayerView from '../views/CreatePlayerView.vue'
 import LoginView from '../views/LoginView.vue'
+import HomeView from '../views/HomeView.vue'
 
 
 const router = createRouter({
@@ -14,7 +15,7 @@ const router = createRouter({
     },
     {
       path: '/create-player',
-      name: 'CreatePlayer',
+      name: 'createPlayer',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -22,8 +23,13 @@ const router = createRouter({
     },
     {
       path: '/login-player',
-      name: 'LoginPlayer',
+      name: 'loginPlayer',
       component: () => LoginView
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: () => HomeView
     },
   ]
 })
