@@ -3,6 +3,11 @@ import AccessViewView from '../views/AccessView.vue'
 import CreatePlayerView from '../views/CreatePlayerView.vue'
 import LoginView from '../views/LoginView.vue'
 import HomeView from '../views/HomeView.vue'
+import UserView from '../views/UserView.vue'
+import RankingView from '../views/RankingView.vue'
+import StoreView from '../views/StoreView.vue'
+import MyAttacksView from '../views/MyAttacksView.vue'
+import GamesView from '../views/GamesView.vue'
 
 
 const router = createRouter({
@@ -31,6 +36,32 @@ const router = createRouter({
       name: 'home',
       component: () => HomeView
     },
+    {
+      path: '/user',
+      name: 'user',
+      component: () => UserView
+    },
+    {
+      path: '/ranking',
+      name: 'reanking',
+      component: () => RankingView
+    },
+    {
+      path: '/store',
+      name: 'store',
+      component: () => StoreView
+    },
+    {
+      path: '/my-attacks',
+      name: 'myAttacks',
+      component: () => MyAttacksView
+    },
+    {
+      path: '/games',
+      name: 'games',
+      component: () => GamesView
+    },
+    
   ]
 })
 

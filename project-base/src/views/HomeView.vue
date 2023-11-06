@@ -10,27 +10,43 @@
         </router-link>
         <div class= "options"> 
           <div class="default">
-            <div class="option">
-              <img src="..\assets\images\icons\userIcon.png" alt="User" class="icon">
-              <span>User</span>
-            </div>
-            <div class="option">
-              <img src="..\assets\images\icons\rankingIcon.png" alt="Ranking" class="icon">
-              <span>Ranking</span>
-            </div>
-            <div class="option">
-              <img src="..\assets\images\icons\StoreIcon.png" alt="Store" class="icon">
-              <span>Store</span>
-            </div>
-            <div class="option">
-              <img src="..\assets\images\icons\myAttacksIcon.png" alt="MyAttacks" class="icon">
-              <span>MyAttacks</span>
-            </div>
-            <div class="option">
-              <img src="..\assets\images\icons\gamesIcon.png" alt="Games" class="icon">
-              <span>Games</span>
-            </div>
+
+            <router-link to="/user" class="link">
+              <div class="option">
+                <img src="..\assets\images\icons\userIcon.png" alt="User" class="icon">
+                <span>User</span>
+              </div>
+            </router-link>
+
+            <router-link to="/ranking" class="link">
+              <div class="option">
+                <img src="..\assets\images\icons\rankingIcon.png" alt="Ranking" class="icon">
+                <span>Ranking</span>
+              </div>
+            </router-link>
+            
+            <router-link to="/shop" class="link">
+              <div class="option">
+                <img src="..\assets\images\icons\StoreIcon.png" alt="Store" class="icon">
+                <span>Store</span>
+              </div>
+            </router-link>
+            
+            <router-link to="/my-attacks" class="link">
+              <div class="option">
+                <img src="..\assets\images\icons\myAttacksIcon.png" alt="MyAttacks" class="icon">
+                <span>MyAttacks</span>
+              </div>
+            </router-link>
+            
+            <router-link to="/games" class="link">
+              <div class="option">
+                <img src="..\assets\images\icons\gamesIcon.png" alt="Games" class="icon">
+                <span>Games</span>
+              </div>
+            </router-link>
           </div>
+
           <div class="logout">
             <router-link to="/" class="link">
               <div class="option">
@@ -55,7 +71,9 @@
           <h1 class="gameTitle">BATTLE</h1>
           <h2 class="gameSubTitle">ARENA</h2>
 
-          <button class="bPlay">PLAY</button>
+          <router-link to="/games" class="link"> 
+            <button class="bPlay">PLAY</button>
+          </router-link>
           
         </div>
       </div>
