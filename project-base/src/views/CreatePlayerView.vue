@@ -1,3 +1,7 @@
+<script setup>
+  import MySecondComponent from '../components/MySecondComponent.vue'
+  import router from '../router';
+</script>
 <template>
   <div class="container">
     <div class="left">
@@ -99,8 +103,8 @@
   }
 
   .addProfilePhoto {
-    margin: 1rem;
-    width: 8vmax;
+    margin-top: 2vmax;
+    width: 10vmax;
   }
 
   .profileInputs {
@@ -113,23 +117,21 @@
   input {
     display: flex;
     font-size: 2vmax;
-    margin: 1rem;
-    width: 20vmax;
+    width: 35vmax;
     height: 5vmax;
     border: none;
     border-bottom:  1vmin solid #362864;
-    padding: 0.5rem;
+    margin-top: 1vmax;
   }
 
   button {
     text-align: center;
     color: #FFFF;
-    margin: 1rem;
     height: 5vmax;
     width: 15vmax;
     font-size: 1vmax;
-    text-decoration: none;
     align-items: center;
+    margin: 1vmax;
   }
 
   button:hover {

@@ -74,7 +74,8 @@
   }
 
   .right-content {
-    margin-left: 4vmax;
+    margin-left: 10vmax;
+    margin-top: 4vmax;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -95,5 +96,5 @@
   .buttonOptions:hover {
     background: #80547f;
   }
-  
+
 </style>

@@ -1,10 +1,49 @@
+<script setup>
+  import router from '../router';
+</script>
+
 <template>
-    <div>
-      <h1>This Home page</h1>
-   
+    <div class="container">
+      <div class="menu">
+
+      </div>
+
+      <div class="body">
+
+      </div>
+
     </div>
   </template>
+
   <style scoped>
+
+  .container {
+      display: grid;
+      grid-template-columns: 1fr 4fr;
+      align-items: center;
+      height: 100vh;
+      
+  }
+
+  .menu {
+    height: 100%;
+    text-align: end;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: white;
+  }
+
+  .body {
+    height: 100%;
+    text-align: end;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: #362864;
+  }
   
   </style>
   
