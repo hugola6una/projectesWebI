@@ -47,19 +47,21 @@
 
   .left-content {
     text-align: center;
-    margin-right: 3rem;
+    margin-right: 4vmax;
   }
 
   .gameImage {
-    width: 130px;
+    width: 20vmax;
   }
 
   .gameTitle {
     margin: 0;
+    font-size: 4vmax;
   }
 
   .gameSubTitle {
     margin: 0;
+    font-size: 3vmax;
   }
 
   .right {
@@ -72,7 +74,7 @@
   }
 
   .right-content {
-    margin-left: 3rem;
+    margin-left: 4vmax;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -83,12 +85,15 @@
   .buttonOptions {
     background: #362864;
     color: #FFFF;
-    margin: 0.5rem;
+    margin: 1vmax;
     display: block;
-    height: 50px;
+    font-size: 2vmax;
+    height: 10vmax;
+    width: 25vmax;
   }
 
   .buttonOptions:hover {
     background: #80547f;
   }
+  
 </style>
