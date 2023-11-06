@@ -209,7 +209,7 @@
     cursor: pointer;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 8200px) {
     .container {
       grid-template-columns: 1fr;
       grid-template-rows: 8fr 1fr;
@@ -228,6 +228,7 @@
     }
 
     .menu {
+      height: 100%;
       order: 2;
       grid-template-rows: 1fr;
       display: flex;
