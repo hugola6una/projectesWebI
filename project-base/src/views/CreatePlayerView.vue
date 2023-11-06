@@ -56,19 +56,22 @@
 
   .left-content {
     text-align: center;
-    margin-right: 3rem;
+    margin-right: 4vmax;
   }
 
   .gameImage {
-    width: 130px;
+    width: 20vmax;
+  
   }
 
   .gameTitle {
     margin: 0;
+    font-size: 4vmax;
   }
 
   .gameSubTitle {
     margin: 0;
+    font-size: 3vmax;
   }
 
   .right {
@@ -81,7 +84,7 @@
   }
 
   .right-content {
-    margin-left: 3rem;
+    margin-left: 4vmax;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -92,12 +95,12 @@
 
   .createTitle {
     margin: 0;
-    font-size: 1rem;
+    font-size: 2vmax;
   }
 
   .addProfilePhoto {
     margin: 1rem;
-    width: 80px;
+    width: 8vmax;
   }
 
   .profileInputs {
@@ -109,20 +112,22 @@
 
   input {
     display: flex;
+    font-size: 2vmax;
     margin: 1rem;
-    width: 200px;
-    height: 10px;
+    width: 20vmax;
+    height: 5vmax;
     border: none;
-    border-bottom:  3px solid #362864;
+    border-bottom:  1vmin solid #362864;
     padding: 0.5rem;
   }
 
   button {
     text-align: center;
     color: #FFFF;
-    margin: 0.5rem;
-    height: 40px;
-    width: 200px;
+    margin: 1rem;
+    height: 5vmax;
+    width: 15vmax;
+    font-size: 1vmax;
     text-decoration: none;
     align-items: center;
   }
