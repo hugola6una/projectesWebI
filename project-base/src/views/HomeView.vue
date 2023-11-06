@@ -5,6 +5,7 @@
 <template>
     <div class="container">
       <div class="menu">
+        <img src="../assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
 
       </div>
 
@@ -32,7 +33,11 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    background: white;
+    background: black;
+  }
+
+  .gameImage  {
+    width: 15vmax;
   }
 
   .body {
