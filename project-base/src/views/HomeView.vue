@@ -25,7 +25,7 @@
               </div>
             </router-link>
             
-            <router-link to="/shop" class="link">
+            <router-link to="/store" class="link">
               <div class="option">
                 <img src="..\assets\images\icons\StoreIcon.png" alt="Store" class="icon">
                 <span>Store</span>
@@ -60,10 +60,12 @@
 
       <div class="body">
         <div class="top">
-          <div class="coins">
-            <img src="..\assets\images\icons\coinIcon.png" alt="Coins" class="icon">
-            <span class="coin">1000</span>
-          </div>
+          <router-link to="/store" class="link">
+            <div class="coins">
+              <img src="..\assets\images\icons\coinIcon.png" alt="Coins" class="icon">
+              <span class="coin">1000</span>
+            </div>
+          </router-link>
         </div>
         <div class="center">
           
