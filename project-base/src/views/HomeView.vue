@@ -5,7 +5,9 @@
 <template>
     <div class="container">
       <div class="menu">
-        <img src="..\assets\images\logoRobotoArena2.png" alt="Logo" class="gameImage">
+        <router-link to="/home" class="link">
+          <img src="..\assets\images\logoRobotoArena2.png" alt="Logo" class="gameImage">
+        </router-link>
         <div class= "options"> 
           <div class="default">
             <div class="option">
@@ -30,10 +32,12 @@
             </div>
           </div>
           <div class="logout">
-            <div class="option">
-              <img src="..\assets\images\icons\logoutIcon.png" alt="LogOut" class="icon">
-              <span>LogOut</span>
-            </div>
+            <router-link to="/" class="link">
+              <div class="option">
+                <img src="..\assets\images\icons\logoutIcon.png" alt="LogOut" class="icon">
+                <span>LogOut</span>
+              </div>
+            </router-link>
            </div>
         </div>
       </div>
