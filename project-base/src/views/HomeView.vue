@@ -209,7 +209,7 @@
     cursor: pointer;
   }
 
-  @media (max-width: 8200px) {
+  @media (max-width: 820px) {
     .container {
       grid-template-columns: 1fr;
       grid-template-rows: 8fr 1fr;
