@@ -29,9 +29,11 @@
               <span>Games</span>
             </div>
           </div>
-          <div class="option">
+          <div class="logout">
+            <div class="option">
               <img src="..\assets\images\icons\logoutIcon.png" alt="LogOut" class="icon">
               <span>LogOut</span>
+            </div>
            </div>
         </div>
       </div>
@@ -65,7 +67,6 @@
     height: 100vh;   
   }
   .menu {
-    margin-left: 1vmax;
     height: 100%;
     display: grid;
     grid-template-rows: 1fr 6fr;
@@ -90,12 +91,23 @@
   }
 
   .option {
-    margin-left: 1vmax;
-    margin-right: 1vmax;
+    height: 5vmax;
     display: grid;
     grid-template-columns: 1fr 4fr;
     justify-content: center;
     align-items: center;
+
+  }
+
+  .logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .option:hover {
+    background: #80547f;
+    cursor: pointer;
   }
 
   .icon {
