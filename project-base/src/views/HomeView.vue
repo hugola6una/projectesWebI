@@ -177,6 +177,12 @@
     align-items: center;
     font-size: 4vmax;
   }
+
+  .bPlay:hover {
+    background: #80547f;
+    color: white;
+    cursor: pointer;
+  }
   
   </style>
   
