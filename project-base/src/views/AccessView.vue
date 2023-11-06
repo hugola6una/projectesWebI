@@ -15,10 +15,10 @@
     </div>
     <div class="right">
       <div class="right-content">
-        <router-link to="/create-player">
+        <router-link to="/create-player" class="link">
           <button class="buttonOptions">CREATE PLAYER</button>
         </router-link>
-        <router-link to="/login-player">
+        <router-link to="/login-player" class="link">
           <button class="buttonOptions">I HAVE A PLAYER</button>
         </router-link>
       </div>

@@ -24,10 +24,10 @@
           </form>
         </div>
 
-        <router-link to="/login-player">
+        <router-link to="/login-player" class="link">
           <button class="bHavePlayer">I HAVE A PLAYER</button>
         </router-link>
-        <router-link to="/home">
+        <router-link to="/home" class="link">
           <button class="bCreate">CREATE</button>
         </router-link>
       
@@ -40,7 +40,7 @@
   .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    align-items: flex-start; /* Anclar todo el contenido a la parte superior de la columna */
+    align-items: flex-start;
     height: 100vh;
   }
 
@@ -113,7 +113,7 @@
     width: 200px;
     height: 10px;
     border: none;
-    border-bottom:  1px solid #362864;
+    border-bottom:  3px solid #362864;
     padding: 0.5rem;
   }
 
@@ -121,7 +121,6 @@
     text-align: center;
     color: #FFFF;
     margin: 0.5rem;
-    display: flex;
     height: 40px;
     width: 200px;
     text-decoration: none;
