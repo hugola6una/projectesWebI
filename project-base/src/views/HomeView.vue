@@ -113,6 +113,7 @@
   .icon {
     width: 4vmax;
     margin-right: 1vmax;
+    margin-left: 1vmax;
     align-items: center;
     justify-content: center;
   }
