@@ -88,7 +88,7 @@
     display: grid;
     grid-template-columns: 1fr 4fr;
     align-items: center;
-    height: 100vh;   
+    height: 100vh; 
   }
   .menu {
     height: 100%;
@@ -208,6 +208,63 @@
     color: white;
     cursor: pointer;
   }
+
+  @media (max-width: 700px) {
+    .container {
+      grid-template-columns: 1fr;
+      grid-template-rows: 8fr 1fr;
+    }
+
+    .body {
+      height: 100%;
+      order: 1;
+    }
+
+    .coin {
+      display: block;
+      color: white;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu {
+      order: 2;
+      grid-template-rows: 1fr;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .gameImage {
+      display: none;
+    }
+    .options {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+    }
+    .default {
+      width: 100%;
+      align-items: center;
+      justify-content: space-around;
+      flex-direction: row;
+    }
+    .option {
+      height: 100%;
+      grid-template-columns: 1fr;
+    }
+
+    .icon {
+      width: 5vmax;
+    }
+
+    span {
+      display: none;
+    }
+
+    .logout {
+      display: none;
+    }
+}
   
-  </style>
+</style>
   
