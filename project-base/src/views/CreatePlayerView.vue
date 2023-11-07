@@ -1,5 +1,4 @@
 <script setup>
-  import MySecondComponent from '../components/MySecondComponent.vue'
   import router from '../router';
 </script>
 <template>
@@ -23,8 +22,8 @@
         <div class="profileInputs">
           <form>
             <input type="text" placeholder="Name" class="inPlayerName">
-            <input type="text" placeholder="Password" class="inPlayerPassword">
-            <input type="text" placeholder="Repeat Password" class="inPlayerPassword2">
+            <input type="password" placeholder="Password" class="inPlayerPassword">
+            <input type="password" placeholder="Repeat Password" class="inPlayerPassword2">
           </form>
         </div>
 

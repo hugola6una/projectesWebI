@@ -1,5 +1,4 @@
 <script setup>
-  import MySecondComponent from '../components/MySecondComponent.vue'
   import router from '../router';
 </script>
 
@@ -14,21 +13,17 @@
         </div>
     </div>
     <div class="right">
-      <div class="right-content">
-        <h1 class="loginTitle">LOGIN</h1>
-        <div class="profileInputs">
+      <h1 class="h1Login">LOGIN</h1>
+      <div class="dIteractive">
+        <div class="inputs">
           <input type="text" placeholder="Name" class="inPlayerName">
-          <input type="text" placeholder="Password" class="inPlayerPassword">
+          <input type="password" placeholder="Password" class="inPassword">
         </div>
-
-        <div class="bInputs">
-          <router-link to="/create-player" class="link">
-            <button class="bCreatePlayer">CREATE PLAYER</button>
-          </router-link>
-          <router-link to="/home" class="link">
-            <button class="bLogin">SIGN IN</button>
-          </router-link>
-        </div>
+      <div class="buttons"> 
+        <button class="bCreate">CREATE A PLAYER</button>
+        <button class="bSigIn">SIG IN</button>
+      </div>  
+        
       </div>
     </div>
   </div>
@@ -80,72 +75,72 @@
     align-items: center;
   }
 
-  .right-content {
-    display: grid;
-    grid-template-rows: 1fr 1fr 2fr;
-  }
-
-  .loginTitle {
-    color: #362864;
-    font-size: 4vmax;
-  }
-
   input {
+    display: flex;
+    margin-top: 2vmax;
+    height: 4vmax;
+    width: 35vmax;
+    font-size: 2vmax;
+    box-sizing: border-box;
+    color: #362864;
+    padding: 1vmax;
     border: none;
-    font-size: 1.5vmax;
-    width: 30vmax;
-    border-bottom: #362864 0.5px solid;
+    border-bottom: 0.1em solid #633FC3;
   }
 
-  .profileInputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-
+  .h1Login {
+    font-size: 3vmax;
+    color: #362864;
   }
 
-  .bInputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  .inputs {
+    margin-top: 5vmax;
+  }
+
+  .buttons {
+    margin-top: 5vmax;
   }
 
   button {
+    justify-content: center;
+    align-items: center;
+    display: flex;
     margin-top: 1vmax;
+    width: 35vmax;
     height: 4vmax;
-    width: 20vmax;
-    font-size: 1.5vmax;
-    text-align: center;
     border: none;
+    font-size: 1.5vmax;
+    box-sizing: border-box;
   }
 
-  button:hover {
-    background-color: #633FC3;
-  }
-
-  .bCreatePlayer {
-    background-color: white;
-    border: 1px solid #362864;
+  .bCreate {
+    border: 0.1em solid #633FC3;
+    background: white;
     color: #362864;
   }
 
-  .bLogin {
-    color: white;
+  .bSigIn {
+    font-size: 3vmax;
     height: 8vmax;
-    width: 25vmax;
-    background-color: #362864;
+    background: #633FC3;
+    color: white;
   }
+
+  button:hover {
+    background: #633FC3;
+  }
+
+  
 
   @media (max-width: 820px) {
     .container {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: 1fr 2fr;
     }
 
-    .loginTitle {
+    .h1Login {
       color: white;
+      font-size: 2vmax;
     }
 
     .left {
@@ -154,23 +149,67 @@
       justify-content: center;
     }
 
+    .gameImage {
+      margin-top: 3vmax;
+      width: 8vmax;
+    }
+
     .right {
+      display: grid;
+      grid-template-rows: 1fr 4fr;
       width: 100%;
       background-color: #362864;
     }
 
-    .right-content {
-      height: 100%;;
+    .h1Login {
+      margin-top: 2vmax;
+      font-size: 4vmax;
+    }
+
+    .dIteractive {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
       justify-content: start;
-      align-items: center;
+    }
+
+    .inputs {
+      margin-top: 2vmax;
     }
 
     input {
-      color: white;
       background: none;
-      border-bottom: 0.5px solid white;
+      width: 35vmax;
+      height: 2vmax;
+      font-size: 1.5vmax;
+      color: white;
+      border-bottom: 0.1em solid white;
     }
-   
+
+    .buttons {
+      margin-top: 8vmax;
+    }
+
+    button {
+      margin-top: 2vmax;
+    }
+
+    .bCreate {
+      border: 0.1em solid white;
+      color: white;  
+      background-color: #362864;
+      height: 3vmax;
+      font-size: 1.5vmax;
+    }
+
+    .bSigIn {
+      color: #362864;
+      background-color: white;
+    }
+
+
+    
     
   }
 </style>
