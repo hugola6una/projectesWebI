@@ -1,82 +1,23 @@
 <script setup>
   import router from '../router';
+  import LateralMenu from '../components/LateralMenu.vue';
+  import Top from '../components/TopComponent.vue';
 </script>
 
 <template>
     <div class="container">
-      <div class="menu">
-        <router-link to="/home" class="link">
-          <img src="..\assets\images\logoRobotoArena2.png" alt="Logo" class="gameImage">
-        </router-link>
-        <div class= "options"> 
-          <div class="default">
-
-            <router-link to="/user" class="link">
-              <div class="option">
-                <img src="..\assets\images\icons\userIcon.png" alt="User" class="icon">
-                <span>User</span>
-              </div>
-            </router-link>
-
-            <router-link to="/ranking" class="link">
-              <div class="option">
-                <img src="..\assets\images\icons\rankingIcon.png" alt="Ranking" class="icon">
-                <span>Ranking</span>
-              </div>
-            </router-link>
-            
-            <router-link to="/store" class="link">
-              <div class="option">
-                <img src="..\assets\images\icons\StoreIcon.png" alt="Store" class="icon">
-                <span>Store</span>
-              </div>
-            </router-link>
-            
-            <router-link to="/my-attacks" class="link">
-              <div class="option">
-                <img src="..\assets\images\icons\myAttacksIcon.png" alt="MyAttacks" class="icon">
-                <span>MyAttacks</span>
-              </div>
-            </router-link>
-            
-            <router-link to="/games" class="link">
-              <div class="option">
-                <img src="..\assets\images\icons\gamesIcon.png" alt="Games" class="icon">
-                <span>Games</span>
-              </div>
-            </router-link>
-          </div>
-
-          <div class="logout">
-            <router-link to="/" class="link">
-              <div class="option">
-                <img src="..\assets\images\icons\logoutIcon.png" alt="LogOut" class="icon">
-                <span>LogOut</span>
-              </div>
-            </router-link>
-           </div>
-        </div>
-      </div>
-
+      <LateralMenu />
       <div class="body">
-        <div class="top">
-          <router-link to="/store" class="link">
-            <div class="coins">
-              <img src="..\assets\images\icons\coinIcon.png" alt="Coins" class="icon">
-              <span class="coin">1000</span>
-            </div>
-          </router-link>
-        </div>
+        <Top />
+
         <div class="center">
-          
           <h1 class="gameTitle">ROBOT</h1>
           <h1 class="gameTitle">BATTLE</h1>
           <h2 class="gameSubTitle">ARENA</h2>
 
           <router-link to="/games" class="link"> 
             <button class="bPlay">PLAY</button>
-          </router-link>
-          
+          </router-link>  
         </div>
       </div>
 
@@ -90,63 +31,6 @@
     align-items: center;
     height: 100vh; 
   }
-  .menu {
-    height: 100%;
-    display: grid;
-    grid-template-rows: 1fr 6fr;
-    background: white;
-  }
-
-  .gameImage  {
-    margin: 1vmax;
-    width: 5vmax;
-  }
-
-  .options {
-    display: grid;
-    grid-template-rows: 3fr 1fr;
-  }
-
-  .default {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-  }
-
-  .option {
-    height: 5vmax;
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    justify-content: center;
-    align-items: center;
-
-  }
-
-  .logout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .option:hover {
-    background: #80547f;
-    cursor: pointer;
-  }
-
-  .icon {
-    width: 4vmax;
-    margin-right: 1vmax;
-    margin-left: 1vmax;
-    align-items: center;
-    justify-content: center;
-  }
-
-  span {
-    color: #362864;
-    font-size: 1.5vmax;
-  }
-
   .body {
     height: 100%;
     background: #362864;
@@ -154,27 +38,7 @@
     grid-template-rows: 1fr 8fr;
   }
 
-  .top {
-   display: flex;
-   flex-direction: row;
-   justify-content: flex-end;
-   align-items: center;
-  }
 
-  .coins {
-    margin-top: 1vmax;
-    color: white;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    justify-content: end;
-    align-items: center;
-  }
-
-  .coin {
-    color: white;
-    justify-content: center;
-    align-items: center;
-  }
   .center {
     display: flex;
     flex-direction: column;
@@ -218,52 +82,6 @@
     .body {
       height: 100%;
       order: 1;
-    }
-
-    .coin {
-      display: block;
-      color: white;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .menu {
-      height: 100%;
-      order: 2;
-      grid-template-rows: 1fr;
-      display: flex;
-      flex-direction: row;
-    }
-
-    .gameImage {
-      display: none;
-    }
-    .options {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-    }
-    .default {
-      width: 100%;
-      align-items: center;
-      justify-content: space-around;
-      flex-direction: row;
-    }
-    .option {
-      height: 100%;
-      grid-template-columns: 1fr;
-    }
-
-    .icon {
-      width: 5vmax;
-    }
-
-    span {
-      display: none;
-    }
-
-    .logout {
-      display: none;
     }
 }
   
