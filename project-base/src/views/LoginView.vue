@@ -82,7 +82,7 @@
 
   .right-content {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 2fr;
   }
 
   .loginTitle {
@@ -118,6 +118,7 @@
     width: 20vmax;
     font-size: 1.5vmax;
     text-align: center;
+    border: none;
   }
 
   button:hover {
