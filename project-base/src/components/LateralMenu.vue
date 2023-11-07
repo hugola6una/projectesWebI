@@ -36,7 +36,7 @@ const selectedOption = route.name;
                 </router-link>
                 
                 <router-link to="/my-attacks" class="link">
-                <div :class="{'option': true, 'selected': selectedOption === 'my-attack'}">
+                <div :class="{'option': true, 'selected': selectedOption === 'my-attacks'}">
                     <img src="..\assets\images\icons\myAttacksIcon.png" alt="MyAttacks" class="icon">
                     <span>MyAttacks</span>
                 </div>

@@ -132,7 +132,6 @@
 
   button:hover {
     background: #633FC3;
-    cursor: pointer;
   }
 
   

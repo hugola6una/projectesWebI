@@ -53,7 +53,7 @@ const router = createRouter({
     },
     {
       path: '/my-attacks',
-      name: 'myAttacks',
+      name: 'my-attacks',
       component: () => MyAttacksView
     },
     {

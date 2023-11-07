@@ -22,8 +22,14 @@
           <input type="password" placeholder="Repeat Pasword" class="inPassword2">
         </div>
       <div class="buttons"> 
-        <button class="bSigIn">I HAVE A PLAYER</button>
-        <button class="bCreate">CREATE</button>
+        <router-link to="/login-player" class="link">
+          <button class="bSigIn">I HAVE A PLAYER</button>
+        </router-link>
+        <router-link to="/home" class="link">
+          <button class="bCreate">CREATE</button>
+        </router-link>
+        
+        
       </div>  
         
       </div>
@@ -88,6 +94,10 @@
     padding: 1vmax;
     border: none;
     border-bottom: 0.1em solid #633FC3;
+  }
+
+  input:focus {
+    outline: 0.1em solid #633FC3;
   }
 
   .h1Register {
@@ -194,7 +204,7 @@
     }
 
     .buttons {
-      margin-top: 8vmax;
+      margin-top: 5vmax;
     }
 
     button {

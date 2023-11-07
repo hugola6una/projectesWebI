@@ -60,6 +60,7 @@
   .bPlay {
     margin-top: 3vmax;
     border-radius: 0px;
+    border: none;
     width: 25vmax;
     height: 7vmax;
     justify-content: center;
@@ -70,7 +71,6 @@
   .bPlay:hover {
     background: #80547f;
     color: white;
-    cursor: pointer;
   }
 
   @media (max-width: 820px) {
