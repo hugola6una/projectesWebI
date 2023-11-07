@@ -20,8 +20,12 @@
           <input type="password" placeholder="Password" class="inPassword">
         </div>
       <div class="buttons"> 
-        <button class="bCreate">CREATE A PLAYER</button>
-        <button class="bSigIn">SIG IN</button>
+        <router-link to="/create-player" class="link">
+          <button class="bCreate">CREATE A PLAYER</button>
+        </router-link>
+        <router-link to="/home" class="link">
+          <button class="bSigIn">SIG IN</button>
+        </router-link>
       </div>  
         
       </div>
@@ -128,6 +132,7 @@
 
   button:hover {
     background: #633FC3;
+    cursor: pointer;
   }
 
   

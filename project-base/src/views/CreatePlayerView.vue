@@ -1,39 +1,31 @@
 <script setup>
   import router from '../router';
 </script>
+
 <template>
   <div class="container">
     <div class="left">
-      <div class="left-content">
         <img src="../assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
-        <h1 class="gameTitle">ROBOT</h1>
-        <h1 class="gameTitle">BATTLE</h1>
-        <h2 class="gameSubTitle">ARENA</h2>
-      </div>
+        <div class="titles">
+          <h1 class="gameTitle">ROBOT</h1>
+          <h1 class="gameTitle">BATTLE</h1>
+          <h2 class="gameSubTitle">ARENA</h2>
+        </div>
     </div>
     <div class="right">
-      <div class="right-content">
-        <h1 class="createTitle">CREATE PLAYER</h1>
-
-        <div class="profilePhoto">
-          <img src="../assets/images/addProfilePhoto.png" alt="Profile Photo" class="addProfilePhoto">
+      <h1 class="h1Register">CREATE PLAYER</h1>
+      <div class="dIteractive">
+        <div class="inputs">
+          <img src="..\assets\images\addProfilePhoto.png" alt="Logo" class="addProfilePhoto">
+          <input type="text" placeholder="Name" class="inPlayerName">
+          <input type="password" placeholder="Password" class="inPassword">
+          <input type="password" placeholder="Repeat Pasword" class="inPassword2">
         </div>
-
-        <div class="profileInputs">
-          <form>
-            <input type="text" placeholder="Name" class="inPlayerName">
-            <input type="password" placeholder="Password" class="inPlayerPassword">
-            <input type="password" placeholder="Repeat Password" class="inPlayerPassword2">
-          </form>
-        </div>
-
-        <router-link to="/login-player" class="link">
-          <button class="bHavePlayer">I HAVE A PLAYER</button>
-        </router-link>
-        <router-link to="/home" class="link">
-          <button class="bCreate">CREATE</button>
-        </router-link>
-      
+      <div class="buttons"> 
+        <button class="bSigIn">I HAVE A PLAYER</button>
+        <button class="bCreate">CREATE</button>
+      </div>  
+        
       </div>
     </div>
   </div>
@@ -43,28 +35,27 @@
   .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    align-items: flex-start;
+    align-items: center;
     height: 100vh;
+    
   }
 
   .left {
     height: 100%;
-    text-align: end;
     color: white;
     display: flex;
+    flex-direction: column;;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     background: linear-gradient(to right, #633FC3, #362864);
   }
 
-  .left-content {
+  .titles {
     text-align: center;
-    margin-right: 4vmax;
   }
 
   .gameImage {
     width: 20vmax;
-  
   }
 
   .gameTitle {
@@ -79,73 +70,152 @@
 
   .right {
     height: 100%;
-    text-align: start;
-    color: white;
     display: flex;
-    align-items: center;
-    background-color: white;
-  }
-
-  .right-content {
-    margin-left: 4vmax;
+    flex-direction: column;
     text-align: center;
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
-    color: #362864;
-  }
-
-  .createTitle {
-    margin: 0;
-    font-size: 2vmax;
-  }
-
-  .addProfilePhoto {
-    margin-top: 2vmax;
-    width: 10vmax;
-  }
-
-  .profileInputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
   }
 
   input {
     display: flex;
-    font-size: 2vmax;
+    margin-top: 2vmax;
+    height: 4vmax;
     width: 35vmax;
-    height: 5vmax;
+    font-size: 2vmax;
+    box-sizing: border-box;
+    color: #362864;
+    padding: 1vmax;
     border: none;
-    border-bottom:  1vmin solid #362864;
-    margin-top: 1vmax;
+    border-bottom: 0.1em solid #633FC3;
+  }
+
+  .h1Register {
+    font-size: 3vmax;
+    color: #362864;
+  }
+
+  .addProfilePhoto {
+    width: 12vmax;
+  }
+
+  .inputs {
+    margin-top: 5vmax;
+  }
+
+  .buttons {
+    margin-top: 5vmax;
   }
 
   button {
-    text-align: center;
-    color: #FFFF;
-    height: 5vmax;
-    width: 15vmax;
-    font-size: 1vmax;
+    justify-content: center;
     align-items: center;
-    margin: 1vmax;
+    display: flex;
+    margin-top: 1vmax;
+    width: 35vmax;
+    height: 4vmax;
+    border: none;
+    font-size: 1.5vmax;
+    box-sizing: border-box;
   }
 
-  button:hover {
-    background: #80547f;
+  .bSigIn {
+    border: 0.1em solid #633FC3;
+    background: white;
+    color: #362864;
+  }
+
+  .bCreate {
+    font-size: 3vmax;
+    height: 8vmax;
+    background: #633FC3;
     color: white;
   }
 
-  .bHavePlayer {
-    color: #362864;
-    background: #FFFF;
-    border: 1px solid #362864;
-  }
-  .bCreate {
-    background: #362864;
-    border: 1px solid #362864;
+  button:hover {
+    background: #633FC3;
   }
 
+  
+
+  @media (max-width: 820px) {
+    .container {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 2fr;
+    }
+
+    .h1Register {
+      color: white;
+      font-size: 2vmax;
+    }
+
+    .left {
+      background: #362864;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .gameImage {
+      margin-top: 3vmax;
+      width: 8vmax;
+    }
+
+    .right {
+      display: grid;
+      grid-template-rows: 1fr 4fr;
+      width: 100%;
+      background-color: #362864;
+    }
+
+    .h1Login {
+      margin-top: 2vmax;
+      font-size: 4vmax;
+    }
+
+    .dIteractive {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: start;
+    }
+
+    .inputs {
+      margin-top: 0vmax;
+    }
+
+    input {
+      background: none;
+      width: 35vmax;
+      height: 2vmax;
+      font-size: 1.5vmax;
+      color: white;
+      border-bottom: 0.1em solid white;
+    }
+
+    .buttons {
+      margin-top: 8vmax;
+    }
+
+    button {
+      margin-top: 2vmax;
+    }
+
+    .bSigIn {
+      border: 0.1em solid white;
+      color: white;  
+      background-color: #362864;
+      height: 3vmax;
+      font-size: 1.5vmax;
+    }
+
+    .bCreate {
+      color: #362864;
+      background-color: white;
+    }
+
+
+    
+    
+  }
 </style>
