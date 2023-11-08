@@ -166,7 +166,7 @@
     }
 
     .h1Login {
-      margin-top: 2vmax;
+      margin-top: 4vmax;
       font-size: 4vmax;
     }
 
@@ -179,7 +179,7 @@
     }
 
     .inputs {
-      margin-top: 2vmax;
+      margin-top: 0;
     }
 
     input {
@@ -192,7 +192,7 @@
     }
 
     .buttons {
-      margin-top: 8vmax;
+      margin-top: 1vmax;
     }
 
     button {

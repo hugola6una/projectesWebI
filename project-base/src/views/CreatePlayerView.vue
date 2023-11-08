@@ -85,7 +85,7 @@
 
   input {
     display: flex;
-    margin-top: 2vmax;
+    margin-top: 1vmax;
     height: 4vmax;
     width: 35vmax;
     font-size: 2vmax;
@@ -106,6 +106,7 @@
   }
 
   .addProfilePhoto {
+    margin-top: 0vmax;
     width: 12vmax;
   }
 
@@ -149,14 +150,10 @@
   
 
   @media (max-width: 820px) {
+
     .container {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 2fr;
-    }
-
-    .h1Register {
-      color: white;
-      font-size: 2vmax;
+      grid-template-rows: 1fr 3fr;
     }
 
     .left {
@@ -167,7 +164,20 @@
 
     .gameImage {
       margin-top: 3vmax;
-      width: 8vmax;
+      width: 5vmax;
+    }
+
+    .gameTitle {
+      font-size: 1vmax;
+    }
+
+    .gameSubTitle {
+      font-size: 1vmax;
+    }
+
+    .h1Register {
+      color: white;
+      font-size: 1.5vmax;
     }
 
     .right {
@@ -175,11 +185,6 @@
       grid-template-rows: 1fr 4fr;
       width: 100%;
       background-color: #362864;
-    }
-
-    .h1Login {
-      margin-top: 2vmax;
-      font-size: 4vmax;
     }
 
     .dIteractive {
@@ -195,6 +200,7 @@
     }
 
     input {
+      margin-top: 2vmax;
       background: none;
       width: 35vmax;
       height: 2vmax;
@@ -204,7 +210,7 @@
     }
 
     .buttons {
-      margin-top: 5vmax;
+      margin-top: 0.5vmax;
     }
 
     button {
@@ -220,8 +226,14 @@
     }
 
     .bCreate {
+      height: 5vmax;
       color: #362864;
       background-color: white;
+    }
+
+    .addProfilePhoto {
+      margin-top: 0;
+      width: 8vmax;
     }
 
 

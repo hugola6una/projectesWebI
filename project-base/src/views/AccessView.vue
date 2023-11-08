@@ -69,6 +69,10 @@
     align-items: center;
   }
 
+  button {
+    border: none;
+  }
+
   .buttonOptions {
     background: #362864;
     color: #FFFF;
