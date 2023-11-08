@@ -5,6 +5,7 @@
   import Top from '../components/TopComponent.vue';
   import PlayerContent from '../components/PlayerContent.vue';
   import AttacksContent from '../components/AttacksContent.vue';
+  import GamesContent from '../components/GamesContent.vue';
   
   const contentToShow = ref('player');
 
@@ -41,14 +42,14 @@
           </div>
           <div class="menuUser">
             <div class="content">
-              <div v-if="contentToShow === 'player'" class="playerContent">
+              <div v-if="contentToShow === 'player'" :class="{'playerContent': true, 'menuContent': true}" >
                 <PlayerContent />
               </div>
-              <div v-else-if="contentToShow === 'attacks'" class="attacksContent">
+              <div v-else-if="contentToShow === 'attacks'" :class="{'attacksContent': true, 'menuContent': true}">
                 <AttacksContent />
               </div>
-              <div v-else-if="contentToShow === 'games'">
-                <h1>Games</h1>
+              <div v-else-if="contentToShow === 'games'" :class="{'gamesContent': true, 'menuContent': true}">
+                <GamesContent />
               </div>
             </div>
           </div>
@@ -149,14 +150,7 @@
     background-color: white;
   }
 
-  .playerContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .attacksContent {
+  .menuContent {
     display: flex;
     flex-direction: column;
     align-items: center;
