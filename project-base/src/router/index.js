@@ -24,42 +24,42 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => CreatePlayerView
+      component: CreatePlayerView
     },
     {
       path: '/login-player',
       name: 'loginPlayer',
-      component: () => LoginView
+      component: LoginView
     },
     {
       path: '/home',
       name: 'home',
-      component: () => HomeView
+      component: HomeView
     },
     {
       path: '/user',
       name: 'user',
-      component: () => UserView
+      component: UserView
     },
     {
       path: '/ranking',
       name: 'ranking',
-      component: () => RankingView
+      component: RankingView
     },
     {
       path: '/store',
       name: 'store',
-      component: () => StoreView
+      component: StoreView
     },
     {
       path: '/my-attacks',
       name: 'my-attacks',
-      component: () => MyAttacksView
+      component: MyAttacksView
     },
     {
       path: '/games',
       name: 'games',
-      component: () => GamesView
+      component: GamesView
     },
     
   ]

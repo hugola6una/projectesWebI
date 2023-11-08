@@ -17,35 +17,35 @@ const selectedOption = route.name;
                 <router-link to="/user" class="link">
                 <div :class="{'option': true, 'selected': selectedOption === 'user'}">
                     <img src="..\assets\images\icons\userIcon.png" alt="User" class="icon">
-                    <span>User</span>
+                    <span :class="{'option': true, 'selected': selectedOption === 'user'}">User</span>
                 </div>
                 </router-link>
 
                 <router-link to="/ranking" class="link">
                 <div :class="{'option': true, 'selected': selectedOption === 'ranking'}">
                     <img src="..\assets\images\icons\rankingIcon.png" alt="Ranking" class="icon">
-                    <span>Ranking</span>
+                    <span :class="{'option': true, 'selected': selectedOption === 'ranking'}">Ranking</span>
                 </div>
                 </router-link>
                 
                 <router-link to="/store" class="link">
                 <div :class="{'option': true, 'selected': selectedOption === 'store'}">
                     <img src="..\assets\images\icons\StoreIcon.png" alt="Store" class="icon">
-                    <span>Store</span>
+                    <span :class="{'option': true, 'selected': selectedOption === 'store'}">Store</span>
                 </div>
                 </router-link>
                 
                 <router-link to="/my-attacks" class="link">
                 <div :class="{'option': true, 'selected': selectedOption === 'my-attacks'}">
                     <img src="..\assets\images\icons\myAttacksIcon.png" alt="MyAttacks" class="icon">
-                    <span>MyAttacks</span>
+                    <span :class="{'option': true, 'selected': selectedOption === 'my-attacks'}">MyAttacks</span>
                 </div>
                 </router-link>
                 
                 <router-link to="/games" class="link">
                 <div :class="{'option': true, 'selected': selectedOption === 'games'}">
                     <img src="..\assets\images\icons\gamesIcon.png" alt="Games" class="icon">
-                    <span>Games</span>
+                    <span :class="{'option': true, 'selected': selectedOption === 'games'}">Games</span>
                 </div>
                 </router-link>
             </div>
@@ -103,6 +103,7 @@ const selectedOption = route.name;
   }
 
   .option.selected { 
+    box-sizing: border-box;
     background-color: #80547f;
     color: white;
   }
@@ -116,6 +117,10 @@ const selectedOption = route.name;
   .option:hover {
     background: #80547f;
     cursor: pointer;
+  }
+
+  .option:hover span{
+    color: white;
   }
 
   .icon {
