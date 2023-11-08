@@ -63,6 +63,7 @@
     border: none;
     width: 25vmax;
     height: 7vmax;
+    color: #362864;
     justify-content: center;
     align-items: center;
     font-size: 4vmax;

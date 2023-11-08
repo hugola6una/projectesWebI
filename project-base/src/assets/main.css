@@ -8,4 +8,6 @@ html, body {
 
 button:hover {
     cursor: pointer;
+    background: #80547f;
+    color: white;
 }

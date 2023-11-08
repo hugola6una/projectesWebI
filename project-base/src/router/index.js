@@ -43,7 +43,7 @@ const router = createRouter({
     },
     {
       path: '/ranking',
-      name: 'reanking',
+      name: 'ranking',
       component: () => RankingView
     },
     {

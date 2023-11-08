@@ -102,7 +102,7 @@ const selectedOption = route.name;
 
   }
 
-  .option.selected {
+  .option.selected { 
     background-color: #80547f;
     color: white;
   }
