@@ -23,7 +23,7 @@
         <Top />
         <div class="center">
           <div class="options">
-            <div class="default">
+            <div class="pOptions">
               <button ty @click="showContent('player')" :class="{ active: contentToShow === 'player' }">
                 <img src="..\assets\images\icons\userIcon.png" alt="user" class="iUser" />
                 <p>Player</p>
@@ -54,6 +54,14 @@
               </div>
               <div v-else class="menuContent">
                 <TrashContent />
+                <div class="bOptions">
+                  <router-link to="/">
+                    <button>CONFIRM</button>
+                  </router-link>
+                  <button ty @click="showContent('player')" :class="{ active: contentToShow === 'player' }">CANCEL</button>
+                </div>
+                
+
               </div>
             </div>
           </div>
@@ -92,7 +100,7 @@
     grid-template-columns: 4fr 1fr;
   }
 
-  .default {
+  .pOptions {
     display: flex;
     justify-content: center;
     align-items: end;
@@ -167,6 +175,12 @@
     justify-content: center;
   }
 
+  .bOptions button {
+    background-color: #362864;
+    color: white;
+    margin: 1vmax;
+  }
+
 
 
   @media (max-width: 820px) {
@@ -179,5 +193,21 @@
       height: 100%;
       order: 1;
     }
+
+    .menuUser {
+      width: 100%;
+      display: flex;
+      align-items: start;
+      justify-content: center;
+    }
+  .content {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45vmax;
+    width: 50vmax;
+    background-color: white;
+  }
+  
   }
 </style>

@@ -177,11 +177,17 @@ const selectedOption = route.name;
       flex-direction: row;
     }
     .option {
+      display: flex;
+      flex-direction: column;
       height: 100%;
       grid-template-columns: 1fr;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
     .icon {
+      display: flex;
       width: 5vmax;
     }
 
