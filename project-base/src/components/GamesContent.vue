@@ -1,5 +1,4 @@
 <script setup>
-    import { ref } from 'vue';  // Per refenciar variables
     import ItemMatch from '../components/ItemMatch.vue';
 </script>
 
@@ -20,13 +19,13 @@
 
     .gamesContent h3{
         color: #362864;
-        font-size: 2vmax;
+        font-size: 3vmax;
     }
     .games {
         width: 100%;
         height: 39vmax;
         max-height: 39vmax;
-    overflow-y: auto;
+        overflow-y: auto;
     }
 
     .won {

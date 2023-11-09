@@ -6,6 +6,7 @@
   import PlayerContent from '../components/PlayerContent.vue';
   import AttacksContent from '../components/AttacksContent.vue';
   import GamesContent from '../components/GamesContent.vue';
+  import TrashContent from '../components/TrashContent.vue';
   
   const contentToShow = ref('player');
 
@@ -25,19 +26,19 @@
             <div class="default">
               <button ty @click="showContent('player')" :class="{ active: contentToShow === 'player' }">
                 <img src="..\assets\images\icons\userIcon.png" alt="user" class="iUser" />
-                Player
+                <p>Player</p>
               </button>
               <button @click="showContent('attacks')" :class="{ active: contentToShow === 'attacks' }">
                 <img src="..\assets\images\icons\myAttacksIcon.png" alt="attacks" class="iSword" />
-                Attacks
+                <p>Attacks</p>
               </button>
               <button @click="showContent('games')" :class="{ active: contentToShow === 'games' }">
                 <img src="..\assets\images\icons\historicGamesIcon.png" alt="games" class="iArchive" />
-                Games
+                <p>Games</p>
               </button>
             </div>
             <div class="other">
-              <button class="bTrash"><img src="..\assets\images\icons\trashIcon.png" alt="delete" class="iTrash"/></button>
+              <button  @click="showContent('trash')" :class="{'bTrash': true ,active: contentToShow === 'trash' }"><img src="..\assets\images\icons\trashIcon.png" alt="delete" class="iTrash"/></button>
             </div>  
           </div>
           <div class="menuUser">
@@ -50,6 +51,9 @@
               </div>
               <div v-else-if="contentToShow === 'games'" :class="{'gamesContent': true, 'menuContent': true}">
                 <GamesContent />
+              </div>
+              <div v-else class="menuContent">
+                <TrashContent />
               </div>
             </div>
           </div>
@@ -139,6 +143,10 @@
     background: none;
   }
 
+  .bTrash.active {
+    background: none;
+  }
+
   .menuUser {
     display: flex;
     align-items: start;
@@ -151,9 +159,11 @@
   }
 
   .menuContent {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     justify-content: center;
   }
 

@@ -1,4 +1,5 @@
 <script setup>
+
     import UserHisotricGame from '../components/ItemUserHistoricBattle.vue';
 
 </script>
@@ -15,10 +16,12 @@
 
 <style scoped>
 .match {
+    border: 0.1vmax solid black;
     display: flex;
     text-align: center;
     justify-content: space-around;
     align-items: center;
+    cursor: pointer;
 }
 
 h2 {
