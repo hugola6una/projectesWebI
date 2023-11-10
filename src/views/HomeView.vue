@@ -15,7 +15,7 @@
           <h1 class="gameTitle">BATTLE</h1>
           <h2 class="gameSubTitle">ARENA</h2>
 
-          <router-link to="/games" class="link"> 
+          <router-link to="/games-administration" class="link"> 
             <button class="bPlay">PLAY</button>
           </router-link>  
         </div>

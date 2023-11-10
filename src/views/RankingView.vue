@@ -110,11 +110,6 @@
     justify-content: center;
 
   }
-  .bOptions button {
-    background-color: #362864;
-    color: white;
-    margin: 1vmax;
-  }
 
   @media (max-width: 800px) {
     .container {

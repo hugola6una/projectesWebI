@@ -8,6 +8,7 @@ import RankingView from '../views/RankingView.vue'
 import StoreView from '../views/StoreView.vue'
 import MyAttacksView from '../views/MyAttacksView.vue'
 import GamesView from '../views/GamesView.vue'
+import GameAdministrationView from '../views/GameAdministrationView.vue'
 
 
 const router = createRouter({
@@ -61,7 +62,11 @@ const router = createRouter({
       name: 'games',
       component: GamesView
     },
-    
+    {
+      path: '/games-administration',
+      name: 'games-administration',
+      component: GameAdministrationView
+    }
   ]
 })
 
