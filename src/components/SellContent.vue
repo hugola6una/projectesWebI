@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import ItemAttack from '../components/ItemAttack.vue';
+import ItemStore from '../components/ItemStore.vue';
 
 const items = ref([
     { id: 1, name: 'Attack1', price: 100, selected: false },
@@ -36,7 +36,7 @@ const updateTotal = (item) => {
     <div class="sellContent">
         <h3>TAP TO SELECT</h3>
         <section class="items">
-            <ItemAttack
+            <ItemStore
                 v-for="item in items"
                 :key="item.id"
                 :initialSelected="item.selected"

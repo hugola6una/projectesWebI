@@ -1,40 +1,40 @@
 <script setup>
+    import { ref } from 'vue';
     import ItemAttack from '../components/ItemAttack.vue';
+
+    const items = ref([
+    { id: 1, name: 'Attack1', price: 100, selected: false },
+    { id: 2, name: 'Attack2', price: 100, selected: false },
+    { id: 3, name: 'Attack3', price: 100, selected: true },
+    { id: 4, name: 'Attack4', price: 100, selected: false },
+    { id: 5, name: 'Attack5', price: 100, selected: false },
+    { id: 1, name: 'Attack1', price: 100, selected: true },
+    { id: 2, name: 'Attack2', price: 100, selected: false },
+    { id: 3, name: 'Attack3', price: 100, selected: false },
+    { id: 4, name: 'Attack4', price: 100, selected: false },
+    { id: 5, name: 'Attack5', price: 100, selected: false },
+    { id: 1, name: 'Attack1', price: 100, selected: false },
+    { id: 2, name: 'Attack2', price: 100, selected: false },
+    { id: 3, name: 'Attack3', price: 100, selected: true },
+    { id: 4, name: 'Attack4', price: 100, selected: false },
+    { id: 5, name: 'Attack5', price: 100, selected: false },
+    
+    
+]);
 </script>
 
 <template>
     <div class="attacksContent">
         <h1>Colection</h1>
         <section class="items">
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack class="sel" />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack class="sel" />
-            <ItemAttack />
-            <ItemAttack class="sel" />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack />
-            <ItemAttack class="sel" />
-            <ItemAttack />
-            <ItemAttack class="sel" />
-            <ItemAttack />
-            
-            
+            <ItemAttack
+                v-for="item in items"
+                :key="item.id"
+                :initialSelected="item.selected"
+                :itemName="item.name"
+                :price="item.price"
+                @itemSelected="updateTotal"
+            />
         </section>
     </div>
 </template>

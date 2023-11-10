@@ -1,13 +1,19 @@
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, getCurrentInstance } from 'vue';
 
 const props = defineProps(['initialSelected', 'itemName', 'price']);
 const selected = ref(props.initialSelected);
 
+const { emit } = getCurrentInstance();
+
+const toggleSelection = () => {
+    selected.value = !selected.value;
+    emit('itemSelected', { selected: selected.value, price: props.price });
+};
 </script>
 
 <template>
-    <article :class="{ 'item': true, sel: selected }">
+    <article :class="{ 'item': true, sel: selected }" @click="toggleSelection">
         <img src="..\assets\images\icons\swordIcon.png" alt="attackIcon" class="iSword" />
         <p class="name">{{ itemName }}</p>
     </article>
@@ -28,6 +34,8 @@ const selected = ref(props.initialSelected);
 }
 
 .item:hover {
+    border: 0.1em solid #80547f;
+    background-color: #80547f60;
     cursor: pointer;
 }
 
