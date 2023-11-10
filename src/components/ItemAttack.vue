@@ -1,29 +1,53 @@
 <script setup>
+import { ref, defineProps, getCurrentInstance } from 'vue';
 
+const props = defineProps(['initialSelected', 'itemName', 'price']);
+const selected = ref(props.initialSelected);
 
+const { emit } = getCurrentInstance();
+
+const toggleSelection = () => {
+    selected.value = !selected.value;
+    emit('itemSelected', { selected: selected.value, price: props.price });
+};
 </script>
 
 <template>
-    <article class="item" > <!-- TODO: Tema breu descripcio en cas de hover o click (encara per decidir)  -->
+    <article :class="{ 'item': true, sel: selected }" @click="toggleSelection">
         <img src="..\assets\images\icons\swordIcon.png" alt="attackIcon" class="iSword" />
-        <div class="name">AttackX</div>
+        <p class="name">{{ itemName }}</p>
     </article>
 </template>
 
 <style scoped>
 .item {
+    display: flex;
+    flex-direction: column;
     width: 8vmax;
     height: 6vmax;
-    border: 0.1em solid #ccc;
+    border: none;
     padding: 1vmax;
     margin: 1vmax;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.item:hover {
+    border: 0.1em solid #80547f;
+    background-color: #80547f60;
+    cursor: pointer;
 }
 
 .item img {
+    margin-top: 1.5vmax;
     width: 4vmax;
 }
 .name {
     font-size: 1.2vmax;
+}
+
+.sel {
+    background-color: #80547f;
 }
 </style>
