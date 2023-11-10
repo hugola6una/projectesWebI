@@ -1,5 +1,5 @@
 <script setup>
-  import router from '../router';
+
 </script>
 
 <template>
@@ -141,6 +141,7 @@
     height: 8vmax;
     background: #633FC3;
     color: white;
+    margin-bottom: 2vmax;
   }
 
   button:hover {

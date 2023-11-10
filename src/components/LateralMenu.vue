@@ -1,5 +1,4 @@
 <script setup>
-import router from '../router';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -7,7 +6,7 @@ const selectedOption = route.name;
 </script>
 
 <template>
-    <div class="menu">
+    <nav class="menu">
         <router-link to="/home" class="link">
             <img src="..\assets\images\logoRobotoArena2.png" alt="Logo" class="gameImage">
         </router-link>
@@ -59,7 +58,7 @@ const selectedOption = route.name;
                 </router-link>
             </div>
         </div>
-    </div>
+    </nav>
 </template>
 
 <style scoped>
