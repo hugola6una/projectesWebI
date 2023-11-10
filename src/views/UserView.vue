@@ -101,8 +101,9 @@
 
   .userOptions {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+    margin-left: 3.3vh;
   }
 
   .trashOption {
@@ -224,6 +225,10 @@
       justify-content: center;
       width: 100%;
       height: 100%;
+    }
+
+    .userOptions {
+      margin-left: 2vh;
     }
 
     .userOptions span {

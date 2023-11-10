@@ -62,9 +62,9 @@
 
   .userSelectors {
     display: flex;
-    margin-left: 5vmax;
     justify-content: start;
     align-items: center;
+    margin-left: 3.3vh;
   }
 
   button {
@@ -125,6 +125,10 @@
       justify-content: center;
       width: 100%;
       height: 100%;
+    }
+
+    .userSelectors {
+      margin-left: 2vh;
     }
 
     button {
