@@ -5,7 +5,6 @@
   import PlayerContent from '../components/PlayerContent.vue';
   import AttacksContent from '../components/AttacksContent.vue';
   import GamesContent from '../components/GamesContent.vue';
-  import TrashContent from '../components/TrashContent.vue';
   
   const contentToShow = ref('player');
 
@@ -23,15 +22,15 @@
         <section class="center">
           <nav class="userSelectors">
             <div class="userOptions">
-                <button class="active" @click="showContent('player')">
+                <button @click="showContent('player')" :class="{ active: contentToShow === 'player' }">
                 <img src="../assets/images/icons/playerdefault.png" alt="User" class="iUser">
                 <span>Player</span>
               </button>
-              <button @click="showContent('attacks')">
+              <button @click="showContent('attacks')" :class="{ active: contentToShow === 'attacks' }">
                 <img src="../assets/images/icons/swordIcon.png" alt="Attacks" class="iSword">
                 <span>Attacks</span>
               </button>
-              <button @click="showContent('games')">
+              <button @click="showContent('games')" :class="{ active: contentToShow === 'games' }">
                 <img src="..\assets\images\icons\historicGamesIcon.png" alt="Games" class="iArchive">
                 <span>Games</span>
               </button>
@@ -52,9 +51,18 @@
             <div v-else-if="contentToShow === 'games'" class="userContent">
               <GamesContent />
             </div>
-            <div v-else class="userContent">
-              <TrashContent />  
-              </div>  
+            <div v-else class="trashContent">
+              <h2>ARE YOU SURE YOU WANT TO DELETE "USER"?</h2>
+              <p>All player-related information will be automaticly delated.</p>
+              <div class="deleteOptions">
+                <router-link to="/" class="link">
+                  <button>Confirm</button>
+                </router-link>
+                <button @click="showContent('player')">
+                  Cancel
+                </button> 
+              </div>
+            </div>  
           </article>
         </section>
     </div>
@@ -165,7 +173,35 @@
     margin: 1vmax;
   }
 
-  @media (max-width: 820px) {
+  .trashContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    color: #362864;
+    width: 100%;
+    margin: 2vmax;
+    padding: 2vmax;
+  }
+
+  .trashContent h2 {
+    font-size: 3vmax;
+  }
+
+  .trashContent p {
+    font-size: 1vmax;
+  }
+
+  .trashContent button {
+    display: inline-flex;
+    background-color: #362864;
+    color: white;
+    margin: 2vmax;
+  }
+
+  @media (max-width: 800px) {
     .container {
       grid-template-columns: 1fr;
       display: flex;
@@ -194,8 +230,8 @@
       display: none;
     }
 
-    .userOptions {
-      width: 6vmax;
+    button {
+      width: 8vmax;
     }
 
     

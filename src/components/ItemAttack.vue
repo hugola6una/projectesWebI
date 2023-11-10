@@ -5,7 +5,7 @@
 
 <template>
     <article class="item" > <!-- TODO: Tema breu descripcio en cas de hover o click (encara per decidir)  -->
-        <img src="..\assets\images\icons\myAttacksIcon.png" alt="attackIcon" class="iSword" />
+        <img src="..\assets\images\icons\swordIcon.png" alt="attackIcon" class="iSword" />
         <div class="name">AttackX</div>
     </article>
 </template>
