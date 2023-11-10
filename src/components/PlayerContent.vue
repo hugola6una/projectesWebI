@@ -1,18 +1,31 @@
 <script setup></script>
 
 <template>
-<img src="..\assets\images\icons\userIcon.png" alt="userPhoto"/>
-<h1>Player</h1>
-<div class="level">
-    <div class="progressBarContainer">
-        <div class="progressBar"></div>
-    </div>
-    <p>Lvl. X</p>
-</div>
-<p>55 / 100</p>
+    <article class="playerContent">
+        <img src="..\assets\images\icons\userIcon.png" alt="userPhoto"/>
+        <h1>Player</h1>
+        <div class="level">
+            <div class="progressBarContainer">
+                <div class="progressBar"></div>
+            </div>
+            <p>Lvl. X</p>
+        </div>
+        <p>55 / 100</p>
+    </article>
 </template>
 
 <style scoped>
+
+.playerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 1vmax;
+    background-color: white;
+}
 .playerContent img {
     margin-top: 4vmax;
     width: 10vmax;

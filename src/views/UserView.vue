@@ -21,46 +21,40 @@
     <div class="body">
         <Top />
         <section class="center">
-          <div class="options">
-            <div class="pOptions">
-              <button ty @click="showContent('player')" :class="{ active: contentToShow === 'player' }">
-                <img src="..\assets\images\icons\userIcon.png" alt="user" class="iUser" />
-                <p>Player</p>
-              </button>
-              <button @click="showContent('attacks')" :class="{ active: contentToShow === 'attacks' }">
-                <img src="..\assets\images\icons\myAttacksIcon.png" alt="attacks" class="iSword" />
-                <p>Attacks</p>
-              </button>
-              <button @click="showContent('games')" :class="{ active: contentToShow === 'games' }">
-                <img src="..\assets\images\icons\historicGamesIcon.png" alt="games" class="iArchive" />
-                <p>Games</p>
+          <nav class="userSelectors">
+            <div class="userOptions">
+              <button class="active" @click="showContent('player')">
+              <img src="../assets/images/icons/playerdefault.png" alt="User" class="iUser">
+              <span>Player</span>
+            </button>
+            <button @click="showContent('attacks')">
+              <img src="../assets/images/icons/swordIcon.png" alt="Attacks" class="iSword">
+              <span>Attacks</span>
+            </button>
+            <button @click="showContent('games')">
+              <img src="..\assets\images\icons\historicGamesIcon.png" alt="Games" class="iArchive">
+              <span>Games</span>
+            </button>
+            </div>
+            <div class="trashOption">
+              <button class="bTrash" @click="showContent('trash')">
+                <img src="..\assets\images\icons\trashIcon.png" alt="Trash" class="iTrash">
               </button>
             </div>
-            <div class="other">
-              <button  @click="showContent('trash')" :class="{'bTrash': true ,active: contentToShow === 'trash' }"><img src="..\assets\images\icons\trashIcon.png" alt="delete" class="iTrash"/></button>
-            </div>  
-          </div>
-          <article class="menuUser">
-            <div class="content">
-              <div v-if="contentToShow === 'player'" :class="{'playerContent': true, 'menuContent': true}" >
-                <PlayerContent />
-              </div>
-              <div v-else-if="contentToShow === 'attacks'" :class="{'attacksContent': true, 'menuContent': true}">
-                <AttacksContent />
-              </div>
-              <div v-else-if="contentToShow === 'games'" :class="{'gamesContent': true, 'menuContent': true}">
-                <GamesContent />
-              </div>
-              <div v-else class="menuContent">
-                <TrashContent />
-                <div class="bOptions">
-                  <router-link to="/">
-                    <button>CONFIRM</button>
-                  </router-link>
-                  <button ty @click="showContent('player')" :class="{ active: contentToShow === 'player' }">CANCEL</button>
-                </div>
-              </div>
+          </nav>
+          <article class="userContent">
+            <div v-if="contentToShow === 'player'">
+              <PlayerContent />
             </div>
+            <div v-else-if="contentToShow === 'attacks'">
+              <AttacksContent />  
+            </div>
+            <div v-else-if="contentToShow === 'games'">
+              <GamesContent />
+            </div>
+            <div v-else>
+              <TrashContent />  
+              </div>  
           </article>
         </section>
     </div>
@@ -90,12 +84,12 @@
     height: 100%;
   }
 
-  .options {
+  .userSelectors {
     display: grid;
     grid-template-columns: 4fr 1fr;
   }
 
-  .pOptions {
+  .userOptions {
     display: flex;
     justify-content: center;
     align-items: end;
@@ -155,26 +149,12 @@
     align-items: start;
     justify-content: center;
   }
-  .content {    
-    height: 45vmax;
-    width: 70vmax;
-    background-color: white;
-  }
-
-  .menuContent {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-  }
-
   .bOptions button {
     background-color: #362864;
     color: white;
     margin: 1vmax;
   }
+
 
 
 
@@ -189,20 +169,15 @@
       order: 1;
     }
 
-    .menuUser {
-      width: 100%;
+    .userContent {
       display: flex;
-      align-items: start;
       justify-content: center;
+      background: orange;
+      width: 100%;
+      height: 100%;
     }
-  .content {    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 45vmax;
-    width: 50vmax;
-    background-color: white;
-  }
+
+    
   
   }
 </style>

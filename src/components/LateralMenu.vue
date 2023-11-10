@@ -36,7 +36,7 @@ const selectedOption = route.name;
                 
                 <router-link to="/my-attacks" class="link">
                 <div :class="{'option': true, 'selected': selectedOption === 'my-attacks'}">
-                    <img src="src/assets/images/icons/sword_458549.png" alt="MyAttacks" class="icon">
+                    <img src="src/assets/images/icons/swordIcon.png" alt="MyAttacks" class="icon">
                     <span :class="{'option': true, 'selected': selectedOption === 'my-attacks'}">MyAttacks</span>
                 </div>
                 </router-link>
@@ -83,6 +83,7 @@ const selectedOption = route.name;
   .options {
     display: grid;
     grid-template-rows: 3fr 1fr;
+    margin: 1vmax;
   }
 
   .default {
@@ -187,10 +188,10 @@ const selectedOption = route.name;
 
     .icon {
       display: flex;
-      width: 5vmax;
+      width: 4vmax;
     }
 
-    span {
+    .option span {
       display: none;
     }
 
