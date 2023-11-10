@@ -4,7 +4,7 @@
 
 <template>
     <h3>RATIO: 3 / 7</h3>
-    <div class="games">
+    <section class="games">
         <ItemMatch class="won"/>
         <ItemMatch class="lose"/>
         <ItemMatch class="lose"/>
@@ -12,7 +12,7 @@
         <ItemMatch class="lose"/>
         <ItemMatch class="won"/>
         <ItemMatch class="lose"/>
-    </div>
+    </section>
 </template>
 
 <style scoped>

@@ -1,11 +1,10 @@
 <script setup>
-    import { ref } from 'vue';  // Per refenciar variables
     import ItemAttack from '../components/ItemAttack.vue';
 </script>
 
 <template>
     <h1>Colection</h1>
-    <div class="items">
+    <section class="items">
         <ItemAttack />
         <ItemAttack />
         <ItemAttack />
@@ -24,8 +23,7 @@
         <ItemAttack />
         <ItemAttack class="sel" />
         <ItemAttack />
-        
-    </div>
+    </section>
 </template>
 
 <style scoped>

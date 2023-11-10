@@ -1,5 +1,4 @@
 <script setup>
-  import router from '../router';
   import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
 </script>

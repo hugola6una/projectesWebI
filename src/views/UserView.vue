@@ -1,6 +1,5 @@
 <script setup>
   import { ref } from 'vue';  // Per refenciar variables
-  import router from '../router';
   import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
   import PlayerContent from '../components/PlayerContent.vue';
@@ -21,7 +20,7 @@
     <lateralMenu />
     <div class="body">
         <Top />
-        <div class="center">
+        <section class="center">
           <div class="options">
             <div class="pOptions">
               <button ty @click="showContent('player')" :class="{ active: contentToShow === 'player' }">
@@ -41,7 +40,7 @@
               <button  @click="showContent('trash')" :class="{'bTrash': true ,active: contentToShow === 'trash' }"><img src="..\assets\images\icons\trashIcon.png" alt="delete" class="iTrash"/></button>
             </div>  
           </div>
-          <div class="menuUser">
+          <article class="menuUser">
             <div class="content">
               <div v-if="contentToShow === 'player'" :class="{'playerContent': true, 'menuContent': true}" >
                 <PlayerContent />
@@ -60,15 +59,11 @@
                   </router-link>
                   <button ty @click="showContent('player')" :class="{ active: contentToShow === 'player' }">CANCEL</button>
                 </div>
-                
-
               </div>
             </div>
-          </div>
-        </div>
-        
+          </article>
+        </section>
     </div>
-
   </div>
   
 </template>
