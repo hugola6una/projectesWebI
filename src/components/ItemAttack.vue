@@ -4,10 +4,10 @@
 </script>
 
 <template>
-    <div class="item" > <!-- TODO: Tema breu descripcio en cas de hover o click (encara per decidir)  -->
+    <article class="item" > <!-- TODO: Tema breu descripcio en cas de hover o click (encara per decidir)  -->
         <img src="..\assets\images\icons\myAttacksIcon.png" alt="attackIcon" class="iSword" />
         <div class="name">AttackX</div>
-    </div>
+    </article>
 </template>
 
 <style scoped>

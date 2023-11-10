@@ -5,13 +5,13 @@
 </script>
 
 <template>
-    <div class="match" > 
+    <article class="match" > 
         <UserHisotricGame />
         <h2>VS</h2>
         <UserHisotricGame />
         <p>8x8</p>
         <p>DD/MM/YYYY</p>
-    </div>
+    </article>
 </template>
 
 <style scoped>
