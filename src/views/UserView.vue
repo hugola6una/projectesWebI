@@ -23,18 +23,18 @@
         <section class="center">
           <nav class="userSelectors">
             <div class="userOptions">
-              <button class="active" @click="showContent('player')">
-              <img src="../assets/images/icons/playerdefault.png" alt="User" class="iUser">
-              <span>Player</span>
-            </button>
-            <button @click="showContent('attacks')">
-              <img src="../assets/images/icons/swordIcon.png" alt="Attacks" class="iSword">
-              <span>Attacks</span>
-            </button>
-            <button @click="showContent('games')">
-              <img src="..\assets\images\icons\historicGamesIcon.png" alt="Games" class="iArchive">
-              <span>Games</span>
-            </button>
+                <button class="active" @click="showContent('player')">
+                <img src="../assets/images/icons/playerdefault.png" alt="User" class="iUser">
+                <span>Player</span>
+              </button>
+              <button @click="showContent('attacks')">
+                <img src="../assets/images/icons/swordIcon.png" alt="Attacks" class="iSword">
+                <span>Attacks</span>
+              </button>
+              <button @click="showContent('games')">
+                <img src="..\assets\images\icons\historicGamesIcon.png" alt="Games" class="iArchive">
+                <span>Games</span>
+              </button>
             </div>
             <div class="trashOption">
               <button class="bTrash" @click="showContent('trash')">
@@ -43,16 +43,16 @@
             </div>
           </nav>
           <article class="userContent">
-            <div v-if="contentToShow === 'player'">
+            <div v-if="contentToShow === 'player'" class="userContent">
               <PlayerContent />
             </div>
-            <div v-else-if="contentToShow === 'attacks'">
+            <div v-else-if="contentToShow === 'attacks'" class="userContent">
               <AttacksContent />  
             </div>
-            <div v-else-if="contentToShow === 'games'">
+            <div v-else-if="contentToShow === 'games'" class="userContent">
               <GamesContent />
             </div>
-            <div v-else>
+            <div v-else class="userContent">
               <TrashContent />  
               </div>  
           </article>
@@ -67,18 +67,12 @@
     display: grid;
     grid-template-columns: 1fr 4fr;
     align-items: center;
-    height: 100vh; 
-  }
-
-  div {
-    width: 100%;
     height: 100%;
-    justify-content: center;
-    overflow-y: auto;
+    width: 100%;
   }
-
   .body {
     height: 100%;
+    width: 100%;
     background: #362864;
     display: grid;
     grid-template-rows: 1fr 8fr;
@@ -94,14 +88,13 @@
   .userSelectors {
     display: grid;
     grid-template-columns: 4fr 1fr;
-    justify-content: center;
     align-items: end;
   }
 
   .userOptions {
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: center;
   }
 
   .trashOption {
@@ -152,6 +145,7 @@
   }
 
   .bTrash {
+    width: 100%;
     background: none;
   }
 
@@ -160,23 +154,28 @@
   }
 
   .userContent {
-      display: flex;
-      justify-content: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
-    }
+  }
   .bOptions button {
     background-color: #362864;
     color: white;
     margin: 1vmax;
   }
 
-
-
-
   @media (max-width: 820px) {
     .container {
       grid-template-columns: 1fr;
-      grid-template-rows: 8fr 1fr;
+      display: flex;
+      flex-direction: column;
+
+    }
+
+    .menu {
+      align-items: end;
+      justify-content: center;
     }
 
     .body {
@@ -189,6 +188,14 @@
       justify-content: center;
       width: 100%;
       height: 100%;
+    }
+
+    .userOptions span {
+      display: none;
+    }
+
+    .userOptions {
+      width: 6vmax;
     }
 
     

@@ -155,7 +155,8 @@ const selectedOption = route.name;
     }
 
     .menu {
-      height: 100%;
+      height:fit-content;
+      width: 100%;
       order: 2;
       grid-template-rows: 1fr;
       display: flex;

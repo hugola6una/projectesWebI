@@ -17,13 +17,12 @@
 <style scoped>
 
 .playerContent {
+    margin: 2vmax;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    height: 45vmax;
-    margin: 1vmax;
-    margin-top: 0;
+    align-items: center;
+    width: 100%;
     background-color: white;
 }
 .playerContent img {
@@ -69,8 +68,7 @@
 
 @media (max-width: 820px) { 
     .playerContent {
-        height: 100%;
-        margin: 1vmax;
+        
     }
 }
 
