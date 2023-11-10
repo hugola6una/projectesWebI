@@ -21,17 +21,14 @@
           <input type="password" placeholder="Password" class="inPassword">
           <input type="password" placeholder="Repeat Pasword" class="inPassword2">
         </div>
-      <div class="buttons"> 
-        <router-link to="/login-player" class="link">
-          <button class="bSigIn">I HAVE A PLAYER</button>
-        </router-link>
-        <router-link to="/home" class="link">
-          <button class="bCreate">CREATE</button>
-        </router-link>
-        
-        
-      </div>  
-        
+        <div class="buttons"> 
+          <router-link to="/login-player" class="link">
+            <button class="bSigIn">I HAVE A PLAYER</button>
+          </router-link>
+          <router-link to="/home" class="link">
+            <button class="bCreate">CREATE</button>
+          </router-link>
+        </div>  
       </div>
     </div>
   </div>
@@ -81,6 +78,10 @@
     text-align: center;
     justify-content: center;
     align-items: center;
+  }
+
+  .dIteractive {
+    overflow-y: auto;
   }
 
   input {

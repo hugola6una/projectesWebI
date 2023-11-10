@@ -70,6 +70,13 @@
     height: 100vh; 
   }
 
+  div {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    overflow-y: auto;
+  }
+
   .body {
     height: 100%;
     background: #362864;
@@ -87,9 +94,17 @@
   .userSelectors {
     display: grid;
     grid-template-columns: 4fr 1fr;
+    justify-content: center;
+    align-items: end;
   }
 
   .userOptions {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+  }
+
+  .trashOption {
     display: flex;
     justify-content: center;
     align-items: end;
@@ -144,11 +159,11 @@
     background: none;
   }
 
-  .menuUser {
-    display: flex;
-    align-items: start;
-    justify-content: center;
-  }
+  .userContent {
+      display: flex;
+      justify-content: center;
+
+    }
   .bOptions button {
     background-color: #362864;
     color: white;
@@ -172,7 +187,6 @@
     .userContent {
       display: flex;
       justify-content: center;
-      background: orange;
       width: 100%;
       height: 100%;
     }

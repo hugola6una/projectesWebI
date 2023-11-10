@@ -21,9 +21,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    height: 45vmax;
     margin: 1vmax;
+    margin-top: 0;
     background-color: white;
 }
 .playerContent img {
@@ -65,4 +65,13 @@
     font-size: 2.5vmax;
     color: #362864; 
 }
+
+
+@media (max-width: 820px) { 
+    .playerContent {
+        height: 100%;
+        margin: 1vmax;
+    }
+}
+
 </style>
