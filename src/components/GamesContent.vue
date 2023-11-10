@@ -3,19 +3,33 @@
 </script>
 
 <template>
-    <h3>RATIO: 3 / 7</h3>
-    <section class="games">
-        <ItemMatch class="won"/>
-        <ItemMatch class="lose"/>
-        <ItemMatch class="lose"/>
-        <ItemMatch class="won"/>
-        <ItemMatch class="lose"/>
-        <ItemMatch class="won"/>
-        <ItemMatch class="lose"/>
-    </section>
+    <div class="gamesContent">
+        <h3>RATIO: 3 / 7</h3>
+        <section class="games">
+            <ItemMatch class="won"/>
+            <ItemMatch class="lose"/>
+            <ItemMatch class="lose"/>
+            <ItemMatch class="won"/>
+            <ItemMatch class="lose"/>
+            <ItemMatch class="won"/>
+            <ItemMatch class="lose"/>
+        </section>
+    </div>
 </template>
 
 <style scoped>
+
+    .gamesContent {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 2vmax;
+        background-color: white;
+        justify-content: start;
+        text-align: center;
+        align-items: center;
+        max-height: 70vh;
+    }
 
     .gamesContent h3{
         color: #362864;
@@ -23,8 +37,7 @@
     }
     .games {
         width: 100%;
-        height: 39vmax;
-        max-height: 39vmax;
+        height: 100%;
         overflow-y: auto;
     }
 
@@ -35,4 +48,10 @@
     .lose {
         background-color: rgb(189, 99, 99);
     }
+
+    @media (max-width: 800px) {
+    .gamesContent {
+        max-height: 60vh;
+    }
+}
 </style>
