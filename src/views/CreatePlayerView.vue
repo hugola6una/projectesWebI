@@ -21,14 +21,12 @@
           <input type="password" placeholder="Password" class="inPassword">
           <input type="password" placeholder="Repeat Pasword" class="inPassword2">
         </div>
-        <div class="buttons"> 
           <router-link to="/login-player" class="link">
             <button class="bSigIn">I HAVE A PLAYER</button>
           </router-link>
           <router-link to="/home" class="link">
             <button class="bCreate">CREATE</button>
           </router-link>
-        </div>  
       </div>
     </div>
   </div>
@@ -112,7 +110,7 @@
   }
 
   .inputs {
-    margin-top: 5vmax;
+    margin-top: 3vmax;
   }
 
   .buttons {
@@ -132,12 +130,14 @@
   }
 
   .bSigIn {
+    margin: 1vmax;
     border: 0.1em solid #633FC3;
     background: white;
     color: #362864;
   }
 
   .bCreate {
+    margin: 1vmax;
     font-size: 3vmax;
     height: 8vmax;
     background: #633FC3;
