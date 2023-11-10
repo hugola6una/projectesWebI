@@ -1,0 +1,54 @@
+<script setup>
+
+</script>
+
+<template>
+    <article class="search" >
+        <img src="src/assets/images/icons/search.png" alt="searchIcon" class="searchIcon" />
+        <input type="text" placeholder="Search">
+    </article>
+</template>
+
+<style scoped>
+.search {
+    background-color: #CACAFB;
+    margin-bottom: 2vh;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+input {
+    background: none;
+      width: 35vmax;
+      height: 3vmax;
+      font-size: 1.5vmax;
+      border:none;
+      border-bottom: 0.1em solid #CACAFB;
+  }
+
+  .inputs {
+    margin-top: 5vmax;
+  }
+
+.searchIcon {
+    height: 3vh;
+    width: 3vh;
+}
+
+@media (max-width: 800px) {
+    .inputs {
+      margin-top: 0;
+    }
+
+    input {
+      background: none;
+      width: 35vmax;
+      height: 2vmax;
+      font-size: 1.5vmax;
+      border-bottom: 0.1em solid #CACAFB;
+    }
+}
+</style>

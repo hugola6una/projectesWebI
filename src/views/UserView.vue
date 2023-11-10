@@ -22,7 +22,7 @@
         <section class="center">
           <nav class="userSelectors">
             <div class="userOptions">
-                <button @click="showContent('player')" :class="{ active: contentToShow === 'player' }">
+              <button @click="showContent('player')" :class="{ active: contentToShow === 'player' }">
                 <img src="../assets/images/icons/playerdefault.png" alt="User" class="iUser">
                 <span>Player</span>
               </button>
