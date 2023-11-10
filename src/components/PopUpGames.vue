@@ -23,40 +23,51 @@ const closePopup = () => {
 
     
 <style scoped>
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.popupContent {
+    display: flex;
+    flex-direction: column;
+    margin: 2vmax;
+    padding: 2vmax;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    justify-content: start;
+    background: rgb(155, 155, 155);
+    border-radius: 5px;
+}
+
+.popupContent img {
+    width: 5vmax;
+    height: 5vmax;
+}
+
+.popupContent button {
+    background: #80547f;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 800px) {
     .popup {
-        position: fixed;
         width: 100%;
         height: 100%;
-
-        margin-bottom: 6vmax;
         display: flex;
         justify-content: center;
         align-items: center;
         text-align: center;
     }
-    
-    .popupContent {
-        display: flex;
-        flex-direction: column;
-        margin: 2vmax;
-        padding: 2vmax;
-        height: 100%;
-        width: 100%;
-        text-align: center;
-        justify-content: start;
-        background: white;
-        border-radius: 5px;
-    }
-
-    .popupContent img {
-        width: 5vmax;
-        height: 5vmax;
-    }
-
-    .popupContent button {
-        background: #80547f;
-        border: none;
-        margin: 0;
-        padding: 0;
-    }
-</style> 
+}
+</style>

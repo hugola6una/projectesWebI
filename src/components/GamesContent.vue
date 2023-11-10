@@ -1,6 +1,6 @@
 <script setup>
     import ItemMatch from '../components/ItemMatch.vue';
-    import Popup from '../components/PopUpPopUpGames.vue';
+    import Popup from '../components/PopUpGames.vue';
     import { ref } from 'vue';
 
     const showPopup = ref(false);
