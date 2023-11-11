@@ -3,9 +3,10 @@
   import router from '../router';
   import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
-  import GamesShowContent from '../components/GamesShowContent.vue';
-  import GamesSearchContent from '../components/GamesSearchContent.vue';
-  const contentToShow = ref('show');
+  import CreateGameContent from '../components/CreateGameContent.vue';
+  import ShowGameContent from '../components/ShowGameContent.vue';
+  import SearchGameContent from '../components/SearchGameContent.vue';
+  const contentToShow = ref('create');
 
 function showContent(contentType) {
   contentToShow.value = contentType;
@@ -19,29 +20,35 @@ function showContent(contentType) {
       <div class="body">
         <Top />
         <section class="center">
-          <nav class="userSelectors">
+        <nav class="userSelectors">
             <div class="userOptions">
-              <button @click="showContent('show')" :class="{ active: contentToShow === 'show' }">
-                      <img src="src/assets/images/icons/show.png" alt="Show" class="iArchive">
-                      <span>SHOW</span>
-                  </button>
-                  <button @click="showContent('search')" :class="{ active: contentToShow === 'search' }">
+                <button @click="showContent('create')" :class="{ active: contentToShow === 'create' }">
+                    <img src="src/assets/images/icons/create.png" alt="Create" class="iArchive">
+                    <span>CREATE</span>
+                </button>
+                <button @click="showContent('show')" :class="{ active: contentToShow === 'show' }">
+                    <img src="src/assets/images/icons/show.png" alt="Show" class="iArchive">
+                    <span>SHOW</span>
+                </button>
+                <button @click="showContent('search')" :class="{ active: contentToShow === 'search' }">
                     <img src="src/assets/images/icons/search.png" alt="Search" class="iArchive">
-                    <span>SEARCH</span>
+                    <span>SHOW</span>
                 </button>
             </div>
-            
-          </nav>
-
-          <article class="userContent">
-            <div v-if="contentToShow === 'show'" class="userContent">
-              <GamesShowContent />
+        </nav>
+        <article class="userContent">
+            <div v-if="contentToShow === 'create'" class="userContent">
+              <CreateGameContent />
+            </div> 
+            <div v-else-if="contentToShow === 'show'" class="userContent">
+              <ShowGameContent />
             </div> 
             <div v-else-if="contentToShow === 'search'" class="userContent">
-              <GamesSearchContent />
+              <SearchGameContent />
             </div> 
         </article>
         </section>
+
       </div>
 
     </div>
@@ -49,12 +56,12 @@ function showContent(contentType) {
 </template>
 
 <style scoped>
-    .container {
-      display: grid;
+     .container {
+    display: grid;
     grid-template-columns: 1fr 4fr;
     align-items: center;
     height: 100%;
-    width: 100%; 
+    width: 100%;
   }
 
   .body {
@@ -110,19 +117,18 @@ function showContent(contentType) {
     justify-content: center;
 
   }
-
   @media (max-width: 820px) {
     .container {
       grid-template-columns: 1fr;
       display: flex;
       flex-direction: column;
+
     }
 
     .body {
       height: 100%;
       order: 1;
     }
-
     .userContent {
       display: flex;
       justify-content: center;

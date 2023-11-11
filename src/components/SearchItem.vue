@@ -29,9 +29,6 @@ input {
       border-bottom: 0.1em solid #CACAFB;
   }
 
-  .inputs {
-    margin-top: 5vmax;
-  }
 
 .searchIcon {
     height: 3vh;
@@ -39,9 +36,6 @@ input {
 }
 
 @media (max-width: 800px) {
-    .inputs {
-      margin-top: 0;
-    }
 
     input {
       background: none;
