@@ -1,7 +1,38 @@
 <script setup>
-  import router from '../router';
+  import { ref } from 'vue';
   import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
+  import ItemCollection from '../components/ItemCollection.vue';
+  import MyAttacksPopUp from '../components/MyAttacksPopUp.vue';
+
+  const items = ref([
+    { id: 1, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0 },
+    { id: 2, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 3, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 4, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 5, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 6, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 7, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 8, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 9, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png' , quantity: 0 },
+    { id: 10, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 11, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 12, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 13, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 14, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 15, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+]);
+
+const showPopup = ref(false);
+
+const createButtonClick = () => {
+    showPopup.value = true;
+};
+
+const closePopup = () => {
+    showPopup.value = false;
+};
+
 </script>
 
 <template>
@@ -10,8 +41,23 @@
       <lateralMenu />
       <div class="body">
         <Top />
-      </div>
+        <div class="center">
+          <h1 class="colectionTitle">COLECTION</h1>    
+          <section>
+            <ItemCollection
+                v-for="item in items"
+                :key="item.id"
+                :initialSelected="item.selected"
+                :itemName="item.name"
+                :itemPrice="item.price"
+                :itemImage="item.image"
+            />
 
+          </section>
+          <button @click="createButtonClick">CREATE</button>
+        </div>
+        <MyAttacksPopUp v-if="showPopup" @closed="closePopup" />
+      </div>
     </div>
   
 </template>
@@ -33,12 +79,41 @@
 
 
   .center {
+    color: white;
+    font-size: 1.5vmax;  
     display: flex;
     flex-direction: column;
-    color: white;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
   }
+
+  .colectionTitle {
+    margin-left: 4vmax;
+    color: white;
+    font-size: 3vmax;  
+
+  }
+
+  section {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: auto;
+    height: 60vh;
+    max-height: 60vh;
+  }
+
+  .center button {
+    width: 20vmax;
+    height: 6vmax;
+    font-size: 2vmax;
+    margin-top: 2vmax;
+    align-self: center;
+    color: #362864;
+  }
+
+
 
   @media (max-width: 820px) {
     .container {
@@ -49,6 +124,10 @@
     .body {
       height: 100%;
       order: 1;
+    }
+
+    section {
+      max-height: 50vh;
     }
   }
 </style>

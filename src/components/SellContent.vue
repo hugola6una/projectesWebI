@@ -52,7 +52,7 @@ const closePopup = () => {
 <template>
     <div class="sellContent">
         <h3>TAP TO SELECT</h3>
-        <ul class="items">
+        <section class="items">
             <ItemStore
                 v-for="item in items"
                 :key="item.id"
@@ -62,7 +62,7 @@ const closePopup = () => {
                 :itemImage="item.image"
                 @itemSelected="updateTotal"
             />
-        </ul>
+        </section>
         <div class="sellAction">
             <div class="amount">
                 <p>TOTAL: {{ totalPrice }}</p>
@@ -146,7 +146,6 @@ button {
         height: 30vh;
         max-height: 30vh;
     }
- 
     .sellAction {
         justify-content: end;
     }
