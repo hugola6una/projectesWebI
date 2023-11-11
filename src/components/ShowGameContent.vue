@@ -1,11 +1,12 @@
 <script setup>
     import ItemGames from '../components/ItemGames.vue';
+    
 </script>
 
 <template>
-    <div class="playersContent">
+    <div id="defaultContent" class="gameContent">
         <h3>Select a game</h3>
-        <section class="players">
+        <section class="games">
             <ItemGames/>
             <ItemGames/>
             <ItemGames/>
@@ -15,13 +16,44 @@
             <ItemGames/>
             <ItemGames/>
         </section>
-        <button>JOIN</button>
+        <button @click="joinContent()">JOIN</button>
     </div>
+
+    <div id="alternateContent" class="gameContent" style="display: none;">
+        <h3>ARE YOU SURE YOU WANT TO JOIN “GAME#0”?</h3>
+        <div class="buttonsContent">
+        <button>Confirm</button>
+        <button>Cancel</button>
+        </div>
+    </div> 
 </template>
+
+<script>
+ function joinContent() {
+    var defaultContent = document.getElementById('defaultContent');
+    var alternateContent = document.getElementById('alternateContent');
+
+    if (defaultContent.style.display !== 'none') {
+      defaultContent.style.display = 'none';
+      alternateContent.style.display = 'block';
+    } else {
+      defaultContent.style.display = 'block';
+      alternateContent.style.display = 'none';
+    }
+  }
+</script>
 
 <style scoped>
 
-    .playersContent {
+    .buttonsContent {
+        margin-top: 25vh;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    .gameContent {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -33,11 +65,12 @@
         max-height: 76.5vh;
     }
 
-    .playersContent h3{
+    .gameContent h3{
         color: #362864;
         font-size: 3vmax;
+
     }
-    .players {
+    .games {
         width: 100%;
         height: 100%;
         overflow-y: auto;
@@ -52,9 +85,11 @@
         border: none;
         margin-top: 2vh;
         margin-bottom: 2vh;
+        margin: 2vh;
     }
+
     @media (max-width: 800px) {
-    .playersContent {
+    .gameContent {
         max-height: 60vh;
     }
 
@@ -67,6 +102,12 @@
         border: none;
         margin-top: 2vh;
         margin-bottom: 2vh;
+    }
+
+    .buttonsContent button {
+        height: 4vmax;
+        width: 15vmax;
+        font-size: 2vmax;
     }
 }
 </style>
