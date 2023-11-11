@@ -17,7 +17,7 @@ const closePopup = () => {
         <div class="popupContent">
             <div class="top">
                 <h3>MATCH MARC VS PERE DD/ MM/YYYY</h3>
-                <button @click="closePopup" class="closeButton">x</button>
+                <button @click="closePopup">x</button>
             </div>
             <div class="players">
                 <PlayerHistoric class="player1"/>
@@ -53,18 +53,21 @@ const closePopup = () => {
     justify-content: center;
     align-items: center;
     text-align: center;
+    background-color: #362864;
 }
 
 .top {
-    position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
     width: 100%;
-    height: 10%;
-    flex-direction: column;
     align-items: center;
-    text-align: left;
-    text-justify: left;
-    justify-items: right;
+    text-align: centert;
+    justify-content: center;
+}
+
+.top h3 {
+    justify-content: center;
+    text-align: center;
 }
 
 .popupContent {
@@ -86,17 +89,15 @@ const closePopup = () => {
     height: 5vmax;
 }
 
-.popupContent button {
-    box-sizing: border-box;
+.top button {
     color: white;
-    background: #80547f;
+    background-color: #362864;
     border: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 3.5vh;
-    height: fit-content;
-    text-align: center;
+    font-size: 2vmax;
+    cursor: pointer;
+    height: 3vmax;
+    align-items: center;
+    justify-content: center;
 }
 
 .popupContent h3 {
