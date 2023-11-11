@@ -23,11 +23,11 @@ function showContent(contentType) {
             <div class="userOptions">
               <button @click="showContent('show')" :class="{ active: contentToShow === 'show' }">
                       <img src="src/assets/images/icons/show.png" alt="Show" class="iArchive">
-                      <span>SHOW</span>
+                      <span>Show</span>
                   </button>
                   <button @click="showContent('search')" :class="{ active: contentToShow === 'search' }">
                     <img src="src/assets/images/icons/search.png" alt="Search" class="iArchive">
-                    <span>SEARCH</span>
+                    <span>Search</span>
                 </button>
             </div>
             
@@ -85,8 +85,8 @@ function showContent(contentType) {
   }
 
   .iArchive {
-    width: 4vmax;
-    height: 4vmax;
+    width: 3vmax;
+    margin-right: 1vmax;
   }
 
   button {
