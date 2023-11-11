@@ -1,6 +1,5 @@
 <script setup>
   import { ref } from 'vue';  // Per refenciar variables
-  import router from '../router';
   import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
   import GamesShowContent from '../components/GamesShowContent.vue';
@@ -51,11 +50,11 @@ function showContent(contentType) {
 <style scoped>
     .container {
       display: grid;
-    grid-template-columns: 1fr 4fr;
-    align-items: center;
-    height: 100%;
-    width: 100%; 
-  }
+      grid-template-columns: 1fr 4fr;
+      align-items: center;
+      height: 100%;
+      width: 100%; 
+    }
 
   .body {
     height: 100%;
@@ -108,6 +107,7 @@ function showContent(contentType) {
     width: 100%;
     display: flex;
     justify-content: center;
+    max-height: 45vmax;
 
   }
 

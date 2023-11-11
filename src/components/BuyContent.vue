@@ -1,34 +1,51 @@
 <script setup>
 import { ref } from 'vue';
 import ItemStore from '../components/ItemStore.vue';
+import SelectedItemsPopup from '../components/BuyPopUp.vue';
 
 const items = ref([
-    { id: 1, name: 'Attack1', price: 100, selected: false },
-    { id: 2, name: 'Attack2', price: 100, selected: false },
-    { id: 3, name: 'Attack3', price: 100, selected: false },
-    { id: 4, name: 'Attack4', price: 100, selected: false },
-    { id: 5, name: 'Attack5', price: 100, selected: false },
-    { id: 1, name: 'Attack1', price: 100, selected: false },
-    { id: 2, name: 'Attack2', price: 100, selected: false },
-    { id: 3, name: 'Attack3', price: 100, selected: false },
-    { id: 4, name: 'Attack4', price: 100, selected: false },
-    { id: 5, name: 'Attack5', price: 100, selected: false },
-    { id: 1, name: 'Attack1', price: 100, selected: false },
-    { id: 2, name: 'Attack2', price: 100, selected: false },
-    { id: 3, name: 'Attack3', price: 100, selected: false },
-    { id: 4, name: 'Attack4', price: 100, selected: false },
-    { id: 5, name: 'Attack5', price: 100, selected: false },
-    
+    { id: 1, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0 },
+    { id: 2, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 3, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 4, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 5, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 6, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 7, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 8, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 9, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png' , quantity: 0 },
+    { id: 10, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 11, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 12, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 13, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 14, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
+    { id: 15, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
 ]);
 
 const totalPrice = ref(0);
+const selectedItems = ref([]);
+const showPopup = ref(false);
 
 const updateTotal = (item) => {
-    if (item.selected) {
+    const isSelected = item.selected;
+
+    if (isSelected) {
         totalPrice.value += item.price;
+        selectedItems.value.push(item);
     } else {
         totalPrice.value -= item.price;
+        const index = selectedItems.value.findIndex(selectedItem => selectedItem.id === item.id);
+        if (index !== -1) {
+            selectedItems.value.splice(index, 1);
+        }
     }
+};
+
+const buyButtonClick = () => {
+    showPopup.value = true;
+};
+
+const closePopup = () => {
+    showPopup.value = false;
 };
 </script>
 
@@ -41,7 +58,8 @@ const updateTotal = (item) => {
                 :key="item.id"
                 :initialSelected="item.selected"
                 :itemName="item.name"
-                :price="item.price"
+                :itemPrice="item.price"
+                :itemImage="item.image"
                 @itemSelected="updateTotal"
             />
         </section>
@@ -50,8 +68,13 @@ const updateTotal = (item) => {
                 <p>TOTAL: {{ totalPrice }}</p>
                 <img src="../assets/images/icons/coinIcon.png" alt="Coin" class="iCoin">
             </div>
-            <button>BUY</button>
+            <button @click="buyButtonClick">BUY</button>
         </div>
+        <SelectedItemsPopup
+            v-if="showPopup"
+            :selectedItems="selectedItems"
+            @closed="closePopup"
+        />
     </div>
 </template>
 
@@ -123,7 +146,6 @@ button {
         height: 30vh;
         max-height: 30vh;
     }
- 
     .buyAction {
         justify-content: end;
     }

@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from 'vue';  // Per refenciar variables
+  import { ref } from 'vue';  
   import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
   import Buy from '../components/BuyContent.vue';

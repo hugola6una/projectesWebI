@@ -1,22 +1,22 @@
 <script setup>
 import { ref, defineProps, getCurrentInstance } from 'vue';
 
-const props = defineProps(['initialSelected', 'itemName', 'price']);
+const props = defineProps(['initialSelected', 'itemName', 'itemPrice', 'itemImage', 'itemQuantity']);
 const selected = ref(props.initialSelected);
 
 const { emit } = getCurrentInstance();
 
 const toggleSelection = () => {
     selected.value = !selected.value;
-    emit('itemSelected', { selected: selected.value, price: props.price });
+    emit('itemSelected', { selected: selected.value, price: props.itemPrice, name: props.itemName, image: props.itemImage, quantity: props.itemQuantity });
 };
 </script>
 
 <template>
-    <article :class="{ 'item': true, sel: selected }" @click="toggleSelection">
-        <img src="..\assets\images\icons\swordIcon.png" alt="attackIcon" class="iSword" />
+    <li :class="{ 'item': true, sel: selected }" @click="toggleSelection">
+        <img :src="itemImage" alt="attackIcon" class="iSword" />
         <p class="name">{{ itemName }}</p>
-    </article>
+    </li>
 </template>
 
 <style scoped>
