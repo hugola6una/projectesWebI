@@ -13,10 +13,10 @@ const toggleSelection = () => {
 </script>
 
 <template>
-    <li :class="{ 'item': true, sel: selected }" @click="toggleSelection">
+    <article :class="{ 'item': true, sel: selected }" @click="toggleSelection">
         <img :src="itemImage" alt="attackIcon" class="iSword" />
         <p class="name">{{ itemName }}</p>
-    </li>
+    </article>
 </template>
 
 <style scoped>

@@ -1,19 +1,7 @@
 <script setup>
-    import { defineProps, ref } from 'vue';
     import SolicitedItem from '../components/SolicitedItem.vue';
 
     defineProps(['selectedItems', 'onClosed']);
-    const updatedItems = ref([]);
-
-    const handleQuantityChanged = (changedItem) => {
-        const index = updatedItems.value.findIndex((item) => item.id === changedItem.id);
-            if (index !== -1) {
-                updatedItems.value[index].quantity = changedItem.quantity;
-            } else {
-                updatedItems.value.push({ ...changedItem });
-            }
-    };
-
 
 </script>
 
