@@ -149,9 +149,9 @@
     button {
         color: white;
         background-color: #CACAFB;
-        height: 5vmax;
+        height: auto;
         width: auto;
-        font-size: 0.5vh;
+        font-size: 1.5vh;
         border: none;
     }
 
