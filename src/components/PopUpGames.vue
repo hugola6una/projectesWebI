@@ -15,10 +15,10 @@ const closePopup = () => {
 <template>
     <div v-if="isVisible" class="popup">
         <div class="popupContent">
-            <button @click="closePopup">
-                CLOSE
-            </button>
-            <h3>MATCH MARC VS PERE DD/ MM/YYYY</h3>
+            <div class="top">
+                <h3>MATCH MARC VS PERE DD/ MM/YYYY</h3>
+                <button @click="closePopup" class="closeButton">x</button>
+            </div>
             <div class="players">
                 <PlayerHistoric class="player1"/>
                 <PlayerHistoric class="palyer2"/>
@@ -55,6 +55,18 @@ const closePopup = () => {
     text-align: center;
 }
 
+.top {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 10%;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    text-justify: left;
+    justify-items: right;
+}
+
 .popupContent {
     display: flex;
     flex-direction: column;
@@ -65,7 +77,7 @@ const closePopup = () => {
     width: 100%;
     text-align: center;
     justify-content: start;
-    background: white;
+    background: #EFEFFE;
     border-radius: 5px;
 }
 
@@ -79,10 +91,12 @@ const closePopup = () => {
     color: white;
     background: #80547f;
     border: none;
-    margin: 0;
-    padding: 2vmax;
-    height: 8vmax;
-    font-size: 3vmax;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3.5vh;
+    height: fit-content;
+    text-align: center;
 }
 
 .popupContent h3 {
@@ -93,6 +107,7 @@ const closePopup = () => {
 .players {
     display: grid;
     grid-template-columns: 1fr 1fr;
+
 }
 
 .playeds {
@@ -100,8 +115,9 @@ const closePopup = () => {
     margin-top: 3vmax;
     display: flex;
     flex-direction: column;
-    max-height: 30vh;
+    max-height: auto;
     overflow-y: auto;
+
 }
 
 .right {
@@ -126,6 +142,7 @@ h1 {
     font-size: 3vmax;
 
 }
+
 
 
 @media (max-width: 800px) {
