@@ -24,15 +24,15 @@
             </div>
             <div class="aInputs">
                 <input type="text" placeholder="Attack Name" class="input" />
-                <p>Insert the X axis</p>
+                <p>Insert the X axis (1-8)</p>
                 <div class="slideContainer">
                     <input type="range" min="1" max="8" v-model="xAxis" class="slider" id="myRangeX" @input="xAxisChanged">
-                    <p> {{ xAxis }}</p>
+                    <p>X axis: {{ xAxis }}</p>
                 </div>
-                <p>Insert the Y axis</p>
+                <p>Insert the Y axis (1-8)</p>
                 <div class="slideContainer">
                     <input type="range" min="1" max="8" v-model="yAxis" class="slider" id="myRangeY" @input="yAxisChanged">
-                    <p> {{ yAxis }}</p>
+                    <p>Y Axis: {{ yAxis }}</p>
                 </div>
             </div>
             <button class="createButton">CREATE</button>
@@ -113,21 +113,56 @@
 }
 
 input {
+    margin-top: 2vmax;
+    height: 4vmax;
+    width: 35vmax;
+    font-size: 2vmax;
     box-sizing: border-box;
     color: #362864;
-    width: 25vmax;
-    height: 5vmax;
-    font-size: 2vmax;
-    border: none;
     padding: 1vmax;
-    margin-bottom: 2vmax;
-    text-align: center;
-    resize: none;
+    border: none;
+    margin-bottom: 1vh;
+    border-bottom: 0.1em solid #633FC3;
 }
 
+input:focus {
+    outline: 0.1em solid #633FC3;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 35vmax;
+    height: 4vmax;
+    border-radius: 5vmax;   
+    background: #EFEFFE;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    padding: 1vmax;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2vmax;
+    height: 2vmax;
+    border-radius: 50%; 
+    background: #362864;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 35vmax;
+    height: 25vmax;
+    border-radius: 1vmax;
+    background: #362864;
+    cursor: pointer;
+}
 .slideContainer {
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -140,8 +175,8 @@ input {
 }
 
 .createButton {
-    margin-bottom: 5vmax;
-    height: 8vmax;
+    margin-bottom: 8vmax;
+    height: 100%;
     width: 100%;
     font-size: 3vmax;
     background-color: #362864;
