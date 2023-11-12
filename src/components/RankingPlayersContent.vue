@@ -1,22 +1,34 @@
 <script setup>
     import ItemPlayer from '../components/ItemPlayer.vue';
+    import Popup from '../components/PopUpPlayerInfo.vue';
+    import { ref } from 'vue';
+
+    const showPopup = ref(false);
+
+    const openPopup = () => {
+        showPopup.value = true;
+    };
+
+    const closePopup = () => {
+        showPopup.value = false;
+    };
 </script>
 
 <template>
     <div class="playersContent">
         <h3>RANKING</h3>
         <section class="players">
-            <ItemPlayer/>
-            <ItemPlayer/>
-            <ItemPlayer/>
-            <ItemPlayer/>
-            <ItemPlayer/>
-            <ItemPlayer/>
-            <ItemPlayer/>
-            <ItemPlayer/>
-            <ItemPlayer/>
-            <ItemPlayer/>
+            <ItemPlayer @click="openPopup"/>
+            <ItemPlayer @click="openPopup"/>
+            <ItemPlayer @click="openPopup"/>
+            <ItemPlayer @click="openPopup"/>
+            <ItemPlayer @click="openPopup"/>
+            <ItemPlayer @click="openPopup"/>
+            <ItemPlayer @click="openPopup"/>
+            <ItemPlayer @click="openPopup"/>
         </section>
+        <Popup v-if="showPopup" @closed="closePopup">
+        </Popup>
     </div>
 </template>
 

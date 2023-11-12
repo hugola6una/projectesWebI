@@ -15,7 +15,7 @@
 </script>
 
 <template>
-    <div class="gamesContent">
+    <article class="gamesContent">
         <h3>RATIO: 3 / 7</h3>
         <section class="games">
         <ItemMatch class="won" @click="openPopup" />
@@ -25,16 +25,15 @@
         <Popup v-if="showPopup" @closed="closePopup">
         <p>{{ popupContent }}</p>
         </Popup>
-    </div>
+    </article>
 </template>
 
 <style scoped>
 
     .gamesContent {
+        width: 100%;
         display: flex;
         flex-direction: column;
-        width: 100%;
-        margin: 2vmax;
         background-color: white;
         justify-content: start;
         text-align: center;
