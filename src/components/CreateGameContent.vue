@@ -1,43 +1,51 @@
 <script>
+export default {
+  data() {
+    return {
+      name: '',
+      size: 6,
+      hp: 800,
+    };
+  },
+  methods: {
+    handleSubmit() {
+      const name = document.getElementsByName("name")[0].value;
+      const size = document.getElementsByName("size")[0].value;
+      const hp = document.getElementsByName("hp")[0].value;
+      
+      this.$router.push({
+        name: 'play',
+        params: { name, size, hp },
+      });
+    },
+
+    updateSizeValue(event) {
+      this.size = event.target.value;
+    },
+    updateHpValue(event) {
+      this.hp = event.target.value;
+    },
+  },
+};
 </script>
 
 <template>
     <div class="createContent">
 
         <h4>Customize your game</h4>
-        <p>Choose a name for the game</p>
-        <input type="text" placeholder="Name">
-        <p>Choose the size of the Arena (2-10)</p>
-        <input type="range" min="2" max="10" value="6" class="slider" id="sizeSlider">
-        <p>Size:<span id="sizeValue"></span></p>
-        <p>Choose the HP of the players</p>
-        <input type="range" min="1" max="1500" value="800" class="slider" id="hpSlider">
-        <p>Hp:<span id="hpValue"></span></p>
-        <button>CREATE</button>
+        <form id="arena" @submit.prevent="handleSubmit">
+          <p>Choose a name for the game</p>
+          <input type="text" placeholder="Name" name="name">
+          <p>Choose the size of the Arena (2-10)</p>
+          <input type="range" min="2" max="10" value="6" class="slider" id="sizeSlider" name="size" @input="updateSizeValue">
+          <p>Size:<span id="sizeValue">{{ size }}</span></p>
+          <p>Choose the HP of the players</p>
+          <input type="range" min="1" max="1500" value="800" class="slider" id="hpSlider" name="hp" @input="updateHpValue">
+          <p>Hp:<span id="hpValue">{{ hp }}</span></p> 
+          <button type="submit">CREATE</button>
+      </form>
     </div>
 </template>
-
-<script>
-    export default {
-        mounted() {
-            var sizeSlider = document.getElementById("sizeSlider");
-            var sizeValue = document.getElementById("sizeValue");
-            var hpSlider = document.getElementById("hpSlider");
-            var hpValue = document.getElementById("hpValue");
-
-            sizeValue.textContent = sizeSlider.value;
-            hpValue.textContent = hpSlider.value;
-
-            sizeSlider.oninput = function() {
-                sizeValue.textContent = this.value;
-            }
-
-            hpSlider.oninput = function() {
-                hpValue.textContent = this.value;
-            }
-        }
-    }
-</script>
 
 <style scoped>
     .createContent {
