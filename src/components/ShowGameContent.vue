@@ -1,6 +1,17 @@
 <script setup>
     import ItemGames from '../components/ItemGames.vue';
-    
+    function joinContent() {
+    var defaultContent = document.getElementById('defaultContent');
+    var alternateContent = document.getElementById('alternateContent');
+
+    if (defaultContent.style.display !== 'none') {
+      defaultContent.style.display = 'none';
+      alternateContent.style.display = 'block';
+    } else {
+      defaultContent.style.display = 'block';
+      alternateContent.style.display = 'none';
+    }
+  }
 </script>
 
 <template>
@@ -27,21 +38,6 @@
         </div>
     </div> 
 </template>
-
-<script>
- function joinContent() {
-    var defaultContent = document.getElementById('defaultContent');
-    var alternateContent = document.getElementById('alternateContent');
-
-    if (defaultContent.style.display !== 'none') {
-      defaultContent.style.display = 'none';
-      alternateContent.style.display = 'block';
-    } else {
-      defaultContent.style.display = 'block';
-      alternateContent.style.display = 'none';
-    }
-  }
-</script>
 
 <style scoped>
 

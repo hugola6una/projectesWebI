@@ -1,5 +1,18 @@
 <script setup>
-import SearchItem from '../components/SearchItem.vue';
+    import SearchItem from '../components/SearchItem.vue';
+    import ItemGamesTable from '../components/ItemGamesTable.vue';
+    import Popup from '../components/PopUpGamesShow.vue';
+    import { ref } from 'vue';
+
+    const showPopup = ref(false);
+
+    const openPopup = () => {
+        showPopup.value = true;
+    };
+
+    const closePopup = () => {
+        showPopup.value = false;
+    };
 </script>
 
 <template>
@@ -19,93 +32,24 @@ import SearchItem from '../components/SearchItem.vue';
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>NOT FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>NOT FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
-                    <tr>
-                        <td>GAME#0</td>
-                        <td>CREATOR#0</td>
-                        <td>FINISHED</td>
-                        <td>DD/MM/YYYY</td>
-                        <td>DD/MM/YYYY</td>
-                    </tr>
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
+                    <ItemGamesTable @click="openPopup" />
                 </tbody>
             </table>
-        </div>
+
+            <Popup v-if="showPopup" @closed="closePopup">
+            <p>{{ popupContent }}</p>
+            </Popup></div>
         </div>
 </template>
 
