@@ -1,13 +1,24 @@
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
 
-const props = defineProps(['initialSelected', 'itemName', 'price']);
+const props = defineProps(['initialSelected', 'itemName', 'price', 'nSelectedItems']);
 const selected = ref(props.initialSelected);
+
+const emits = defineEmits(['itemSelected']);
+
+const handleClick = () => {
+    console.log(props.nSelectedItems);
+    if (props.nSelectedItems < 3 || selected.value) {
+        selected.value = !selected.value;
+        emits('itemSelected', { id: props.initialSelected, selected: selected.value, name: props.itemName, price: props.price });
+    }
+};
+
 
 </script>
 
 <template>
-    <article :class="{ 'item': true, sel: selected }">
+    <article :class="{ 'item': true, sel: selected }" @click="handleClick">
         <img src="..\assets\images\icons\swordIcon.png" alt="attackIcon" class="iSword" />
         <p class="name">{{ itemName }}</p>
     </article>

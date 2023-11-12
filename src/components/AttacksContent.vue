@@ -3,24 +3,45 @@
     import ItemAttack from '../components/ItemAttack.vue';
 
     const items = ref([
-    { id: 1, name: 'Attack1', price: 100, selected: false },
-    { id: 2, name: 'Attack2', price: 100, selected: false },
-    { id: 3, name: 'Attack3', price: 100, selected: true },
-    { id: 4, name: 'Attack4', price: 100, selected: false },
-    { id: 5, name: 'Attack5', price: 100, selected: false },
-    { id: 1, name: 'Attack1', price: 100, selected: true },
-    { id: 2, name: 'Attack2', price: 100, selected: false },
-    { id: 3, name: 'Attack3', price: 100, selected: false },
-    { id: 4, name: 'Attack4', price: 100, selected: false },
-    { id: 5, name: 'Attack5', price: 100, selected: false },
-    { id: 1, name: 'Attack1', price: 100, selected: false },
-    { id: 2, name: 'Attack2', price: 100, selected: false },
-    { id: 3, name: 'Attack3', price: 100, selected: true },
-    { id: 4, name: 'Attack4', price: 100, selected: false },
-    { id: 5, name: 'Attack5', price: 100, selected: false },
-    
-    
-]);
+        { id: 1, name: 'Attack1', price: 100, selected: false },
+        { id: 2, name: 'Attack2', price: 100, selected: false },
+        { id: 3, name: 'Attack3', price: 100, selected: false },
+        { id: 4, name: 'Attack4', price: 100, selected: false },
+        { id: 5, name: 'Attack5', price: 100, selected: false },
+        { id: 1, name: 'Attack1', price: 100, selected: false },
+        { id: 2, name: 'Attack2', price: 100, selected: false },
+        { id: 3, name: 'Attack3', price: 100, selected: false },
+        { id: 4, name: 'Attack4', price: 100, selected: false },
+        { id: 5, name: 'Attack5', price: 100, selected: false },
+        { id: 1, name: 'Attack1', price: 100, selected: false },
+        { id: 2, name: 'Attack2', price: 100, selected: false },
+        { id: 3, name: 'Attack3', price: 100, selected: false },
+        { id: 4, name: 'Attack4', price: 100, selected: false },
+        { id: 5, name: 'Attack5', price: 100, selected: false },
+    ]);
+
+    const selectedItems = ref([]);
+
+    const nSelectedItems = ref(selectedItems.value.length);
+
+    const updateTotal = (item) => {
+        const isSelected = item.selected;
+
+        if (isSelected) {
+            selectedItems.value.push(item);
+            nSelectedItems.value++;
+            item.selected = true;
+        } else {
+            const index = selectedItems.value.findIndex(selectedItem => selectedItem.id === item.id);
+            if (index !== -1) {
+                selectedItems.value.splice(index, 1);
+                nSelectedItems.value--;
+                item.selected = false;
+            }
+        }
+        console.log(selectedItems.value);
+        console.log(nSelectedItems.value);
+    };
 </script>
 
 <template>
@@ -33,6 +54,7 @@
                 :initialSelected="item.selected"
                 :itemName="item.name"
                 :price="item.price"
+                :nSelectedItems="nSelectedItems"
                 @itemSelected="updateTotal"
             />
         </section>
