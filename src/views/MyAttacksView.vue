@@ -111,6 +111,7 @@ const closePopup = () => {
     margin-top: 2vmax;
     align-self: center;
     color: #362864;
+    border: none;
   }
 
 
