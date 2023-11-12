@@ -176,7 +176,7 @@ input:focus {
 
 .createButton {
     margin-bottom: 8vmax;
-    height: 100%;
+    height: 8vmax;
     width: 100%;
     font-size: 3vmax;
     background-color: #362864;
