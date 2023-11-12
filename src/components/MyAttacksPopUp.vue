@@ -131,6 +131,7 @@ input:focus {
 
 .slider {
     -webkit-appearance: none;
+    appearance: none;
     width: 35vmax;
     height: 4vmax;
     border-radius: 5vmax;   

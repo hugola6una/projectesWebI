@@ -158,19 +158,19 @@ p {
 .level2 {width: 100%; background-color: #291D49;}
 .hp1 {
     height: 100%;
-  width: 100%;
+    width: 100%;
     grid-column: 2;
-  grid-row: 1;
-  display: flex;
+    grid-row: 1;
+    display: flex;
 }
 
 .hpContainer {
     margin-top: 2.5vh;
-  width: 90%;
-  height: 3.5vh;
-  background-color: white;
-  display: flex;
-  align-items: center;
+    width: 90%;
+    height: 3.5vh;
+    background-color: white;
+    display: flex;
+    align-items: center;
 }
 
 .title {
@@ -183,16 +183,16 @@ p {
 
 .skills {
   color: white;
-  font-size: 2vh;
+  font-size: 1.5vmax;
   text-align: right;
 }
- .hp2 {
+.hp2 {
     height: 100%;
   width: 100%;
     grid-column: 3;
   grid-row: 1;
   display: flex;
- }
+}
 
 .profile2 {
     height: 7vmax;
@@ -210,6 +210,10 @@ p {
   grid-gap: 2px;
 }
 
+.arena:focus {
+  outline: 0.1em solid #383838;
+}
+
 .arena-row {
   display: flex;
 }
@@ -217,6 +221,16 @@ p {
 .arena-cell {
   height: 7vh;
   width: 7vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.arena-cell img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .white {
@@ -228,7 +242,10 @@ p {
 }
 
 .show-content-button {
-  margin: 10px;
+  margin: 1vmax;
+  font-size: 1vmax;
+  height: 2vmax;
+  border: none;
 }
 
   .container {
