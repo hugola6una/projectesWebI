@@ -172,4 +172,39 @@
         color: white;
         margin: 2vmax;
     }
+
+    @media (max-width: 800px) {
+
+    .menu {
+      align-items: end;
+      justify-content: center;
+    }
+
+    .body {
+      height: 100%;
+      order: 1;
+    }
+
+    .userContent {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .userOptions {
+      margin-left: 2vh;
+    }
+
+    .userOptions span {
+      display: none;
+    }
+
+    button {
+      width: 8vmax;
+    }
+
+    
+  
+  }
 </style>

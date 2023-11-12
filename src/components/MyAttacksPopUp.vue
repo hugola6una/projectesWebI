@@ -147,7 +147,7 @@ input:focus {
     appearance: none;
     width: 2vmax;
     height: 2vmax;
-    border-radius: 50%; 
+    border-radius: 1vmax; 
     background: #362864;
     cursor: pointer;
 }
