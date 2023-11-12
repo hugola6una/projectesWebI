@@ -141,7 +141,7 @@ button {
     margin-bottom: 2vmax;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     .items {
         height: 30vh;
         max-height: 30vh;

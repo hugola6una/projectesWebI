@@ -111,7 +111,7 @@ function showContent(contentType) {
 
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 900px) {
     .container {
       grid-template-columns: 1fr;
       display: flex;
@@ -119,7 +119,6 @@ function showContent(contentType) {
     }
 
     .body {
-      height: 100%;
       order: 1;
     }
 

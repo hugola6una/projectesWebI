@@ -58,7 +58,7 @@
         justify-content: start;
         text-align: center;
         align-items: center;
-        max-height: 76.5vh;
+        max-height: 75vh;
     }
 
     .gameContent h3{

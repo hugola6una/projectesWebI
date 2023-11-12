@@ -1,5 +1,4 @@
 <script setup>
-  import router from '../router';
   import LateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
 </script>
@@ -74,7 +73,7 @@
     color: white;
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 900px) {
     .container {
       grid-template-columns: 1fr;
       grid-template-rows: 8fr 1fr;

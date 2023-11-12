@@ -116,7 +116,7 @@ const closePopup = () => {
 
 
 
-  @media (max-width: 820px) {
+  @media (max-width: 900px) {
     .container {
       grid-template-columns: 1fr;
       grid-template-rows: 8fr 1fr;

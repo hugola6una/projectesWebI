@@ -173,7 +173,7 @@
         margin: 2vmax;
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
 
     .menu {
       align-items: end;

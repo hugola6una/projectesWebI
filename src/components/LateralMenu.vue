@@ -136,11 +136,7 @@ const selectedOption = route.name;
     font-size: 1.5vmax;
   }
 
-  @media (max-width: 850px) {
-    .container {
-      grid-template-columns: 1fr;
-      grid-template-rows: 8fr 1fr;
-    }
+  @media (max-width: 900px) {
 
     .body {
       height: 100%;

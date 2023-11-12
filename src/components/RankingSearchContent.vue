@@ -69,7 +69,7 @@
     }
 
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
     .playersContent {
         max-height: 60vh;
     }

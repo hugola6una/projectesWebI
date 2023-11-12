@@ -36,7 +36,7 @@
 
   
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     .container {
       grid-template-columns: 1fr;
       display: flex;

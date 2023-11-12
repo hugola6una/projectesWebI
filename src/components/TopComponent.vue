@@ -68,7 +68,7 @@
     font-size: 1.5vmax;
   }
 
-  @media (max-width:700px) {
+  @media (max-width:900px) {
 
     #logo img {
       display: flex;

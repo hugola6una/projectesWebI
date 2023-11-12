@@ -1,5 +1,4 @@
 <script setup>
-  import router from '../router';
 </script>
 
 <template>
@@ -139,8 +138,11 @@
 
   @media (max-width: 820px) {
     .container {
+      width: 100%;
+      height: 100%;
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 2fr;
+      display: flex;
+      flex-direction: column;
     }
 
     .h1Login {
@@ -149,6 +151,7 @@
     }
 
     .left {
+      width: 100%;
       background: #362864;
       text-align: center;
       justify-content: center;
@@ -205,6 +208,7 @@
       color: white;  
       background-color: #362864;
       height: 3vmax;
+      width: 35vmax;
       font-size: 1.5vmax;
     }
 
