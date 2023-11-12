@@ -7,8 +7,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "deploy": "gh-pages -b dev -d dist"
+    "format": "prettier --write src/"
   },
   "homepage": "https:///hugola6una.github.io/project-base/",
   "dependencies": {
