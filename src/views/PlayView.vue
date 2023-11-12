@@ -81,7 +81,7 @@ const changeScreen = () => {
     <div class="container">
         <button class="show-content-button" @click="changeScreen()">
         {{ currentScreen === 'joc' ? 'How to Play' : 'Back to Game' }}
-    </button>
+        </button>
       <div class="top">
 
         <img src="..\assets\images\icons\playerdefault.png" class="profile1">
@@ -121,9 +121,17 @@ const changeScreen = () => {
         </div>
     </div>
       <div class="bottom">
-        <ItemCollection />
-        <ItemCollection />
-        <ItemCollection />
+        <router-link to="/home" class="link">
+          <button class="bLogout">
+          <img src="../assets/images/icons/logout_9965863.png" class="profile1">
+        </button>
+        </router-link>
+    
+        <div class="bAttacks">
+          <ItemCollection />
+          <ItemCollection />
+          <ItemCollection />
+        </div>
       </div>
     </div>
   </template>
@@ -280,10 +288,34 @@ p {
     background-color: #ABA9F8;
     height: 100%;
     grid-row: 3;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+  }
+
+  .bLogout {
+    justify-self: start;
+    display: flex;
+    box-sizing: border-box;
+    height: 3vmax;
+    width: 4vmax;
+    margin-left: 1vmax;
+    align-items: center;
+    justify-content: center;
+    border: none;
+  }
+
+  .bLogout img {
+    width: 2vmax;
+    height: 2vmax;
+  }
+
+  .bAttacks {
+    display: flex;
+    align-self: center;
+    justify-self: center;
   }
 
 
@@ -304,6 +336,7 @@ p {
         height: 5vh;
         width: 5vh;
     }
+
 }
   
 </style>
