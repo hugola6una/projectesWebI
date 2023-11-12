@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';  // Per refenciar variables
+import { ref } from 'vue';
 import ItemCollection from '../components/ItemCollection.vue';
 const currentScreen = ref('joc');
 const changeScreen = () => {
@@ -147,12 +147,12 @@ p {
   margin: 1vh;
 }
 .playerText {
-  grid-column: 1 / span 4;  /* Ocupa dos columnas, comenzando desde la tercera columna */
-  grid-row: 2;  /* Está en la segunda fila */
-  text-align: center;  /* Centra el texto horizontalmente */
+  grid-column: 1 / span 4; 
+  grid-row: 2;
+  text-align: center;
   color: white;
   font-size: 2vmax;
-  margin-top: 1vh;  /* Ajusta el espacio superior según sea necesario */
+  margin-top: 1vh; 
 }
 .level1 {width: 90%; background-color: #291D49;}
 .level2 {width: 100%; background-color: #291D49;}
@@ -182,7 +182,7 @@ p {
 }
 
 .skills {
-  color: white; /* White text color */
+  color: white;
   font-size: 2vh;
   text-align: right;
 }
@@ -228,7 +228,6 @@ p {
 }
 
 .show-content-button {
-  /* Estilo del botón para mostrar el contenido oculto */
   margin: 10px;
 }
 
