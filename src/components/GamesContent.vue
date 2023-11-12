@@ -4,11 +4,9 @@
     import { ref } from 'vue';
 
     const showPopup = ref(false);
-    const popupContent = ref('');
 
-    const openPopup = (content) => {
+    const openPopup = () => {
         showPopup.value = true;
-        popupContent.value = content;
     };
 
     const closePopup = () => {
@@ -20,8 +18,8 @@
     <div class="gamesContent">
         <h3>RATIO: 3 / 7</h3>
         <section class="games">
-        <ItemMatch class="won" @click="openPopup('You won!')" />
-        <ItemMatch class="lose" @click="openPopup('You lost!')" />
+        <ItemMatch class="won" @click="openPopup" />
+        <ItemMatch class="lose" @click="openPopup" />
         </section>
 
         <Popup v-if="showPopup" @closed="closePopup">
