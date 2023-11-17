@@ -1,30 +1,41 @@
-<script setup>
+<script>
+  import LogoLeftComponent from '@/components/LogoLeftComponent.vue'
+  import ButtonPurpleComponent from '@/components/ButtonPurpleComponent.vue';
+  import ButtonWhiteComponent from '@/components/ButtonWhiteComponent.vue';
+  import InputComponent from '@/components/InputComponent.vue';
+
+  export default {
+    components: {LogoLeftComponent, ButtonPurpleComponent, ButtonWhiteComponent, InputComponent},
+    data() {
+      return {
+        strCreatePlayer: 'CREATE PLAYER',
+        strLoginPlayer: 'SIG IN'
+      }
+    },
+    methods: {
+      navigateToCreateAPlayer() {
+        this.$router.push('/create-player')
+      },
+      navigateToLoginPlayer() {
+        this.$router.push('/home')
+      },
+    },
+  }
 </script>
 
 <template>
   <div class="container">
-    <div class="left">
-        <img src="../assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
-        <div class="titles">
-          <h1 class="gameTitle">ROBOT</h1>
-          <h1 class="gameTitle">BATTLE</h1>
-          <h2 class="gameSubTitle">ARENA</h2>
-        </div>
-    </div>
+    <LogoLeftComponent />
     <div class="right">
-      <h1 class="h1Login">LOGIN</h1>
+      <h1>LOGIN</h1>
       <div class="dIteractive">
-        <div class="inputs">
-          <input type="text" placeholder="Name" class="inPlayerName">
-          <input type="password" placeholder="Password" class="inPassword">
-        </div>
+        <form class="inputs">
+            <InputComponent inputType="text" inputPlaceholder="Name" />
+            <InputComponent inputType="password" inputPlaceholder="Password" />
+        </form>
       <div class="buttons"> 
-        <router-link to="/create-player" class="link">
-          <button class="bCreate">CREATE A PLAYER</button>
-        </router-link>
-        <router-link to="/home" class="link">
-          <button class="bSigIn">SIG IN</button>
-        </router-link>
+          <ButtonWhiteComponent :buttonText="strCreatePlayer" @click="navigateToCreateAPlayer"/>
+          <ButtonPurpleComponent :buttonText="strLoginPlayer" @click="navigateToLoginPlayer" class="bBig"/>
       </div>  
         
       </div>
@@ -40,35 +51,6 @@
     height: 100vh;
     
   }
-
-  .left {
-    height: 100%;
-    color: white;
-    display: flex;
-    flex-direction: column;;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to right, #633FC3, #362864);
-  }
-
-  .titles {
-    text-align: center;
-  }
-
-  .gameImage {
-    width: 20vmax;
-  }
-
-  .gameTitle {
-    margin: 0;
-    font-size: 4vmax;
-  }
-
-  .gameSubTitle {
-    margin: 0;
-    font-size: 3vmax;
-  }
-
   .right {
     height: 100%;
     display: flex;
@@ -78,22 +60,14 @@
     align-items: center;
   }
 
-  input {
-    display: flex;
-    margin-top: 2vmax;
-    height: 4vmax;
-    width: 35vmax;
-    font-size: 2vmax;
-    box-sizing: border-box;
-    color: #362864;
-    padding: 1vmax;
-    border: none;
-    border-bottom: 0.1em solid #633FC3;
-  }
-
-  .h1Login {
+  .right h1 {
     font-size: 3vmax;
     color: #362864;
+  }
+
+  .bBig {
+    height: 8vmax;
+    font-size: 2.2vmax;
   }
 
   .inputs {
@@ -102,41 +76,9 @@
 
   .buttons {
     margin-top: 5vmax;
-  }
+  }  
 
-  button {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin-top: 1vmax;
-    width: 35vmax;
-    height: 4vmax;
-    border: none;
-    font-size: 1.5vmax;
-    box-sizing: border-box;
-  }
-
-  .bCreate {
-    border: 0.1em solid #633FC3;
-    background: white;
-    color: #362864;
-  }
-
-  .bSigIn {
-    font-size: 3vmax;
-    height: 8vmax;
-    background: #633FC3;
-    color: white;
-  }
-
-  button:hover {
-    background: #80547f;
-    color: white;
-  }
-
-  
-
-  @media (max-width: 820px) {
+  @media (max-width: 900px) {
     .container {
       width: 100%;
       height: 100%;
@@ -144,24 +86,6 @@
       display: flex;
       flex-direction: column;
     }
-
-    .h1Login {
-      color: white;
-      font-size: 2vmax;
-    }
-
-    .left {
-      width: 100%;
-      background: #362864;
-      text-align: center;
-      justify-content: center;
-    }
-
-    .gameImage {
-      margin-top: 3vmax;
-      width: 8vmax;
-    }
-
     .right {
       display: grid;
       grid-template-rows: 1fr 4fr;
@@ -169,9 +93,10 @@
       background-color: #362864;
     }
 
-    .h1Login {
+    .right h1 {
       margin-top: 4vmax;
       font-size: 4vmax;
+      color: white;
     }
 
     .dIteractive {
@@ -185,40 +110,12 @@
     .inputs {
       margin-top: 0;
     }
-
-    input {
-      background: none;
-      width: 35vmax;
-      height: 2vmax;
-      font-size: 1.5vmax;
-      color: white;
-      border-bottom: 0.1em solid white;
-    }
-
     .buttons {
       margin-top: 1vmax;
+    }  
+
+    .bBig {
+      height: 5vmax;  
     }
-
-    button {
-      margin-top: 2vmax;
-    }
-
-    .bCreate {
-      border: 0.1em solid white;
-      color: white;  
-      background-color: #362864;
-      height: 3vmax;
-      width: 35vmax;
-      font-size: 1.5vmax;
-    }
-
-    .bSigIn {
-      color: #362864;
-      background-color: white;
-    }
-
-
-    
-    
   }
 </style>

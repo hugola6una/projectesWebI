@@ -1,72 +1,71 @@
-<script setup>
+<script>
+  import LogoLeftComponent from '@/components/LogoLeftComponent.vue'
+  import ButtonPurpleComponent from '@/components/ButtonPurpleComponent.vue';
+  import ButtonWhiteComponent from '@/components/ButtonWhiteComponent.vue';
+  import InputComponent from '@/components/InputComponent.vue';
+
+  export default {
+    components: {LogoLeftComponent, ButtonPurpleComponent, ButtonWhiteComponent, InputComponent},
+    data() {
+      return {
+        strCreatePlayer: 'CREATE PLAYER',
+        strHaveAPlayer: 'I HAVE A PLAYER'
+      }
+    },
+    methods: {
+      navigateToHaveAPlayer() {
+        this.$router.push('/login-player')
+      },
+      navigateToCreatePlayer() {
+        this.$router.push('/home')
+      },
+    },
+  }
 
 </script>
 
 <template>
   <div class="container">
-    <div class="left">
-        <img src="../assets/images/logoRobotArena.png" alt="Logo" class="gameImage">
-        <div class="titles">
-          <h1 class="gameTitle">ROBOT</h1>
-          <h1 class="gameTitle">BATTLE</h1>
-          <h2 class="gameSubTitle">ARENA</h2>
-        </div>
-    </div>
+    <LogoLeftComponent />
     <div class="right">
-      <h1 class="h1Register">CREATE PLAYER</h1>
+      <h1>CREATE PLAYER</h1>
       <div class="dIteractive">
         <div class="inputs">
           <img src="..\assets\images\addProfilePhoto.png" alt="Logo" class="addProfilePhoto">
-          <input type="text" placeholder="Name" class="inPlayerName">
-          <input type="password" placeholder="Password" class="inPassword">
-          <input type="password" placeholder="Repeat Pasword" class="inPassword2">
+          <form>
+            <InputComponent inputType="text" inputPlaceholder="Name" />
+            <InputComponent inputType="password" inputPlaceholder="Password" />
+            <InputComponent inputType="password" inputPlaceholder="Confirm Password" />
+          </form>    
         </div>
-          <router-link to="/login-player" class="link">
-            <button class="bSigIn">I HAVE A PLAYER</button>
-          </router-link>
-          <router-link to="/home" class="link">
-            <button class="bCreate">CREATE</button>
-          </router-link>
+        <div class="buttons">
+          <ButtonWhiteComponent :buttonText="strHaveAPlayer" @click="navigateToHaveAPlayer"/>
+          <ButtonPurpleComponent :buttonText="strCreatePlayer" @click="navigateToCreatePlayer" class="bBig"/>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+
+  button {
+    height: 4vmax;
+    width: 35vmax;
+  }
+
+  .bBig {
+    height: 8vmax;
+    width: 35vmax;
+    font-size: 2.2vmax;
+  }
+
+
   .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    height: 100vh;
-    
-  }
-
-  .left {
-    height: 100%;
-    color: white;
-    display: flex;
-    flex-direction: column;;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to right, #633FC3, #362864);
-  }
-
-  .titles {
-    text-align: center;
-  }
-
-  .gameImage {
-    width: 20vmax;
-  }
-
-  .gameTitle {
-    margin: 0;
-    font-size: 4vmax;
-  }
-
-  .gameSubTitle {
-    margin: 0;
-    font-size: 3vmax;
+    height: 100vh;  
   }
 
   .right {
@@ -78,116 +77,46 @@
     align-items: center;
   }
 
+  .right h1 {
+    font-size: 3vmax;
+    color: #362864;
+  }
+
   .dIteractive {
     overflow-y: auto;
   }
 
-  input {
-    display: flex;
-    margin-top: 1vmax;
-    height: 4vmax;
-    width: 35vmax;
-    font-size: 2vmax;
-    box-sizing: border-box;
-    color: #362864;
-    padding: 1vmax;
-    border: none;
-    border-bottom: 0.1em solid #633FC3;
+
+  .inputs {
+    margin-top: 3vmax;
+    margin-left: 1vmax;
   }
 
-  input:focus {
-    outline: 0.1em solid #633FC3;
-  }
-
-  .h1Register {
-    font-size: 3vmax;
-    color: #362864;
-  }
-
-  .addProfilePhoto {
+  .inputs img {
     margin-top: 0vmax;
     width: 12vmax;
   }
 
-  .inputs {
-    margin-top: 3vmax;
-  }
-
   .buttons {
-    margin-top: 5vmax;
-  }
+    margin-top: 2vmax;
+  }  
 
-  button {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin-top: 1vmax;
-    width: 35vmax;
-    height: 4vmax;
-    border: none;
-    font-size: 1.5vmax;
-    box-sizing: border-box;
-  }
-
-  .bSigIn {
-    margin: 1vmax;
-    border: 0.1em solid #633FC3;
-    background: white;
-    color: #362864;
-  }
-
-  .bCreate {
-    margin: 1vmax;
-    font-size: 3vmax;
-    height: 8vmax;
-    background: #633FC3;
-    color: white;
-    margin-bottom: 2vmax;
-  }
-
-  button:hover {
-    background: #80547f;
-    color: white;
-  }
-
-  
-
-  @media (max-width: 820px) {
+  @media (max-width: 900px) {
 
     .container {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr 3fr;
     }
-
-    .left {
-      background: #362864;
-      text-align: center;
-      justify-content: center;
-    }
-
-    .gameImage {
-      margin-top: 3vmax;
-      width: 5vmax;
-    }
-
-    .gameTitle {
-      font-size: 1vmax;
-    }
-
-    .gameSubTitle {
-      font-size: 1vmax;
-    }
-
-    .h1Register {
-      color: white;
-      font-size: 1.5vmax;
-    }
-
     .right {
       display: grid;
-      grid-template-rows: 1fr 4fr;
+      grid-template-rows: 1fr 5fr;
       width: 100%;
       background-color: #362864;
+    }
+
+    .right h1 {
+      color: white;
+      font-size: 1.5vmax;
     }
 
     .dIteractive {
@@ -202,41 +131,17 @@
       margin-top: 0vmax;
     }
 
-    input {
-      margin-top: 2vmax;
-      background: none;
-      width: 35vmax;
-      height: 2vmax;
-      font-size: 1.5vmax;
-      color: white;
-      border-bottom: 0.1em solid white;
-    }
-
     .buttons {
       margin-top: 0.5vmax;
     }
 
-    button {
-      margin-top: 2vmax;
-    }
-
-    .bSigIn {
-      border: 0.1em solid white;
-      color: white;  
-      background-color: #362864;
-      height: 3vmax;
-      font-size: 1.5vmax;
-    }
-
-    .bCreate {
-      height: 5vmax;
-      color: #362864;
-      background-color: white;
-    }
-
-    .addProfilePhoto {
+    .inputs img {
       margin-top: 0;
       width: 8vmax;
+    }
+
+    .bBig {
+      height: 5vmax;  
     }
 
 

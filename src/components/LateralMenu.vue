@@ -1,73 +1,58 @@
-<script setup>
-import { useRoute } from 'vue-router';
+<script>
+  import ButtonMenuComponent from '../components/ButtonMenuComponent.vue';
 
-const route = useRoute();
-const selectedOption = route.name;
+  export default {
+    components: {ButtonMenuComponent},
+    data() {
+      return {
+      }
+    },
+    methods: {
+      navigateToHome() {
+        this.$router.push('/home')
+      },
+      navigateToUser() {
+        this.$router.push('/user')
+      },
+      navigateToRanking() {
+        this.$router.push('/ranking')
+      },
+      navigateToStore() {
+        this.$router.push('/store')
+      },
+      navigateToMyAttacks() {
+        this.$router.push('/my-attacks')
+      },
+      navigateToGames() {
+        this.$router.push('/games')
+      },
+      logout() {
+        this.$router.push('/')
+      }
+    }
+  }
 </script>
 
 <template>
     <nav class="menu">
-        <router-link to="/home" class="link">
-            <img src="..\assets\images\logoRobotoArena2.png" alt="Logo" class="gameImage">
-        </router-link>
+      <img @click="navigateToHome" src="..\assets\images\logoRobotoArena2.png" alt="Logo" class="gameImage">
         <div class= "options"> 
             <div class="default">
-
-                <router-link to="/user" class="link">
-                <div :class="{'option': true, 'selected': selectedOption === 'user'}">
-                    <img src="src/assets/images/icons/playerdefault.png" alt="User" class="icon">
-                    <span :class="{'option': true, 'selected': selectedOption === 'user'}">User</span>
-                </div>
-                </router-link>
-
-                <router-link to="/ranking" class="link">
-                <div :class="{'option': true, 'selected': selectedOption === 'ranking'}">
-                    <img src="src/assets/images/icons/trofeo.png" alt="Ranking" class="icon">
-                    <span :class="{'option': true, 'selected': selectedOption === 'ranking'}">Ranking</span>
-                </div>
-                </router-link>
-                
-                <router-link to="/store" class="link">
-                <div :class="{'option': true, 'selected': selectedOption === 'store'}">
-                    <img src="src/assets/images/icons/Store.png" alt="Store" class="icon">
-                    <span :class="{'option': true, 'selected': selectedOption === 'store'}">Store</span>
-                </div>
-                </router-link>
-                
-                <router-link to="/my-attacks" class="link">
-                <div :class="{'option': true, 'selected': selectedOption === 'my-attacks'}">
-                    <img src="src/assets/images/icons/swordIcon.png" alt="MyAttacks" class="icon">
-                    <span :class="{'option': true, 'selected': selectedOption === 'my-attacks'}">MyAttacks</span>
-                </div>
-                </router-link>
-                
-                <router-link to="/games" class="link">
-                <div :class="{'option': true, 'selected': selectedOption === 'games'}">
-                    <img src="src/assets/images/icons/right_2886104.png" alt="Games" class="icon">
-                    <span :class="{'option': true, 'selected': selectedOption === 'games'}">Games</span>
-                </div>
-                </router-link>
+              <ButtonMenuComponent @click="navigateToUser" imageSrc="src/assets/images/icons/playerdefault.png" strAlt="USER" route="/user"/>
+              <ButtonMenuComponent @click="navigateToRanking" imageSrc="src/assets/images/icons/trofeo.png" strAlt="RANKING" route="/ranking"/>
+              <ButtonMenuComponent @click="navigateToStore" imageSrc="src/assets/images/icons/storeIcon.png" strAlt="STORE" route="/store"/>
+              <ButtonMenuComponent @click="navigateToMyAttacks" imageSrc="src/assets/images/icons/swordIcon.png" strAlt="MY ATTACKS" route="/my-attacks"/>
+              <ButtonMenuComponent @click="navigateToGames" imageSrc="src/assets/images/icons/gamesIcon.png" strAlt="GAMES" route="/games"/>
             </div>
-
             <div class="logout">
-                <router-link to="/" class="link">
-                <div class="option">
-                    <img src="src/assets/images/icons/logout_9965863.png" alt="LogOut" class="icon">
-                    <span>LogOut</span>
-                </div>
-                </router-link>
+              <ButtonMenuComponent @click="logout" imageSrc="src/assets/images/icons/logout_9965863.png" strAlt="LOG OUT"/>
             </div>
         </div>
     </nav>
 </template>
 
 <style scoped>
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    align-items: center;
-    height: 100vh; 
-  }
+
   .menu {
     height: 100%;
     display: grid;
@@ -78,6 +63,7 @@ const selectedOption = route.name;
   .gameImage  {
     margin: 1vmax;
     width: 5vmax;
+    cursor: pointer;
   }
 
   .options {
@@ -93,63 +79,15 @@ const selectedOption = route.name;
     align-items: center;
   }
 
-  .option {
-    height: 5vmax;
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    justify-content: center;
-    align-items: center;
-
-  }
-
-  .option.selected { 
-    box-sizing: border-box;
-    background-color: #80547f;
-    color: white;
-  }
-
   .logout {
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .option:hover {
-    background: #80547f;
-    cursor: pointer;
-  }
-
-  .option:hover span{
-    color: white;
-  }
-
-  .icon {
-    width: 4vmax;
-    margin-right: 1vmax;
-    margin-left: 1vmax;
-    align-items: center;
-    justify-content: center;
-  }
-
-  span {
-    color: #362864;
-    font-size: 1.5vmax;
-  }
+  
 
   @media (max-width: 900px) {
-
-    .body {
-      height: 100%;
-      order: 1;
-    }
-
-    .coin {
-      display: block;
-      color: white;
-      justify-content: center;
-      align-items: center;
-    }
-
     .menu {
       height:fit-content;
       width: 100%;
@@ -173,25 +111,6 @@ const selectedOption = route.name;
       justify-content: space-around;
       flex-direction: row;
     }
-    .option {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      grid-template-columns: 1fr;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .icon {
-      display: flex;
-      width: 4vmax;
-    }
-
-    .option span {
-      display: none;
-    }
-
     .logout {
       display: none;
     }

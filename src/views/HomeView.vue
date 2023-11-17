@@ -1,6 +1,20 @@
-<script setup>
+<script>
   import LateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
+
+  export default {
+    components: {LateralMenu, Top},
+    data() {
+      return {
+        
+      }
+    },
+    methods: {
+      navigateToGamesAdministration() {
+        this.$router.push('/games-administration')
+      },
+    },
+  }
 </script>
 
 <template>
@@ -8,18 +22,13 @@
       <LateralMenu />
       <div class="body">
         <Top />
-
         <div class="center">
-          <h1 class="gameTitle">ROBOT</h1>
-          <h1 class="gameTitle">BATTLE</h1>
-          <h2 class="gameSubTitle">ARENA</h2>
-
-          <router-link to="/games-administration" class="link"> 
-            <button class="bPlay">PLAY</button>
-          </router-link>  
+          <h1>ROBOT</h1>
+          <h1>BATTLE</h1>
+          <h2>ARENA</h2>
+          <button @click="navigateToGamesAdministration" class="bPlay">PLAY</button>
         </div>
       </div>
-
     </div>
   </template>
 
@@ -37,7 +46,6 @@
     grid-template-rows: 1fr 8fr;
   }
 
-
   .center {
     display: flex;
     flex-direction: column;
@@ -46,12 +54,12 @@
     align-items: center;
   }
 
-  .gameTitle {
+  .center h1 {
     margin: 0;
     font-size: 4vmax;
   }
 
-  .gameSubTitle {
+  .center h2 {
     margin: 0;
     font-size: 3vmax;
   }
@@ -78,12 +86,9 @@
       grid-template-columns: 1fr;
       grid-template-rows: 8fr 1fr;
     }
-
     .body {
       height: 100%;
       order: 1;
     }
-}
-  
-</style>
-  
+  } 
+</style> 

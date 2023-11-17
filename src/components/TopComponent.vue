@@ -1,17 +1,27 @@
-<script setup>
+<script>
+  export default {
+    data () {
+      return {
+      }
+    },
+    methods: {
+      navigateToHome() {
+        this.$router.push('/home')
+      },
+      navigateToStore() {
+        this.$router.push('/store')
+      },
+    },
+  }
 </script>
 
 <template>
   <header class="top">
-    <router-link to="/home" class="link" id="logo">
-      <img src="..\assets\images\logoRobotArena.png" alt="Logo" class="logo">
-    </router-link>
-    <router-link to="/store" class="link" id="coins">
-            <div class="coins">
-              <img src="..\assets\images\icons\coinIcon.png" alt="Coins" class="icon">
-              <span class="coin">1000</span>
-            </div>
-    </router-link>
+    <img @click="navigateToHome" src="..\assets\images\logoRobotArena.png" alt="Logo" class="logo">
+    <div @click="navigateToStore" class="coins">
+      <img src="..\assets\images\icons\coinIcon.png" alt="Coins" class="icon">
+      <span>1000</span>
+    </div>
   </header>
 </template>
 
@@ -20,42 +30,25 @@
   .top {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    }
-
-    #logo {
-      width: 100%;
-      margin-left: 3vmax;
-      justify-self: flex-start;
-    } 
-
-    #logo img {
-      display: none;
-    }
-
-    #coins {
-      justify-self: flex-end;
-      margin-right: 4vmax;
-    }
-
-    #coins div {
-    margin-top: 1vmax;
-    color: white;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    justify-content: end;
-    align-items: center;
+    cursor: pointer;
   }
 
-  .coin {
-    color: white;
-    justify-content: center;
-    align-items: center;
+  .logo {
+    display: none;
   }
 
-  .icon {
+  .coins {
+    display: flex;
+    order: 2;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-right: 3vmax;
+  }
+
+  .coins img {
     width: 4vmax;
     margin-right: 1vmax;
     margin-left: 1vmax;
@@ -63,16 +56,27 @@
     justify-content: center;
   }
 
-  span {
-    color: #362864;
+  .coins span {
+    color: white;
     font-size: 1.5vmax;
   }
 
   @media (max-width:900px) {
 
-    #logo img {
+    .top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .logo {
       display: flex;
       width: 5vmax;
+      justify-self: flex-start;
+      margin-left: 3vmax;
+    }
+
+    .coins {
+      justify-self: flex-end;
     }
   }
 
