@@ -37,7 +37,8 @@
         input {
             background: transparent;
             color: white;
-            border: 0.1em solid white
+            border: none;
+            border-bottom: 0.1em solid #ffffff;
         }
 
         input:focus {

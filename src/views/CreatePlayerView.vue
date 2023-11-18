@@ -83,13 +83,19 @@
   }
 
   .dIteractive {
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
+    align-items: center;
+    justify-content: center;
   }
 
 
   .inputs {
     margin-top: 3vmax;
-    margin-left: 1vmax;
+    padding: 1vmax;
+    justify-content: center;
+    align-items: center;
   }
 
   .inputs img {
@@ -105,13 +111,18 @@
 
     .container {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 3fr;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
     .right {
+      height: 100%;
       display: grid;
       grid-template-rows: 1fr 5fr;
       width: 100%;
       background-color: #362864;
+      margin: 0%;
     }
 
     .right h1 {
@@ -119,20 +130,22 @@
       font-size: 1.5vmax;
     }
 
+    .inputs {
+      margin: 0;
+    }
     .dIteractive {
       height: 100%;
       display: flex;
       flex-direction: column;
-      align-items: start;
-      justify-content: start;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
     }
 
-    .inputs {
-      margin-top: 0vmax;
-    }
 
     .buttons {
       margin-top: 0.5vmax;
+      margin-bottom: 2vmax;
     }
 
     .inputs img {

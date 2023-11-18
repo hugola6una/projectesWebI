@@ -15,7 +15,7 @@
 
 <template>
     <div :class="{'option': true, 'selected': isSelected}">
-        <img :src="imageSrc" :alt="alt" class="icon">
+        <img :src="imageSrc" alt="" class="icon">
         <span :class="{'option': true, 'selected': isSelected}">{{ strAlt }}</span>
     </div>
 </template>

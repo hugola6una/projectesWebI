@@ -1,16 +1,23 @@
-<script setup>
-
+<script>
     import UserHisotricGame from '../components/ItemUserHistoricBattle.vue';
 
+    export default {
+        components: {UserHisotricGame},
+        props: {
+            match: Object,
+        },
+        methods: {
+        }
+    }
 </script>
 
 <template>
     <article class="match" > 
-        <UserHisotricGame />
+        <UserHisotricGame :player="match.player1"/>
         <h2>VS</h2>
-        <UserHisotricGame />
-        <p>8x8</p>
-        <p>DD/MM/YYYY</p>
+        <UserHisotricGame :player="match.player2"/>
+        <p>{{match.size}}x{{match.size}}</p>
+        <p>{{ match.date }}</p>
     </article>
 </template>
 

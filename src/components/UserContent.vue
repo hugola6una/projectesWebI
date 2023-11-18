@@ -1,62 +1,61 @@
-<script setup>
-    import { ref } from 'vue';
+<script>
+    import SelectorComponent from '../components/SelectorComponent.vue';
     import PlayerContent from '../components/PlayerContent.vue';
     import AttacksContent from '../components/AttacksContent.vue';
     import GamesContent from '../components/GamesContent.vue';
-    const contentToShow = ref('player');
+    import ButtonPurple from '../components/ButtonPurpleComponent.vue';
 
-    function showContent(contentType) {
-    contentToShow.value = contentType;
-    }
+  export default {
+    components: {SelectorComponent, PlayerContent, AttacksContent, GamesContent, ButtonPurple},
+    data() {
+      return {
+        contentToShow: 'player'
+      }
+    },
+    methods: {
+      activeButton(option) {
+        this.contentToShow = option;
+      },
+      deleteUser() {
+        this.$router.push('/')
+      },
+      cancelDelete() {
+        this.contentToShow = 'player';
+      }
+    },
+  }
 </script>
 
 <template>
     <section class="center">
-          <nav class="userSelectors">
-            <div class="userOptions">
-              <button @click="showContent('player')" :class="{ active: contentToShow === 'player' }">
-                <img src="../assets/images/icons/playerdefault.png" alt="User" class="iUser">
-                <span>Player</span>
-              </button>
-              <button @click="showContent('attacks')" :class="{ active: contentToShow === 'attacks' }">
-                <img src="../assets/images/icons/swordIcon.png" alt="Attacks" class="iSword">
-                <span>Attacks</span>
-              </button>
-              <button @click="showContent('games')" :class="{ active: contentToShow === 'games' }">
-                <img src="..\assets\images\icons\historicGamesIcon.png" alt="Games" class="iArchive">
-                <span>Games</span>
-              </button>
+      <nav class="userSelectors">
+        <div class="userOptions">
+          <SelectorComponent @click="activeButton('player')" imageSrc="src/assets/images/icons/userIcon.png" strAlt="Player" :isSelected="contentToShow === 'player'"/>
+          <SelectorComponent @click="activeButton('attacks')" imageSrc="src/assets/images/icons/swordIcon.png" strAlt="Attacks" :isSelected="contentToShow === 'attacks'"/>
+          <SelectorComponent @click="activeButton('games')" imageSrc="src/assets/images/icons/historicGamesIcon.png" strAlt="Games" :isSelected="contentToShow === 'games'"/>
+        </div>
+        <div class="trashOption">
+          <button class="bTrash" @click="activeButton('trash')">
+            <img src="..\assets\images\icons\trashIcon.png" alt="Trash" class="iTrash">
+          </button>
+        </div>
+      </nav>
+      <article>
+        <PlayerContent v-if="contentToShow === 'player'"/>
+        <AttacksContent v-else-if="contentToShow === 'attacks'"/>
+        <GamesContent v-else-if="contentToShow === 'games'"/>
+        <article v-else class="trashContent">
+            <h1>DELETE USER</h1>
+            <h3>ARE YOU SURE YOU WANT TO DELETE “USER”?</h3>
+            <p>All player-related information will be deleted</p>
+            <div class="bTrashOptions">
+              <ButtonPurple buttonText="CONFIRM" @click="deleteUser"/>
+              <ButtonPurple buttonText="CANCEL" @click="cancelDelete"/>
             </div>
-            <div class="trashOption">
-              <button class="bTrash" @click="showContent('trash')">
-                <img src="..\assets\images\icons\trashIcon.png" alt="Trash" class="iTrash">
-              </button>
-            </div>
-          </nav>
-          <article class="userContent">
-            <div v-if="contentToShow === 'player'" class="userContent">
-              <PlayerContent />
-            </div>
-            <div v-else-if="contentToShow === 'attacks'" class="userContent">
-              <AttacksContent />  
-            </div>
-            <div v-else-if="contentToShow === 'games'" class="userContent">
-              <GamesContent />
-            </div>
-            <div v-else class="trashContent">
-              <h2>ARE YOU SURE YOU WANT TO DELETE "USER"?</h2>
-              <p>All player-related information will be automaticly delated.</p>
-              <div class="deleteOptions">
-                <router-link to="/" class="link">
-                  <button>Confirm</button>
-                </router-link>
-                <button @click="showContent('player')">
-                  Cancel
-                </button> 
-              </div>
-            </div>  
-          </article>
-        </section>
+            
+        </article>
+      </article>
+    </section>
 </template>
 
 <style scoped>
@@ -65,7 +64,6 @@
         grid-template-rows: 1fr 8fr;
         height: 100%;
     }
-
     .userSelectors {
         display: grid;
         grid-template-columns: 4fr 1fr;
@@ -78,133 +76,84 @@
         align-items: center;
         margin-left: 3.3vh;
     }
-
     .trashOption {
-        display: flex;
-        width: 2vmax;
+      display: flex;
+      width: 2vmax;
+      height: 5vmax;
+      justify-self: flex-start;
+      align-items: center;
     }
 
-    button {
-        border: 0.1em solid #362864;
-        height: 5vmax;
-        width: 15vmax;
-        font-size: 1.3vmax;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-    }
-
-    button.active {
-        background: #80547f;
-        color: white;
-    }
-
-    .iUser {
-        width: 4vmax;
-        margin-right: 1vmax;
-    }
-
-    .iSword {
-        width: 3.5vmax;
-        margin-right: 1vmax;
-    }
-
-    .iArchive {
-        width: 3vmax;
-        margin-right: 1vmax;
-    }
-
-    .other {
-        display: flex;
-        justify-content: center;
-        align-items: end;
-    }
-
-    .iTrash {
+    .trashOption img {
         width: 4vmax;
     }
 
-    .bTrash {
+    .trashOption button {
+        background: none;
+        border: none;
+    }
+
+    .trashOption button.active {
         background: none;
     }
 
-    .bTrash.active {
-        background: none;
-    }
-
-    .userContent {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-
-    }
-    .bOptions button {
-        background-color: #362864;
-        color: white;
-        margin: 1vmax;
+    article {
+      display: flex;
+      background: white;
+      margin: 2vmax;
+      overflow-y: auto;
     }
 
     .trashContent {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        background-color: white;
-        color: #362864;
-        width: 100%;
-        margin: 2vmax;
-        padding: 2vmax;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
 
-    .trashContent h2 {
-        font-size: 3vmax;
+    .trashContent h1 {
+      color: #362864;
+      font-size: 3vmax;
+    }
+
+    .trashContent h3 {
+      color: #362864;
+      font-size: 2vmax;
     }
 
     .trashContent p {
-        font-size: 1vmax;
+      color: #362864;
+      font-size: 1.5vmax;
     }
 
     .trashContent button {
-        display: inline-flex;
-        background-color: #362864;
-        color: white;
-        margin: 2vmax;
+      margin-top: 2vmax;
+      display: flex;
+      width: 15vmax;
+      flex-direction: row;
+      margin: 4vmax;
     }
+
+    .bTrashOptions {
+      display: flex;
+    }
+
 
     @media (max-width: 900px) {
+      .userOptions {
+        margin-left: 2vmax;
+      }
 
-    .menu {
-      align-items: end;
-      justify-content: center;
+      .userOptions span {
+        display: none;
+      }   
+
+      .trashContent button {
+        background-color: #362864;
+        color: white;
+      }
+
     }
-
-    .body {
-      height: 100%;
-      order: 1;
-    }
-
-    .userContent {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    .userOptions {
-      margin-left: 2vh;
-    }
-
-    .userOptions span {
-      display: none;
-    }
-
-    button {
-      width: 8vmax;
-    }
-
-    
-  
-  }
 </style>

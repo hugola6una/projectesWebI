@@ -1,9 +1,18 @@
-<script setup>
+<script>
     // Per refenciar variables
   import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
   import UserContent from '../components/UserContent.vue';
 
+  export default {
+    components: {lateralMenu, Top, UserContent},
+    data() {
+      return {
+      }
+    },
+    methods: {
+    },
+  }
 </script>
 
 <template>
@@ -18,7 +27,7 @@
 </template>
 
 <style scoped>
-    .container {
+  .container {
     display: grid;
     grid-template-columns: 1fr 4fr;
     align-items: center;
@@ -33,17 +42,12 @@
     grid-template-rows: 1fr 8fr;
   }
 
-
-  
-
   @media (max-width: 900px) {
     .container {
       grid-template-columns: 1fr;
       display: flex;
       flex-direction: column;
-
     }
-
     .menu {
       align-items: end;
       justify-content: center;

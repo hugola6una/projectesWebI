@@ -91,20 +91,18 @@
       grid-template-rows: 1fr 4fr;
       width: 100%;
       background-color: #362864;
+      align-items: start;
     }
 
     .right h1 {
-      margin-top: 4vmax;
-      font-size: 4vmax;
+      font-size: 3vmax;
       color: white;
     }
 
     .dIteractive {
-      height: 100%;
+      align-self: self-start;
       display: flex;
       flex-direction: column;
-      align-items: start;
-      justify-content: start;
     }
 
     .inputs {
@@ -115,7 +113,7 @@
     }  
 
     .bBig {
-      height: 5vmax;  
+      height: 5vmax;
     }
   }
 </style>

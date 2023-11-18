@@ -1,29 +1,46 @@
-<script setup></script>
+<script>
+    export default {
+        data() {
+            return {
+                userName: 'Player',
+                userLevel: 1,
+                userXP: 250,
+                userMaxXP: 500,
+                imageSrc: 'src/assets/images/icons/userIcon.png',
+            }
+        },
+        computed: {
+            progressBarWidth() {
+                return (this.userXP * 100) / this.userMaxXP
+            }
+        }
+        
+    }
+</script>
 
 <template>
     <article class="playerContent">
-        <img src="..\assets\images\icons\userIcon.png" alt="userPhoto"/>
-        <h1>Player</h1>
+        <img :src="imageSrc" alt="userPhoto"/>
+        <h1>{{ userName }}</h1>
         <div class="level">
             <div class="progressBarContainer">
-                <div class="progressBar"></div>
+                <div class="progressBar" :style="{ width: progressBarWidth + '%'}"></div>
             </div>
-            <p>Lvl. X</p>
+            <p>Lvl. {{ userLevel }}</p>
         </div>
-        <p>55 / 100</p>
+        <p>{{userXP}} / {{ userMaxXP }}</p>
     </article>
 </template>
 
 <style scoped>
 
 .playerContent {
-    margin: 2vmax;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    background-color: white;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    background-color: white;
 }
 .playerContent img {
     margin-top: 4vmax;
@@ -54,7 +71,6 @@
 .progressBar {
     display: flex;
     height: 1.5vmax;
-    width: 50%; /* Ho fem % per el futur joc*/
     margin: 1vmax;
     background-color: white;
 }
@@ -66,10 +82,7 @@
 }
 
 
-@media (max-width: 820px) { 
-    .playerContent {
-        
-    }
+@media (max-width: 900px) { 
 }
 
 </style>

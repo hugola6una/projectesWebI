@@ -36,6 +36,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
+    justify-content: center;
     height: 100vh;
     
   }
@@ -48,15 +49,20 @@
     align-items: center;
   }
 
+  button {
+    height: 8vmax;
+    font-size: 2.5vmax;
+  }
+
   @media (max-width: 900px) {
     .container {
       grid-template-columns: 1fr;
-      grid-template-rows: 2fr 1fr;
+      grid-template-rows: 1fr 1fr;
     }
     .right {
       background-color: #362864;
       text-align: center;
-      justify-content: center;
+      justify-content: start;
       align-items: center;
     }
     
