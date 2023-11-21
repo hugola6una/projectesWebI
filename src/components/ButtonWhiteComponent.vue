@@ -17,11 +17,11 @@
         align-items: center;
         display: flex;
         background: none;
-        margin-top: 1vmax;
-        width: 35vmax;
-        height: 4vmax;
+        margin-top: 1vh;
+        width: 35vh;
+        height: 4vh;
         border: 0.1em solid #362864;
-        font-size: 1.5vmax;
+        font-size: 1.5vh;
         box-sizing: border-box;
     }
 

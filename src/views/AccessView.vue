@@ -50,7 +50,7 @@
   }
 
   button {
-    height: 8vmax;
+    height: 8vh;
     font-size: 2.5vmax;
   }
 

@@ -63,7 +63,7 @@ const router = createRouter({
       name: 'games',
       component: GamesView
     },
-   {
+    {
       path: '/play/:name/:size/:hp',
       name: 'play',
       component: PlayView,

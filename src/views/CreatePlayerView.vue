@@ -50,14 +50,14 @@
 <style scoped>
 
   button {
-    height: 4vmax;
-    width: 35vmax;
+    height: 4vh;
+    width: 35vh;
   }
 
   .bBig {
-    height: 8vmax;
-    width: 35vmax;
-    font-size: 2.2vmax;
+    height: 8vh;
+    width: 35vh;
+    font-size: 2.2vh;
   }
 
 

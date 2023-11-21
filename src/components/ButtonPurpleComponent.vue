@@ -17,11 +17,11 @@
         display: flex;
         background: #362864;
         color: white;
-        margin-top: 1vmax;
-        width: 35vmax;
-        height: 4vmax;
+        margin-top: 1vh;
+        width: 35vh;
+        height: 4vh;
         border: none;
-        font-size: 1.5vmax;
+        font-size: 1.5vh;
         box-sizing: border-box;
     }
 
