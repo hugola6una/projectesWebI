@@ -1,6 +1,5 @@
 <script setup>
   import { ref } from 'vue';  // Per refenciar variables
-  import router from '../router';
   import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
   import CreateGameContent from '../components/CreateGameContent.vue';

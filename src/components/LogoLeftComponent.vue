@@ -1,19 +1,19 @@
-<script>
+<script setup>
 </script>
 
 <template>
-    <div class="left">
+    <div class="logo">
         <img src="../assets/images/logoRobotArena.png" alt="Logo">
         <div class="titles">
-          <h1>ROBOT</h1>
-          <h1>BATTLE</h1>
-          <h2>ARENA</h2>
+            <h1>ROBOT</h1>
+            <h1>BATTLE</h1>
+            <h2>ARENA</h2>
         </div>
     </div>
 </template>
 
 <style scoped>
-    .left {
+    .logo {
         height: 100%;
         color: white;
         display: flex;
@@ -27,34 +27,35 @@
         text-align: center;
     }
 
-    .left img {
-        width: 20vmax;
+    .logo img {
+        width: 30vh;
     }
 
     .titles h1 {
         margin: 0;
-        font-size: 4vmax;
+        font-size: 7vh;
     }
 
     .titles h2 {
         margin: 0;
-        font-size: 3vmax;
+        font-size: 6vh;
     }
 
     @media (max-width: 900px) {
-        .left {
+        .logo {
             width: 100%;
             background: #362864;
+            padding-top: 10vh;
             text-align: center;
             justify-content: center;
         }
 
-        .left img {
-            width: 5vmax;
+        .logo img {
+            width: 15vh;
         }
 
-        .left h1 {
-            font-size: 2vmax;
+        .logo h1 {
+            font-size: 6vh;
         }
         
     }

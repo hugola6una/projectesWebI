@@ -1,164 +1,197 @@
-<script>
-  import LogoLeftComponent from '@/components/LogoLeftComponent.vue'
-  import ButtonPurpleComponent from '@/components/ButtonPurpleComponent.vue';
+<script setup>
+  import { useRouter } from 'vue-router';
+  import { ref } from 'vue';
+
+  // Componentes
+  import LogoLeftComponent from '@/components/LogoLeftComponent.vue';
   import ButtonWhiteComponent from '@/components/ButtonWhiteComponent.vue';
   import InputComponent from '@/components/InputComponent.vue';
 
-  export default {
-    components: {LogoLeftComponent, ButtonPurpleComponent, ButtonWhiteComponent, InputComponent},
-    data() {
-      return {
-        strCreatePlayer: 'CREATE PLAYER',
-        strHaveAPlayer: 'I HAVE A PLAYER'
+  // Variables
+  const router = useRouter();
+  const strCreatePlayer = ref('CREATE');
+  const strHaveAPlayer = ref('I HAVE A PLAYER');
+
+  // Variables de error
+  const errors = {
+    name: ref({ value: false, message: '' }),
+    password: ref({ value: false, message: '' }),
+    passwordConfirm: ref({ value: false, message: '' }),
+  };
+
+  Object.values(errors).forEach(error => {
+      error.value = false;
+      error.message = '';
+    });
+
+  const formData = {
+    name: ref(""),
+    password: ref(""),
+    passwordConfirm: ref(""),
+    imgPath: ref("src/assets/images/addProfilePhoto.png"),
+  };
+
+  // Inicialitza
+  formData.name = "";
+  formData.password = "";
+  formData.passwordConfirm = "";
+
+  // Funciones
+  // Navigation
+  const navigateToHaveAPlayer = () => {
+    router.push('/login-player');
+  };
+
+  // Update
+  function updateModel (value, field)  {
+    console.log(value, field);
+    formData[field] = value;
+    updateError(field);
+  };
+
+  function updateError (field) {
+    switch (field) {
+      case 'name':
+        errors.name.value = false;
+        break;
+      case 'password':
+        errors.password.value = false;
+        break;
+      case 'passwordConfirm':
+        errors.passwordConfirm.value = false;
+        break;
+      default:
+      break;
+    }
+  };
+
+  const createPlayer = () => {
+    // localStorage.setItem('username', formData.name); // Guardar en local storage
+    router.push('/home');
+  };
+
+  const handleSubmit = () => {
+      // Comprova camp no buit
+      if (!formData.name) {
+        errors.name.value = true;
+        errors.name.message = "Missing Name";
+      } 
+
+      // Comprova camp no buit
+      if (formData.passwordConfirm !== formData.password) {
+        errors.password.value = true;
+        errors.passwordConfirm.value = true;
+        errors.password.message = "Passwords don't match";
+        errors.passwordConfirm.message = "Passwords don't match";
       }
-    },
-    methods: {
-      navigateToHaveAPlayer() {
-        this.$router.push('/login-player')
-      },
-      navigateToCreatePlayer() {
-        this.$router.push('/home')
-      },
-    },
-  }
+
+      // Comprova camp no buit
+      if (!formData.password) {
+        errors.password.value = true;
+        errors.password.message = "Missing Password";
+      }
+
+      // Comprova camp no buit
+      if (!formData.passwordConfirm) {
+        errors.passwordConfirm.value = true;
+        errors.passwordConfirm.message = "Missing Password Confirmation";
+      }
+
+      // Agafa l'error en cas d'exitir
+      if (Object.values(errors).some(error => error.value)) {
+        return;
+      }
+      // ! Comprovar que no existeixi el jugador
+      createPlayer();
+  };
+  // Other
 
 </script>
 
 <template>
-  <div class="container">
     <LogoLeftComponent />
-    <div class="right">
+    <form class="player_cretion_form" @submit.prevent="handleSubmit">
       <h1>CREATE PLAYER</h1>
-      <div class="dIteractive">
-        <div class="inputs">
-          <img src="..\assets\images\addProfilePhoto.png" alt="Logo" class="addProfilePhoto">
-          <form>
-            <InputComponent inputType="text" inputPlaceholder="Name" />
-            <InputComponent inputType="password" inputPlaceholder="Password" />
-            <InputComponent inputType="password" inputPlaceholder="Confirm Password" />
-          </form>    
-        </div>
-        <div class="buttons">
-          <ButtonWhiteComponent :buttonText="strHaveAPlayer" @click="navigateToHaveAPlayer"/>
-          <ButtonPurpleComponent :buttonText="strCreatePlayer" @click="navigateToCreatePlayer" class="bBig"/>
-        </div>
-      </div>
-    </div>
-  </div>
+      <img :src="formData.imgPath.value" alt="Logo" class="addProfilePhoto"><!-- ! Falta fer afigr etc etc -->
+      
+      <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
+      <InputComponent inputType="password" inputPlaceholder="Password" :error="errors.password.value" :msgError="errors.password.message" @update:modelValue="(value) => updateModel(value, 'password')"/>
+      <InputComponent inputType="password" inputPlaceholder="Confirm Password" :error="errors.passwordConfirm.value" :msgError="errors.passwordConfirm.message" @update:modelValue="(value) => updateModel(value, 'passwordConfirm')"/>
+      
+      <ButtonWhiteComponent :buttonText="strHaveAPlayer" @click="navigateToHaveAPlayer"/>
+      <input type="submit" :value="strCreatePlayer" class="submitPlayer">
+    </form>
 </template>
 
 <style scoped>
-
-  button {
-    height: 4vh;
-    width: 35vh;
-  }
-
-  .bBig {
-    height: 8vh;
-    width: 35vh;
-    font-size: 2.2vh;
-  }
-
-
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    height: 100vh;  
-  }
-
-  .right {
-    height: 100%;
+  form {
     display: flex;
     flex-direction: column;
     text-align: center;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
   }
 
-  .right h1 {
-    font-size: 3vmax;
+  form h1 {
+    font-size: 4vh;
     color: #362864;
   }
 
-  .dIteractive {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    align-items: center;
-    justify-content: center;
+  form img {
+    width: 20vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
   }
 
-
-  .inputs {
-    margin-top: 3vmax;
-    padding: 1vmax;
-    justify-content: center;
-    align-items: center;
+  button {
+    margin-top: 8vh;
   }
 
-  .inputs img {
-    margin-top: 0vmax;
-    width: 12vmax;
+  .submitPlayer {
+    background: #362864;
+    color: white;
+    border: 0.1vh solid white;
+    width: 35vh;
+    height: 8vh;
+    font-size: 2.5vh;
+    margin-top: 2vh;
+    box-sizing: border-box;
+    padding: 1vh;
   }
 
-  .buttons {
-    margin-top: 2vmax;
-  }  
+  .submitPlayer:hover {
+    background: #80547f;
+    color: white;
+  }
+  
 
   @media (max-width: 900px) {
 
-    .container {
-      grid-template-columns: 1fr;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .right {
-      height: 100%;
-      display: grid;
-      grid-template-rows: 1fr 5fr;
-      width: 100%;
+    form {
       background-color: #362864;
-      margin: 0%;
     }
 
-    .right h1 {
-      color: white;
-      font-size: 1.5vmax;
-    }
-
-    .inputs {
-      margin: 0;
-    }
-    .dIteractive {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
+    form h1 {
+      display: none;
     }
 
 
-    .buttons {
-      margin-top: 0.5vmax;
-      margin-bottom: 2vmax;
+    form img {
+      margin-top: 4vh;
+      width: 10vh;
     }
 
-    .inputs img {
-      margin-top: 0;
-      width: 8vmax;
+    button {
+      margin-top: 4vh;
     }
 
-    .bBig {
-      height: 5vmax;  
+    .submitPlayer {
+      background-color: white;
+      color: #362864;
+      margin-bottom: 12vh;
     }
-
-
-    
     
   }
 </style>

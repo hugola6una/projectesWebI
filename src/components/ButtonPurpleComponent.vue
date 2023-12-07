@@ -1,9 +1,7 @@
-<script>
-    export default {
-        props: {
-            buttonText: String
-        }
-    }
+<script setup>
+    import {defineProps} from 'vue'
+    defineProps(['buttonText'])
+    
 </script>
 
 <template>

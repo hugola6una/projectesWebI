@@ -1,46 +1,37 @@
-<script>
+<script setup>
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+
   import LogoLeftComponent from '@/components/LogoLeftComponent.vue'
   import ButtonPurpleComponent from '@/components/ButtonPurpleComponent.vue';
-  
-  export default {
-    components: {LogoLeftComponent, ButtonPurpleComponent},
-    data() {
-      return {
-        strCreatePlayer: 'CREATE PLAYER',
-        strHaveAPlayer: 'I HAVE A PLAYER'
-      }
-    },
-    methods: {
-      navigateToCreatePlayer() {
-        this.$router.push('/create-player')
-      },
-      navigateToHaveAPlayer() {
-        this.$router.push('/login-player')
-      }
-    },
+
+  const router = useRouter();
+
+  const strCreatePlayer = ref("CREATE PLAYER");
+  const strHaveAPlayer = ref("I HAVE A PLAYER");
+
+  function navigateToCreatePlayer () {
+    router.push('/create-player')
   }
+
+  function navigateToHaveAPlayer () {
+    router.push('/login-player')
+  }
+
 </script>
 
 <template>
-  <div class="container">
     <LogoLeftComponent />
-    <div class="right">
+    <div class="accessOptions">
       <ButtonPurpleComponent @click="navigateToCreatePlayer" :buttonText="strCreatePlayer" />
       <ButtonPurpleComponent @click="navigateToHaveAPlayer" :buttonText="strHaveAPlayer" />
     </div>
-  </div>
 </template>
 
 <style scoped>
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
     
-  }
-  .right {
+  .accessOptions {
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -50,17 +41,14 @@
   }
 
   button {
-    height: 8vh;
-    font-size: 2.5vmax;
+    height: 10vh;
+    font-size: 3vh;
   }
 
   @media (max-width: 900px) {
-    .container {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr;
-    }
-    .right {
+    .accessOptions{
       background-color: #362864;
+      padding-top: 10vh;
       text-align: center;
       justify-content: start;
       align-items: center;

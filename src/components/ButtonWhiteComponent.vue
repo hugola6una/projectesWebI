@@ -1,14 +1,12 @@
-<script>
-    export default {
-        props: {
-            buttonText: String
-        }
-    }
-    
+<script setup>
+    // Librairies
+    import { defineProps } from 'vue'
+
+    defineProps(['buttonText'])
 </script>
 
 <template>
-    <button>{{ buttonText }}</button>
+    <button type="button">{{ buttonText }}</button>
 </template>
 
 <style scoped>
@@ -23,6 +21,7 @@
         border: 0.1em solid #362864;
         font-size: 1.5vh;
         box-sizing: border-box;
+        color: #362864;
     }
 
     button:hover {
@@ -34,7 +33,7 @@
         button {
             background: #362864;
             color: white;
-            border: 0.1em solid white
+            border: 0.1vh solid white
         } 
     }
 </style>
