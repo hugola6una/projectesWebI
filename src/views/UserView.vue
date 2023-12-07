@@ -30,22 +30,21 @@
 </script>
 
 <template>
-  <div class="container">    
-    <lateralMenu />
-    <div class="body">
-        <Top />
-        <section class="center">
-          <nav class="userSelectors">
-            <div class="userOptions">
-              <SelectorComponent @click="activeButton('player')" imageSrc="src/assets/images/icons/userIcon.png" strAlt="Player" :isSelected="contentToShow === 'player'"/>
-              <SelectorComponent @click="activeButton('attacks')" imageSrc="src/assets/images/icons/swordIcon.png" strAlt="Attacks" :isSelected="contentToShow === 'attacks'"/>
-              <SelectorComponent @click="activeButton('games')" imageSrc="src/assets/images/icons/historicGamesIcon.png" strAlt="Games" :isSelected="contentToShow === 'games'"/>
-            </div>
-            <div class="trashOption">
-              <button class="bTrash" @click="activeButton('trash')">
-                <img src="..\assets\images\icons\trashIcon.png" alt="Trash" class="iTrash">
-              </button>
-            </div>
+  <lateralMenu />
+  <div class="body">
+    <Top />
+    <section class="center">
+      <nav class="userSelectors">
+        <div class="userOptions">
+          <SelectorComponent @click="activeButton('player')" imageSrc="src/assets/images/icons/userIcon.png" strAlt="Player" :isSelected="contentToShow === 'player'"/>
+          <SelectorComponent @click="activeButton('attacks')" imageSrc="src/assets/images/icons/swordIcon.png" strAlt="Attacks" :isSelected="contentToShow === 'attacks'"/>
+          <SelectorComponent @click="activeButton('games')" imageSrc="src/assets/images/icons/historicGamesIcon.png" strAlt="Games" :isSelected="contentToShow === 'games'"/>
+        </div>
+        <div class="trashOption">
+          <button class="bTrash" @click="activeButton('trash')">
+            <img src="..\assets\images\icons\trashIcon.png" alt="Trash" class="iTrash">
+          </button>
+        </div>
           </nav>
           <article>
             <PlayerContent v-if="contentToShow === 'player'"/>
@@ -64,8 +63,6 @@
           </article>
         </section>
     </div>
-  </div>
-  
 </template>
 
 <style scoped>

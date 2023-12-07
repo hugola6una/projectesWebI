@@ -35,9 +35,7 @@ const closePopup = () => {
 
 </script>
 
-<template>
- <div class="container">
-      
+<template>      
       <lateralMenu />
       <div class="body">
         <Top />
@@ -57,9 +55,7 @@ const closePopup = () => {
           <button @click="createButtonClick">CREATE</button>
         </div>
         <MyAttacksPopUp v-if="showPopup" @closed="closePopup" />
-      </div>
-    </div>
-  
+      </div>  
 </template>
 
 <style scoped>

@@ -18,29 +18,23 @@
 </script>
 
 <template>
-    <div class="container">
-      <LateralMenu />
-      <div class="body">
-        <Top />
-        <div class="center">
-          <h1>ROBOT</h1>
-          <h1>BATTLE</h1>
-          <h2>ARENA</h2>
-          <button @click="navigateToGamesAdministration" class="bPlay">PLAY</button>
-        </div>
-      </div>
+    
+  <LateralMenu />
+  <div class="body">
+    <Top />
+    <div class="center">
+      <h1>ROBOT</h1>
+      <h1>BATTLE</h1>
+      <h2>ARENA</h2>
+      <button @click="navigateToGamesAdministration" class="bPlay">PLAY</button>
     </div>
-  </template>
+  </div>
+</template>
 
 <style scoped>
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    align-items: center;
-    height: 100vh; 
-  }
   .body {
     height: 100%;
+    width: 100%;
     background: #362864;
     display: grid;
     grid-template-rows: 1fr 8fr;
@@ -82,10 +76,6 @@
   }
 
   @media (max-width: 900px) {
-    .container {
-      grid-template-columns: 1fr;
-      grid-template-rows: 8fr 1fr;
-    }
     .body {
       height: 100%;
       order: 1;

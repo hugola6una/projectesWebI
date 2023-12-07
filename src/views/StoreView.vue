@@ -13,8 +13,7 @@
 
 </script>
 
-<template>
-  <div class="container">    
+<template>  
     <lateralMenu />
     <div class="body">
         <Top />
@@ -33,8 +32,6 @@
           </article>
         </section>
     </div>
-  </div>
-  
 </template>
 
 <style scoped>

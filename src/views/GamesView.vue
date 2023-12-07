@@ -12,8 +12,6 @@ function showContent(contentType) {
 </script>
 
 <template>
- <div class="container">
-      
       <lateralMenu />
       <div class="body">
         <Top />
@@ -42,9 +40,6 @@ function showContent(contentType) {
         </article>
         </section>
       </div>
-
-    </div>
-  
 </template>
 
 <style scoped>
