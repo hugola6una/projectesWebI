@@ -2,6 +2,7 @@
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
 
+
   // Componentes
   import LogoLeftComponent from '@/components/LogoLeftComponent.vue';
   import ButtonWhiteComponent from '@/components/ButtonWhiteComponent.vue';
@@ -25,16 +26,17 @@
     });
 
   const formData = {
-    name: ref(""),
-    password: ref(""),
-    passwordConfirm: ref(""),
-    imgPath: ref("src/assets/images/addProfilePhoto.png"),
+    name: ref(''),
+    password: ref(''),
+    passwordConfirm: ref(''),
+    imgPath: ref(''),
   };
 
   // Inicialitza
   formData.name = "";
   formData.password = "";
   formData.passwordConfirm = "";
+  formData.imgPath = "src/assets/images/addProfilePhoto.png";
 
   // Funciones
   // Navigation
@@ -42,7 +44,7 @@
     router.push('/login-player');
   };
 
-  // Update
+  // Update Erros and Model
   function updateModel (value, field)  {
     console.log(value, field);
     formData[field] = value;
@@ -65,6 +67,14 @@
     }
   };
 
+  // Change Image // Falta acualitzar la imatge
+  const changeImage = () => {
+    const newImagePath = prompt("Enter the URL of the new image:");
+    if (newImagePath) {
+      formData.imgPath = newImagePath;
+    }
+  };
+  // Other
   const createPlayer = () => {
     // localStorage.setItem('username', formData.name); // Guardar en local storage
     router.push('/home');
@@ -104,7 +114,7 @@
       // ! Comprovar que no existeixi el jugador
       createPlayer();
   };
-  // Other
+  
 
 </script>
 
@@ -112,7 +122,8 @@
     <LogoLeftComponent />
     <form class="player_cretion_form" @submit.prevent="handleSubmit">
       <h1>CREATE PLAYER</h1>
-      <img :src="formData.imgPath.value" alt="Logo" class="addProfilePhoto"><!-- ! Falta fer afigr etc etc -->
+      <img :src="formData.imgPath" alt="Logo" class="addProfilePhoto" @click="changeImage">
+
       
       <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
       <InputComponent inputType="password" inputPlaceholder="Password" :error="errors.password.value" :msgError="errors.password.message" @update:modelValue="(value) => updateModel(value, 'password')"/>
