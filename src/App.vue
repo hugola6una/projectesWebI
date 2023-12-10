@@ -2,6 +2,8 @@
     import { ref, onMounted, watch } from 'vue';
     import { useRoute } from 'vue-router';
 
+    import LateralMenu from '@/components/LateralMenu.vue';
+
     const route = useRoute();
 
     const isAccessView = ref(true);
@@ -25,6 +27,7 @@
 
 <template>
     <div :class="{ 'container': true ,'accessContainer': isAccessView, 'homeContainer': isHomeView}">
+        <LateralMenu v-if="isHomeView"/>
         <RouterView />
     </div>
 </template>

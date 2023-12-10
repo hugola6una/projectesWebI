@@ -48,7 +48,6 @@
 
   // Other
   function updateModel (value, field)  {
-    console.log(value, field);
     formData[field] = value;
     updateError(field);
   };

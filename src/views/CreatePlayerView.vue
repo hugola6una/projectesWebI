@@ -46,7 +46,6 @@
 
   // Update Erros and Model
   function updateModel (value, field)  {
-    console.log(value, field);
     formData[field] = value;
     updateError(field);
   };
@@ -111,8 +110,33 @@
       if (Object.values(errors).some(error => error.value)) {
         return;
       }
-      // ! Comprovar que no existeixi el jugador
-      createPlayer();
+    //   const playerData = {
+    //    name: formData.name,
+    //    password: formData.password,
+    //    img: formData.imgPath,
+    //   };
+
+
+    // fetch("http://balandrau.salle.url.edu/players", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(playerData),
+    // })
+    //   .then(res => {
+    //     if (!res.ok) {
+    //       throw new Error("Error al crear el jugador");
+    //     }
+    //     return res.json();
+    //   })
+    //   .then(data => {
+    //     console.log(data);
+    //     createPlayer();
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
   
 

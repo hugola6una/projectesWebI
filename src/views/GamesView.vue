@@ -12,7 +12,6 @@ function showContent(contentType) {
 </script>
 
 <template>
-      <lateralMenu />
       <div class="body">
         <Top />
         <section class="center">

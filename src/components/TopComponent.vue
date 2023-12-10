@@ -1,27 +1,28 @@
-<script>
-  export default {
-    data () {
-      return {
-      }
-    },
-    methods: {
-      navigateToHome() {
-        this.$router.push('/home')
-      },
-      navigateToStore() {
-        this.$router.push('/store')
-      },
-    },
+<script setup>
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+
+  const coins = ref(1000);
+
+  function navigateToHome() {
+    router.push('/home');
   }
+
+  function navigateToStore() {
+    router.push('/store');
+  }
+
 </script>
 
 <template>
   <header class="top">
     <img @click="navigateToHome" src="..\assets\images\logoRobotArena.png" alt="Logo" class="logo">
-    <div @click="navigateToStore" class="coins">
+    <aside @click="navigateToStore" class="coins">
       <img src="..\assets\images\icons\coinIcon.png" alt="Coins" class="icon">
-      <span>1000</span>
-    </div>
+      <span>{{coins}}</span>
+    </aside>
   </header>
 </template>
 
@@ -32,11 +33,11 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    cursor: pointer;
   }
 
   .logo {
     display: none;
+    cursor: pointer;
   }
 
   .coins {
@@ -45,20 +46,21 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-    margin-right: 3vmax;
+    margin-right: 8vh;
+    cursor: pointer;
   }
 
   .coins img {
-    width: 4vmax;
-    margin-right: 1vmax;
-    margin-left: 1vmax;
+    width: 7vh;
+    margin-right: 2vh;
+    margin-left: 2vh;
     align-items: center;
     justify-content: center;
   }
 
   .coins span {
     color: white;
-    font-size: 1.5vmax;
+    font-size: 2.5vh;
   }
 
   @media (max-width:900px) {
@@ -70,13 +72,15 @@
 
     .logo {
       display: flex;
-      width: 5vmax;
+      width: 5vh;
       justify-self: flex-start;
-      margin-left: 3vmax;
+      margin-left: 3vh;
     }
 
     .coins {
       justify-self: flex-end;
+      margin: 0;
+      margin-right: 2vh;
     }
   }
 

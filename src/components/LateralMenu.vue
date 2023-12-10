@@ -1,36 +1,37 @@
-<script>
+<script setup>
+  import { useRouter } from 'vue-router';
   import ButtonMenuComponent from '../components/ButtonMenuComponent.vue';
 
-  export default {
-    components: {ButtonMenuComponent},
-    data() {
-      return {
-      }
-    },
-    methods: {
-      navigateToHome() {
-        this.$router.push('/home')
-      },
-      navigateToUser() {
-        this.$router.push('/user')
-      },
-      navigateToRanking() {
-        this.$router.push('/ranking')
-      },
-      navigateToStore() {
-        this.$router.push('/store')
-      },
-      navigateToMyAttacks() {
-        this.$router.push('/my-attacks')
-      },
-      navigateToGames() {
-        this.$router.push('/games')
-      },
-      logout() {
-        this.$router.push('/')
-      }
-    }
+  const router = useRouter();
+
+  function navigateToHome() {
+    router.push('/home');
   }
+
+  function navigateToUser() {
+    router.push('/user');
+  }
+
+  function navigateToRanking() {
+    router.push('/ranking');
+  }
+
+  function navigateToStore() {
+    router.push('/store');
+  }
+
+  function navigateToMyAttacks() {
+    router.push('/my-attacks');
+  }
+
+  function navigateToGames() {
+    router.push('/games');
+  }
+
+  function logout() {
+    router.push('/');
+  }
+
 </script>
 
 <template>
@@ -45,7 +46,7 @@
               <ButtonMenuComponent @click="navigateToGames" imageSrc="src/assets/images/icons/gamesIcon.png" strAlt="GAMES" route="/games"/>
             </div>
             <div class="logout">
-              <ButtonMenuComponent @click="logout" imageSrc="src/assets/images/icons/logout_9965863.png" strAlt="LOG OUT"/>
+              <ButtonMenuComponent @click="logout" imageSrc="src/assets/images/icons/logout_9965863.png" strAlt="LOG OUT" route="access"/>
             </div>
         </div>
     </nav>
@@ -61,15 +62,15 @@
   }
 
   .gameImage  {
-    margin: 1vmax;
-    width: 5vmax;
+    margin: 2vh;
+    width: 8vh;
     cursor: pointer;
   }
 
   .options {
     display: grid;
     grid-template-rows: 3fr 1fr;
-    margin: 1vmax;
+    margin: 2vh;
   }
 
   .default {

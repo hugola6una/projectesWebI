@@ -1,16 +1,11 @@
-<script>
-    export default {
-        props: {
-            imageSrc: String,
-            strAlt: String,
-            route: String,
-        },
-        computed: {
-            isSelected() {
-                return this.$route.path === this.route
-            }
-        }
-    }  
+<script setup>
+    import { computed, defineProps } from 'vue';
+    import { useRouter } from 'vue-router';
+
+    const props = defineProps(['imageSrc', 'strAlt', 'route']);
+    const router = useRouter();
+
+    const isSelected = computed(() => router.currentRoute.value.path === props.route);
 </script>
 
 <template>
@@ -22,62 +17,61 @@
 
 <style scoped>
     .option {
-        height: 5vmax;
-        display: grid;
-        grid-template-columns: 1fr 4fr;
-        justify-content: center;
-        align-items: center;
-
+    height: 5vmax;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    justify-content: center;
+    align-items: center;
     }
 
-    .option.selected { 
-        box-sizing: border-box;
-        background-color: #80547f;
-        color: white;
+    .option.selected {
+    box-sizing: border-box;
+    background-color: #80547f;
+    color: white;
     }
 
     .option:hover {
-        background: #80547f;
-        cursor: pointer;
+    background: #80547f;
+    cursor: pointer;
     }
 
-    .option:hover span{
-        color: white;
+    .option:hover span {
+    color: white;
     }
 
     .icon {
-        width: 4vmax;
-        margin-right: 1vmax;
-        margin-left: 1vmax;
-        align-items: center;
-        justify-content: center;
+    width: 4vmax;
+    margin-right: 1vmax;
+    margin-left: 1vmax;
+    align-items: center;
+    justify-content: center;
     }
 
     span {
-        text-align: center;
-        color: #362864;
-        font-size: 1.5vmax;
-        white-space: nowrap;
+    text-align: center;
+    color: #362864;
+    font-size: 1.5vmax;
+    white-space: nowrap;
     }
 
     @media (max-width: 900px) {
-        .option {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            grid-template-columns: 1fr;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
+    .option {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        grid-template-columns: 1fr;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 
-        .icon {
-            display: flex;
-            width: 4vmax;
-        }
+    .icon {
+        display: flex;
+        width: 4vmax;
+    }
 
-        .option span {
-            display: none;
-        }
+    .option span {
+        display: none;
+    }
     }
 </style>

@@ -1,6 +1,5 @@
 <script setup>
   import { ref } from 'vue';
-  import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
   import ItemCollection from '../components/ItemCollection.vue';
   import MyAttacksPopUp from '../components/MyAttacksPopUp.vue';
@@ -36,7 +35,6 @@ const closePopup = () => {
 </script>
 
 <template>      
-      <lateralMenu />
       <div class="body">
         <Top />
         <div class="center">
@@ -59,13 +57,6 @@ const closePopup = () => {
 </template>
 
 <style scoped>
-    .container {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    align-items: center;
-    height: 100vh; 
-  }
-
   .body {
     height: 100%;
     background: #362864;

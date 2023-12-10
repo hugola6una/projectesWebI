@@ -1,34 +1,27 @@
-<script>
-  import LateralMenu from '../components/LateralMenu.vue';
+<script setup>
+  // Libraries
+  import { useRouter } from 'vue-router';
+
+  // Components
   import Top from '../components/TopComponent.vue';
 
-  export default {
-    components: {LateralMenu, Top},
-    data() {
-      return {
-        
-      }
-    },
-    methods: {
-      navigateToGamesAdministration() {
-        this.$router.push('/games-administration')
-      },
-    },
+  const router = useRouter();
+
+  function navigateToGamesAdministration() {
+    router.push('/games-administration');
   }
 </script>
 
 <template>
-    
-  <LateralMenu />
-  <div class="body">
+  <section class="body">
     <Top />
-    <div class="center">
+    <main class="center">
       <h1>ROBOT</h1>
       <h1>BATTLE</h1>
       <h2>ARENA</h2>
       <button @click="navigateToGamesAdministration" class="bPlay">PLAY</button>
-    </div>
-  </div>
+    </main>
+  </section>
 </template>
 
 <style scoped>
@@ -50,24 +43,24 @@
 
   .center h1 {
     margin: 0;
-    font-size: 4vmax;
+    font-size: 6vh;
   }
 
   .center h2 {
     margin: 0;
-    font-size: 3vmax;
+    font-size: 6vh;
   }
 
   .bPlay {
-    margin-top: 3vmax;
+    margin-top: 5vh;
     border-radius: 0px;
     border: none;
-    width: 25vmax;
-    height: 7vmax;
+    width: 40vh;
+    height: 10vh;
     color: #362864;
     justify-content: center;
     align-items: center;
-    font-size: 4vmax;
+    font-size: 7vh;
   }
 
   .bPlay:hover {
@@ -77,6 +70,7 @@
 
   @media (max-width: 900px) {
     .body {
+      widows: 100%;
       height: 100%;
       order: 1;
     }

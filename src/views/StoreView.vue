@@ -1,6 +1,5 @@
 <script setup>
   import { ref } from 'vue';  
-  import lateralMenu from '../components/LateralMenu.vue';
   import Top from '../components/TopComponent.vue';
   import Buy from '../components/BuyContent.vue';
   import Sell from '../components/SellContent.vue';
@@ -14,7 +13,6 @@
 </script>
 
 <template>  
-    <lateralMenu />
     <div class="body">
         <Top />
         <section class="center">
@@ -35,13 +33,6 @@
 </template>
 
 <style scoped>
-    .container {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-  }
   .body {
     height: 100%;
     width: 100%;
