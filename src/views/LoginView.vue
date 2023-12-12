@@ -7,6 +7,7 @@
   import LogoLeftComponent from '@/components/LogoLeftComponent.vue'
   import ButtonWhiteComponent from '@/components/ButtonWhiteComponent.vue';
   import InputComponent from '@/components/InputComponent.vue';
+  import ErrorSpan from '@/components/ErrorSpan.vue';
 
   // Constants
   const router = useRouter();
@@ -17,6 +18,7 @@
   const errors = {
     name: ref({ value: false, message: '' }),
     password: ref({ value: false, message: '' }),
+    global: ref({ value: false, message: '' }),
   };
 
   Object.values(errors).forEach(error => {
@@ -40,10 +42,9 @@
     router.push('/create-player')
   }
 
-  function loginPlayer() {
-    router.push('/home')
-    // localStorage.setItem('username', formData.name); // Guardar en local storage
-    
+  function loginPlayer(data) {
+    localStorage.setItem('token', data.token); // Guardar en local storage
+    router.push('/home') 
   }
 
   // Other
@@ -66,11 +67,15 @@
   };
 
   const handleSubmit = () => {
+    errors.global.value = false; // Reset del error global 
+
+    // Comprova camp no buit
     if (!formData.name) {
       errors.name.value = true;
       errors.name.message = "Missing Name";
     } 
 
+    // Comprova camp no buit
     if (!formData.password) {
       errors.password.value = true;
       errors.password.message = "Missing Password";
@@ -81,8 +86,37 @@
         return;
     }
 
-    // ! Comprovar que si existeixi el jugador
-    loginPlayer();
+    fetch("https://balandrau.salle.url.edu/i3/players/join", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        player_ID: formData.name,
+        password: formData.password,
+      }),
+    })
+      .then(async res => {
+        if (res.ok) {   
+          return res.json();
+        } else {
+          const error = await res.json();
+          throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        }
+        
+      })
+      .then((data) => {
+        // En cas d'exit envia info del data
+        loginPlayer(data);  
+      })
+      .catch((error) => {
+          // Seteja missatge d'error a mostrar
+          errors.global.value = true;
+          errors.global.message = error.message;
+          console.error(error);
+      });
+    
   };
 
 </script>
@@ -93,14 +127,18 @@
     <h1>LOGIN</h1>
     <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
     <InputComponent inputType="password" inputPlaceholder="Password" :error="errors.password.value" :msgError="errors.password.message" @update:modelValue="(value) => updateModel(value, 'password')"/>
-
+    
+      <!-- Missatge error n cas d'haver-hi -->
+    <ErrorSpan v-if="errors.global.value" :message="errors.global.message"/>
+    
     <ButtonWhiteComponent :buttonText="strCreatePlayer" @click="navigateToCreateAPlayer"/>
+    
     <input type="submit" :value="strLoginPlayer" class="submitPlayer">
   </form>
 </template>
 
 <style scoped>
-  .player_login_form{
+  form {
     height: 100%;
     width: 100%;
     display: flex;
@@ -110,7 +148,7 @@
     align-items: center;
   }
 
-  .player_login_form h1 {
+  form h1 {
     margin-bottom: 10vh;
     font-size: 3vmax;
     color: #362864;

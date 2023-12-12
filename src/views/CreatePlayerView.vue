@@ -1,15 +1,17 @@
 <script setup>
   import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
+  import { ref, reactive, defineEmits } from 'vue';
 
 
   // Componentes
   import LogoLeftComponent from '@/components/LogoLeftComponent.vue';
   import ButtonWhiteComponent from '@/components/ButtonWhiteComponent.vue';
   import InputComponent from '@/components/InputComponent.vue';
+  import ErrorSpan from '@/components/ErrorSpan.vue';
 
   // Variables
   const router = useRouter();
+  const emit = defineEmits();
   const strCreatePlayer = ref('CREATE');
   const strHaveAPlayer = ref('I HAVE A PLAYER');
 
@@ -18,6 +20,7 @@
     name: ref({ value: false, message: '' }),
     password: ref({ value: false, message: '' }),
     passwordConfirm: ref({ value: false, message: '' }),
+    global: ref({ value: false, message: '' }),
   };
 
   Object.values(errors).forEach(error => {
@@ -25,12 +28,12 @@
       error.message = '';
     });
 
-  const formData = {
+  const formData = reactive({ // Use of reactive to update the DOM
     name: ref(''),
     password: ref(''),
     passwordConfirm: ref(''),
     imgPath: ref(''),
-  };
+  });
 
   // Inicialitza
   formData.name = "";
@@ -74,69 +77,77 @@
     }
   };
   // Other
-  const createPlayer = () => {
-    // localStorage.setItem('username', formData.name); // Guardar en local storage
+  function createPlayer () {
+    const playerData = {
+      name: formData.name,
+      password: formData.password,
+    };
+    emit('loginRequest', playerData);
     router.push('/home');
   };
 
+  // Funció encarregada de fer el submit del formulari
   const handleSubmit = () => {
-      // Comprova camp no buit
-      if (!formData.name) {
-        errors.name.value = true;
-        errors.name.message = "Missing Name";
-      } 
+    errors.global.value = false; // Reset del error global 
 
-      // Comprova camp no buit
-      if (formData.passwordConfirm !== formData.password) {
-        errors.password.value = true;
-        errors.passwordConfirm.value = true;
-        errors.password.message = "Passwords don't match";
-        errors.passwordConfirm.message = "Passwords don't match";
-      }
+    // Comprova camp no buit
+    if (!formData.name) {
+      errors.name.value = true;
+      errors.name.message = "Missing Name";
+    } 
 
-      // Comprova camp no buit
-      if (!formData.password) {
-        errors.password.value = true;
-        errors.password.message = "Missing Password";
-      }
+    // Comprova camp no buit
+    if (formData.passwordConfirm !== formData.password) {
+      errors.password.value = true;
+      errors.passwordConfirm.value = true;
+      errors.password.message = "Passwords don't match";
+      errors.passwordConfirm.message = "Passwords don't match";
+    }
 
-      // Comprova camp no buit
-      if (!formData.passwordConfirm) {
-        errors.passwordConfirm.value = true;
-        errors.passwordConfirm.message = "Missing Password Confirmation";
-      }
+    // Comprova camp no buit
+    if (!formData.password) {
+      errors.password.value = true;
+      errors.password.message = "Missing Password";
+    }
 
-      // Agafa l'error en cas d'exitir
-      if (Object.values(errors).some(error => error.value)) {
-        return;
-      }
-    //   const playerData = {
-    //    name: formData.name,
-    //    password: formData.password,
-    //    img: formData.imgPath,
-    //   };
+    // Comprova camp no buit
+    if (!formData.passwordConfirm) {
+      errors.passwordConfirm.value = true;
+      errors.passwordConfirm.message = "Missing Password Confirmation";
+    }
 
+    // Agafa l'error en cas d'exitir
+    if (Object.values(errors).some(error => error.value)) {
+      return;
+    }
 
-    // fetch("http://balandrau.salle.url.edu/players", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(playerData),
-    // })
-    //   .then(res => {
-    //     if (!res.ok) {
-    //       throw new Error("Error al crear el jugador");
-    //     }
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //     createPlayer();
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    fetch("https://balandrau.salle.url.edu/i3/players", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        player_ID: formData.name,
+        password: formData.password,
+        img: formData.imgPath,
+      }),
+    })
+      .then(async res => {
+        if (res.ok) {   
+          createPlayer();
+        } else {
+          const error = await res.json();
+          throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        }
+        
+      })
+      .catch((error) => {
+          // Seteja missatge d'error a mostrar
+          errors.global.value = true;
+          errors.global.message = error.message;
+          console.error(error);
+      });
   };
   
 
@@ -146,19 +157,26 @@
     <LogoLeftComponent />
     <form class="player_cretion_form" @submit.prevent="handleSubmit">
       <h1>CREATE PLAYER</h1>
+      <!-- Image button del formulari -->
       <img :src="formData.imgPath" alt="Logo" class="addProfilePhoto" @click="changeImage">
 
       
+      <!-- Inputs del form -->
       <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
       <InputComponent inputType="password" inputPlaceholder="Password" :error="errors.password.value" :msgError="errors.password.message" @update:modelValue="(value) => updateModel(value, 'password')"/>
       <InputComponent inputType="password" inputPlaceholder="Confirm Password" :error="errors.passwordConfirm.value" :msgError="errors.passwordConfirm.message" @update:modelValue="(value) => updateModel(value, 'passwordConfirm')"/>
       
+      <!-- Missatge error n cas d'haver-hi -->
+      <ErrorSpan v-if="errors.global.value" :message="errors.global.message"/>
+
+      <!-- Buttons del form -->
       <ButtonWhiteComponent :buttonText="strHaveAPlayer" @click="navigateToHaveAPlayer"/>
       <input type="submit" :value="strCreatePlayer" class="submitPlayer">
     </form>
 </template>
 
 <style scoped>
+  /* Formulari de la creacio edl player */
   form {
     display: flex;
     flex-direction: column;
@@ -169,21 +187,35 @@
     height: 100%;
   }
 
+  /* Titol del formulari */
   form h1 {
     font-size: 4vh;
     color: #362864;
   }
 
+  /* Imatge del formulari */
   form img {
-    width: 20vh;
+    width: 20vh;  /* Definim mides estatiques per evitar possibles errors de display */
+    height: 20vh;
     margin-top: 2vh;
     margin-bottom: 2vh;
   }
 
+  /* Efecte borros on hover per especificar que es pot modificar */
+  form img:hover {
+    cursor: pointer;
+    filter: blur(2px);
+  }
+  
+
+  /* Buttons del form */
   button {
     margin-top: 8vh;
   }
 
+
+
+  /* Input submit del form */
   .submitPlayer {
     background: #362864;
     color: white;
@@ -196,32 +228,43 @@
     padding: 1vh;
   }
 
+  /* Definim efecta hover del submit input */
   .submitPlayer:hover {
     background: #80547f;
     color: white;
   }
   
 
+  /* Definim estil per a dispostius més petits */
   @media (max-width: 900px) {
 
+    /* Form de creació del player */
     form {
       background-color: #362864;
     }
 
+    /* Titol dl form */
     form h1 {
       display: none;
     }
 
-
+    /* Imatge del form */
     form img {
       margin-top: 4vh;
       width: 10vh;
+      height: 10vh;
     }
 
+    /* Treiem filtre per error en mobil */
+    form img:hover {
+      filter: none;
+    }
+
+    /* Buttons del form */
     button {
       margin-top: 4vh;
     }
-
+    /* Input submit del form */
     .submitPlayer {
       background-color: white;
       color: #362864;

@@ -17,6 +17,10 @@
         checkCustomView();
     });
 
+    function handleLogin(loginData) {
+        console.log('loginRequest loginData: ', loginData);
+    }
+
     function checkCustomView() {
         const accessViews = ['access', 'loginPlayer', 'createPlayer'];
         const homeViews = ['home', 'user', 'ranking', 'store', 'my-attacks', 'games'];
@@ -26,7 +30,7 @@
 </script>
 
 <template>
-    <div :class="{ 'container': true ,'accessContainer': isAccessView, 'homeContainer': isHomeView}">
+    <div :class="{ 'container': true ,'accessContainer': isAccessView, 'homeContainer': isHomeView}" @loginRequest="handleLogin">
         <LateralMenu v-if="isHomeView"/>
         <RouterView />
     </div>
