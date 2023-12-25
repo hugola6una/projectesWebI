@@ -2,14 +2,14 @@
 </script>
 
 <template>
-    <div class="logo">
+    <aside class="logo">
         <img src="../assets/images/logoRobotArena.png" alt="Logo">
         <div class="titles">
             <h1>ROBOT</h1>
             <h1>BATTLE</h1>
             <h2>ARENA</h2>
         </div>
-    </div>
+    </aside>
 </template>
 
 <style scoped>

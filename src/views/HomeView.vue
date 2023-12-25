@@ -10,6 +10,8 @@
   function navigateToGamesAdministration() {
     router.push('/games-administration');
   }
+
+  console.log('HomeView');
 </script>
 
 <template>

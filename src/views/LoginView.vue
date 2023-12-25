@@ -2,6 +2,7 @@
   // Librairies
   import {ref} from 'vue'
   import { useRouter } from 'vue-router'
+  import { loginRequest } from '@/services/api.js'
 
   // Components
   import LogoLeftComponent from '@/components/LogoLeftComponent.vue'
@@ -66,7 +67,7 @@
     }
   };
 
-  const handleSubmit = () => {
+  async function handleSubmit () {
     errors.global.value = false; // Reset del error global 
 
     // Comprova camp no buit
@@ -86,36 +87,16 @@
         return;
     }
 
-    fetch("https://balandrau.salle.url.edu/i3/players/join", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        player_ID: formData.name,
-        password: formData.password,
-      }),
-    })
-      .then(async res => {
-        if (res.ok) {   
-          return res.json();
-        } else {
-          const error = await res.json();
-          throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
-        }
-        
-      })
-      .then((data) => {
-        // En cas d'exit envia info del data
-        loginPlayer(data);  
-      })
-      .catch((error) => {
-          // Seteja missatge d'error a mostrar
-          errors.global.value = true;
-          errors.global.message = error.message;
-          console.error(error);
-      });
+    try {
+      const data = await loginRequest(formData.name, formData.password);
+      loginPlayer(data);
+    } catch (error) {
+      errors.global.value = true;
+      errors.global.message = error.message;
+      console.log(error);
+    }
+
+    
     
   };
 
@@ -125,6 +106,7 @@
   <LogoLeftComponent />
   <form class="player_login_form" @submit.prevent="handleSubmit">
     <h1>LOGIN</h1>
+    <!-- Compnents de Input per el login -->
     <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
     <InputComponent inputType="password" inputPlaceholder="Password" :error="errors.password.value" :msgError="errors.password.message" @update:modelValue="(value) => updateModel(value, 'password')"/>
     

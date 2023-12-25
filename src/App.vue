@@ -17,10 +17,6 @@
         checkCustomView();
     });
 
-    function handleLogin(loginData) {
-        console.log('loginRequest loginData: ', loginData);
-    }
-
     function checkCustomView() {
         const accessViews = ['access', 'loginPlayer', 'createPlayer'];
         const homeViews = ['home', 'user', 'ranking', 'store', 'my-attacks', 'games'];

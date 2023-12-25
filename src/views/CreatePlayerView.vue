@@ -1,6 +1,7 @@
 <script setup>
   import { useRouter } from 'vue-router';
-  import { ref, reactive, defineEmits } from 'vue';
+  import { ref, reactive } from 'vue';
+  import { createPlayerRequest, loginRequest } from '@/services/api';
 
 
   // Componentes
@@ -11,7 +12,6 @@
 
   // Variables
   const router = useRouter();
-  const emit = defineEmits();
   const strCreatePlayer = ref('CREATE');
   const strHaveAPlayer = ref('I HAVE A PLAYER');
 
@@ -77,17 +77,14 @@
     }
   };
   // Other
-  function createPlayer () {
-    const playerData = {
-      name: formData.name,
-      password: formData.password,
-    };
-    emit('loginRequest', playerData);
-    router.push('/home');
+  function createPlayer (data) {
+    console.log('createPlayer data: ', data);
+    localStorage.setItem('token', data.token); // Guardar en local storage
+    router.push('/home') 
   };
 
   // Funció encarregada de fer el submit del formulari
-  const handleSubmit = () => {
+  async function handleSubmit () {
     errors.global.value = false; // Reset del error global 
 
     // Comprova camp no buit
@@ -121,33 +118,13 @@
       return;
     }
 
-    fetch("https://balandrau.salle.url.edu/i3/players", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        player_ID: formData.name,
-        password: formData.password,
-        img: formData.imgPath,
-      }),
-    })
-      .then(async res => {
-        if (res.ok) {   
-          createPlayer();
-        } else {
-          const error = await res.json();
-          throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
-        }
-        
-      })
-      .catch((error) => {
-          // Seteja missatge d'error a mostrar
-          errors.global.value = true;
-          errors.global.message = error.message;
-          console.error(error);
-      });
+    try {
+      const data = await createPlayerRequest(formData.name, formData.password, formData.imgPath);
+      createPlayer(data);
+    } catch (error) {
+      errors.global.value = true;
+      errors.global.message = error.message;
+    }
   };
   
 

@@ -22,10 +22,10 @@
 
 <template>
     <LogoLeftComponent />
-    <div class="accessOptions">
-      <ButtonPurpleComponent @click="navigateToCreatePlayer" :buttonText="strCreatePlayer" />
-      <ButtonPurpleComponent @click="navigateToHaveAPlayer" :buttonText="strHaveAPlayer" />
-    </div>
+    <aside class="accessOptions">
+      <ButtonPurpleComponent @click="navigateToCreatePlayer" :buttonText="strCreatePlayer"></ButtonPurpleComponent>
+      <ButtonPurpleComponent @click="navigateToHaveAPlayer" :buttonText="strHaveAPlayer"></ButtonPurpleComponent>
+    </aside>
 </template>
 
 <style scoped>

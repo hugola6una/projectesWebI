@@ -1,0 +1,58 @@
+// Login Request
+export async function loginRequest(player_ID, password){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/players/join", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                player_ID: player_ID,
+                password: password,
+            }),
+        })
+        
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+        const data = await res.json();
+        return data;
+            
+    
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
+// Create Player Request
+export async function createPlayerRequest(player_ID, password, img){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/players", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                player_ID: player_ID,
+                password: password,
+                img: img,
+            }),
+        })
+        
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+        const loginData = await loginRequest(player_ID, password);
+        return loginData;
+            
+    
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
