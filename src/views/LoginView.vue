@@ -2,7 +2,7 @@
   // Librairies
   import {ref} from 'vue'
   import { useRouter } from 'vue-router'
-  import { loginRequest } from '@/services/api.js'
+  import { loginRequest } from '@/services/api/PlayerRequest.js'
 
   // Components
   import LogoLeftComponent from '@/components/LogoLeftComponent.vue'
@@ -12,16 +12,18 @@
 
   // Constants
   const router = useRouter();
+  // String constants
   const strCreatePlayer = ref("CREATE PLAYER");
   const strLoginPlayer = ref("SIGIN");
 
   // Errors
   const errors = {
-    name: ref({ value: false, message: '' }),
-    password: ref({ value: false, message: '' }),
-    global: ref({ value: false, message: '' }),
+    name: ref({ value: false, message: '' }), // Error en el nom
+    password: ref({ value: false, message: '' }), // Error en el password
+    global: ref({ value: false, message: '' }), // Error en les request a la API
   };
 
+  // Iniciañitza els errors
   Object.values(errors).forEach(error => {
       error.value = false;
       error.message = '';
@@ -43,17 +45,28 @@
     router.push('/create-player')
   }
 
+  // Navega cap a login guardant el player louejat
   function loginPlayer(data) {
-    localStorage.setItem('token', data.token); // Guardar en local storage
+    const player = { // Creem player object
+      name: data.player_ID,
+      xp: data.xp,
+      level: data.level,
+      coins: data.coins,
+      token: data.token,
+      img: data.img,
+    }
+    localStorage.setItem('player', JSON.stringify(player)); // Guardem plaeyr info a localstorage
     router.push('/home') 
   }
 
   // Other
+  // Modifica el mdoel actual amb nous valors mostrant els errors
   function updateModel (value, field)  {
-    formData[field] = value;
+    formData[field] = value;  // Actualitza el model del correspoennt camp
     updateError(field);
   };
 
+  // Seelcciona error a mostra en fució del camp que correspon
   function updateError (field) {
     switch (field) {
       case 'name':
@@ -67,7 +80,8 @@
     }
   };
 
-  async function handleSubmit () {
+  // Funció encarregada de fer el submit del formulari
+  async function handleSubmit () {  // Fem async per esperar la resposta de la API
     errors.global.value = false; // Reset del error global 
 
     // Comprova camp no buit
@@ -87,23 +101,24 @@
         return;
     }
 
+    // Fem peticio de login
     try {
-      const data = await loginRequest(formData.name, formData.password);
-      loginPlayer(data);
+      const data = await loginRequest(formData.name, formData.password); // Espera resposta de la API
+      loginPlayer(data); // Logueja usuari
     } catch (error) {
+      // Captura l'error en cas de error a la API
       errors.global.value = true;
       errors.global.message = error.message;
       console.log(error);
-    }
-
-    
-    
+    } 
   };
 
 </script>
 
 <template>
+  <!-- Component aside amb el logo -->
   <LogoLeftComponent />
+  <!-- Formulari de inici de sessió del login -->
   <form class="player_login_form" @submit.prevent="handleSubmit">
     <h1>LOGIN</h1>
     <!-- Compnents de Input per el login -->
@@ -113,33 +128,38 @@
       <!-- Missatge error n cas d'haver-hi -->
     <ErrorSpan v-if="errors.global.value" :message="errors.global.message"/>
     
+    <!-- Button per a crear un nou player -->
     <ButtonWhiteComponent :buttonText="strCreatePlayer" @click="navigateToCreateAPlayer"/>
-    
+    <!-- Butó per a fer login -->
     <input type="submit" :value="strLoginPlayer" class="submitPlayer">
   </form>
 </template>
 
 <style scoped>
+  /* Format del form */
   form {
     height: 100%;
     width: 100%;
-    display: flex;
+    display: flex; /* Tipus flex per a tindre columnes i inserir contigut un sota l'altre */
     flex-direction: column;
     text-align: center;
     justify-content: center;
     align-items: center;
   }
 
+  /* Estil del titol del formulari */
   form h1 {
     margin-bottom: 10vh;
     font-size: 3vmax;
     color: #362864;
   }
 
+  /* Estil dels butons del formulari */
   button {
     margin-top: 10vh;
   }
 
+  /* Input de Submit del formulari */
   .submitPlayer {
     background: #362864;
     color: white;
@@ -152,28 +172,33 @@
     padding: 1vh;
   }
 
+  /* Animació en cas de hover de subtmit button */
   .submitPlayer:hover {
     background: #80547f;
     color: white;
   }
 
   
-
+  /* Estil per a telefon */
   @media (max-width: 900px) {
-    .player_login_form {
+    /* Esil nou del fons del formulari */
+    form {
       background-color: #362864;
     }
 
-    .player_login_form h1 {
+    /* Mida reduida per a telefons en el titol 1 */
+    form  h1 {
       margin-bottom: 2vh;
       font-size: 3vmax;
       color: white;
     }
 
+    /* Mida butó reduida per a mobils */
     button {
       margin-top: 6vh;
     }
 
+    /* Mida reduida per el submit button */
     .submitPlayer {
       margin-bottom: 4vh;
       background: white;

@@ -1,10 +1,11 @@
-<script>
-    export default {
-        props: {
-            imageSrc: String,
-            name: String,
-            isSelected: Boolean,
-        },
+<script setup>
+    // Libraries
+    import {defineProps } from 'vue';
+
+    defineProps(['imageSrc', 'name', 'isSelected']);  // Rep el contingut del item per props
+
+    function handleClick() {
+       console.log('click');
     }
 
 </script>

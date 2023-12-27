@@ -1,15 +1,20 @@
 <script setup>
+  // Librairies
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
 
+  // Components
   import LogoLeftComponent from '@/components/LogoLeftComponent.vue'
   import ButtonPurpleComponent from '@/components/ButtonPurpleComponent.vue';
 
+  // Constants
   const router = useRouter();
-
+  // String constants
   const strCreatePlayer = ref("CREATE PLAYER");
   const strHaveAPlayer = ref("I HAVE A PLAYER");
 
+  // Functions
+  // Navigation
   function navigateToCreatePlayer () {
     router.push('/create-player')
   }
@@ -17,19 +22,22 @@
   function navigateToHaveAPlayer () {
     router.push('/login-player')
   }
-
 </script>
 
 <template>
+    <!-- Component aside amb el logo -->
     <LogoLeftComponent />
+    <!-- Component aside amb els botons -->
     <aside class="accessOptions">
+      <!-- Butó per a crear player -->
       <ButtonPurpleComponent @click="navigateToCreatePlayer" :buttonText="strCreatePlayer"></ButtonPurpleComponent>
+      <!-- Butó per a inciiar sessió -->
       <ButtonPurpleComponent @click="navigateToHaveAPlayer" :buttonText="strHaveAPlayer"></ButtonPurpleComponent>
     </aside>
 </template>
 
 <style scoped>
-    
+  /* Estil del contenidor amb les opcions d'accés */
   .accessOptions {
     width: 100%;
     height: 100%;
@@ -40,12 +48,15 @@
     align-items: center;
   }
 
+  /* Estil dels botons */
   button {
     height: 10vh;
     font-size: 3vh;
   }
 
+  /* Estil per resolucions petites */
   @media (max-width: 900px) {
+    /* Estil del contenidor amb les opcions d'accés */
     .accessOptions{
       background-color: #362864;
       padding-top: 10vh;
@@ -53,6 +64,5 @@
       justify-content: start;
       align-items: center;
     }
-    
   }
 </style>

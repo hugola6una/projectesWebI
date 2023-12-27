@@ -1,7 +1,7 @@
 <script setup>
   import { useRouter } from 'vue-router';
   import { ref, reactive } from 'vue';
-  import { createPlayerRequest, loginRequest } from '@/services/api';
+  import { createPlayerRequest} from '@/services/api/PlayerRequest.js';
 
 
   // Componentes
@@ -17,18 +17,20 @@
 
   // Variables de error
   const errors = {
-    name: ref({ value: false, message: '' }),
-    password: ref({ value: false, message: '' }),
-    passwordConfirm: ref({ value: false, message: '' }),
-    global: ref({ value: false, message: '' }),
+    name: ref({ value: false, message: '' }), // Error en el nom
+    password: ref({ value: false, message: '' }), // Error en el password
+    passwordConfirm: ref({ value: false, message: '' }), // Error en la confirmaió password
+    global: ref({ value: false, message: '' }), // Errors globals normalment en la request de la API
   };
 
+  // Inciialitza els errors
   Object.values(errors).forEach(error => {
       error.value = false;
       error.message = '';
     });
-
-  const formData = reactive({ // Use of reactive to update the DOM
+  
+  // Variables del formulari de forma reactive per a poder actualitzar la imatge
+  const formData = reactive({
     name: ref(''),
     password: ref(''),
     passwordConfirm: ref(''),
@@ -47,12 +49,13 @@
     router.push('/login-player');
   };
 
-  // Update Erros and Model
+  // Actualitza el model i els seus errors
   function updateModel (value, field)  {
     formData[field] = value;
     updateError(field);
   };
 
+  // Actualitza els errors en funció del camp respectiu
   function updateError (field) {
     switch (field) {
       case 'name':
@@ -69,21 +72,27 @@
     }
   };
 
-  // Change Image // Falta acualitzar la imatge
+  // Actualitza la imatge del formulari
   const changeImage = () => {
     const newImagePath = prompt("Enter the URL of the new image:");
     if (newImagePath) {
       formData.imgPath = newImagePath;
     }
   };
-  // Other
+  // Realitza el registre del nou usuari i guarda varibales a localstorage
   function createPlayer (data) {
-    console.log('createPlayer data: ', data);
-    localStorage.setItem('token', data.token); // Guardar en local storage
+    const player = {  // Creem player object
+      name: data.player_ID,
+      xp: data.xp,
+      level: data.level,
+      coins: data.coins,
+      token: data.token,
+    }
+    localStorage.setItem('player', player); // Guardem plaeyr info a localstorage
     router.push('/home') 
   };
 
-  // Funció encarregada de fer el submit del formulari
+  // Funció encarregada de fer el submit del formulari i del resgitre del nou usuari
   async function handleSubmit () {
     errors.global.value = false; // Reset del error global 
 
@@ -118,36 +127,42 @@
       return;
     }
 
+    // Fem peticio de registre + login per obtindre el token
     try {
       const data = await createPlayerRequest(formData.name, formData.password, formData.imgPath);
-      createPlayer(data);
+      createPlayer(data); // Usuari creat
     } catch (error) {
+      // Captura l'error en cas de error a la API
       errors.global.value = true;
       errors.global.message = error.message;
     }
   };
-  
-
 </script>
 
 <template>
+    <!-- Component aside amb el logo -->
     <LogoLeftComponent />
+    <!-- Forulari de registre per el usuari -->
     <form class="player_cretion_form" @submit.prevent="handleSubmit">
+      <!-- Titol del formulari -->
       <h1>CREATE PLAYER</h1>
       <!-- Image button del formulari -->
       <img :src="formData.imgPath" alt="Logo" class="addProfilePhoto" @click="changeImage">
 
-      
       <!-- Inputs del form -->
+      <!-- Name -->
       <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
+      <!-- Password -->
       <InputComponent inputType="password" inputPlaceholder="Password" :error="errors.password.value" :msgError="errors.password.message" @update:modelValue="(value) => updateModel(value, 'password')"/>
+      <!-- Password Confirm -->
       <InputComponent inputType="password" inputPlaceholder="Confirm Password" :error="errors.passwordConfirm.value" :msgError="errors.passwordConfirm.message" @update:modelValue="(value) => updateModel(value, 'passwordConfirm')"/>
       
       <!-- Missatge error n cas d'haver-hi -->
       <ErrorSpan v-if="errors.global.value" :message="errors.global.message"/>
 
-      <!-- Buttons del form -->
+      <!-- Butó per accedir al Login -->
       <ButtonWhiteComponent :buttonText="strHaveAPlayer" @click="navigateToHaveAPlayer"/>
+      <!-- Butó d'entrega del formulari -->
       <input type="submit" :value="strCreatePlayer" class="submitPlayer">
     </form>
 </template>
@@ -156,7 +171,7 @@
   /* Formulari de la creacio edl player */
   form {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Com a flex per tindre dispsoició de columna al inserir elements */
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -189,8 +204,6 @@
   button {
     margin-top: 8vh;
   }
-
-
 
   /* Input submit del form */
   .submitPlayer {

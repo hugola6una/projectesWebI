@@ -13,14 +13,13 @@ export async function loginRequest(player_ID, password){
             }),
         })
         
+        // En cas de que no sigui correcte, llança error
         if (!res.ok) {   
             const error = await res.json();
             throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
         } 
         const data = await res.json();
         return data;
-            
-    
     } catch(error) {
         // Seteja missatge d'error a mostrar
         throw new Error(`${error.message}`);
@@ -43,14 +42,13 @@ export async function createPlayerRequest(player_ID, password, img){
             }),
         })
         
+        // En cas de que no sigui correcte, llança error
         if (!res.ok) {   
             const error = await res.json();
             throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
         } 
-        const loginData = await loginRequest(player_ID, password);
+        const loginData = await loginRequest(player_ID, password); // Crida a loginRequest per a obtenir les dades del jugador
         return loginData;
-            
-    
     } catch(error) {
         // Seteja missatge d'error a mostrar
         throw new Error(`${error.message}`);

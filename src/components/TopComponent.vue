@@ -1,10 +1,12 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, defineProps } from 'vue';
   import { useRouter } from 'vue-router';
+
+  const props = defineProps(['coin']);
 
   const router = useRouter();
 
-  const coins = ref(1000);
+  const coins = ref(props.coin);
 
   function navigateToHome() {
     router.push('/home');

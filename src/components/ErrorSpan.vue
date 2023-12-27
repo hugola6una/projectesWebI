@@ -1,14 +1,15 @@
 <script setup>
     import { defineProps } from 'vue';
-    defineProps(['message']);
+    defineProps(['message']); // Rep el misastge d'errro com a prop
 </script>
 
 <template>
+    <!-- Span amb missatge d'error vriable -->
     <span class="error">{{ message }}</span>
 </template>
 
 <style scoped>
-    /* Missatge d'error */
+    /* Estil missatge d'error */
     .error {
         color: red;
         font-size: 1.5vh;

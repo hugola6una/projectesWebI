@@ -2,14 +2,16 @@
     // Librairies
     import { defineProps } from 'vue'
 
-    defineProps(['buttonText'])
+    defineProps(['buttonText']) // feineix el props enviats per el coponent pare amb el respectiu text del butó
 </script>
 
 <template>
+    <!-- Button del component variable en funció del text -->
     <button type="button">{{ buttonText }}</button>
 </template>
 
 <style scoped>
+    /* Estil per defecte del nostre butó blanc */
     button {
         justify-content: center;
         align-items: center;
@@ -24,12 +26,15 @@
         color: #362864;
     }
 
+    /* Anmació en cas de hover del butó */
     button:hover {
         background: #80547f;
         color: white;
     }
 
+    /* Estils per a telefons */
     @media (max-width: 900px) {
+        /* Donem nou estil en cas de dispositiu amb petites dimensions */
         button {
             background: #362864;
             color: white;

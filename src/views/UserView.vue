@@ -4,7 +4,6 @@
   import { useRouter } from 'vue-router';
   
   // Components
-  import Top from '../components/TopComponent.vue';
   import SelectorComponent from '../components/SelectorComponent.vue';
   import PlayerContent from '../components/PlayerContent.vue';
   import AttacksContent from '../components/AttacksContent.vue';
@@ -29,9 +28,6 @@
 </script>
 
 <template>
-  <section class="body">
-    <Top />
-    <section class="center">
       <nav class="userSelectors">
         <div class="userOptions">
           <SelectorComponent @click="activeButton('player')" imageSrc="src/assets/images/icons/userIcon.png" strAlt="Player" :isSelected="contentToShow === 'player'"/>
@@ -58,26 +54,10 @@
             <ButtonPurple buttonText="CANCEL" @click="cancelDelete"/>
           </div>   
         </article>
-          </section>
-        </section>
-  </section>
+      </section>
 </template>
 
 <style scoped>
-
-  .body {
-    height: 100%;
-    width: 100%;
-    background: #362864;
-    display: grid;
-    grid-template-rows: 1fr 8fr;
-  }
-
-  .center {
-    display: grid;
-    grid-template-rows: 1fr 8fr;
-    height: 100%;
-  }
     .userSelectors {
         display: grid;
         grid-template-columns: 4fr 1fr;
@@ -94,7 +74,7 @@
       display: flex;
       width: 2vmax;
       height: 5vmax;
-      justify-self: flex-start;
+      justify-self: flex-end;
       align-items: center;
     }
 
@@ -114,8 +94,10 @@
     .content {
       display: flex;
       background: white;
-      margin: 2vmax;
+      margin: 4vh;
       overflow-y: auto;
+      height: 100%;
+      width: 100%;
     }
 
     .trashContent {
