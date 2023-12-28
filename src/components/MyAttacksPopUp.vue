@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, defineProps} from 'vue';
+    import { ref} from 'vue';
 
     const { onClosed } = defineProps(['onClosed']);
     const xAxis = ref(1);

@@ -1,6 +1,5 @@
 <script setup>
     //Libraries
-    import { defineProps } from 'vue';
 
     defineProps(['player']); // Rep el contingut del itemUserHistoricBattle per props
 </script>

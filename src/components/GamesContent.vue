@@ -57,7 +57,7 @@
 
 <style scoped>
     /* Esil del contenidor dels matches del player */
-   .gamesContent {
+    .gamesContent {
         display: flex;
         flex-direction: column;
         background-color: white;
@@ -68,12 +68,14 @@
         height: 100%;
     }
 
+    /* Estil titol de la secció  */
     h3{
         margin-top: 3vh;
         color: #362864;
         font-size: 3vh;
     }
 
+    /* Estil del contenidor dels items de partida */
     .games {
         max-height:64vh; /* Max heigh per evitar mala visualitzacio en cas de desbordament */
         width: 100%;

@@ -1,5 +1,4 @@
 <script setup>
-    import { defineProps } from 'vue';
     defineProps(['message']); // Rep el misastge d'errro com a prop
 </script>
 

@@ -1,6 +1,5 @@
 <script setup>
     // Librairies
-    import { defineProps } from 'vue'
 
     defineProps(['buttonText']) // feineix el props enviats per el coponent pare amb el respectiu text del butó
 </script>

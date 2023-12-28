@@ -1,6 +1,5 @@
 <script setup>
     // Libraries
-    import {defineProps } from 'vue';
 
    const props = defineProps(['imageSrc', 'name', 'isSelected']);  // Rep el contingut del item per props
 </script>

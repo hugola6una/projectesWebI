@@ -1,6 +1,8 @@
 <!-- Butó Lila  -->
 <script setup>
-    import {defineProps} from 'vue'
+    // Libraries
+
+    
     defineProps(['buttonText']) // Rep el text del botó com a prop 
 </script>
 

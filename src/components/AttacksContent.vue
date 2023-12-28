@@ -4,7 +4,7 @@
     // API requests 
     import { attackPlayer } from '@/services/api/AttacksRequest.js';
     // Components
-    import ItemAttack from '../components/ItemAttack.vue';
+    import ItemAttack from '@/components/ItemAttack.vue';
 
     onMounted(() => {
         items = attackPlayer(JSON.parse(localStorage.getItem('player')).token);

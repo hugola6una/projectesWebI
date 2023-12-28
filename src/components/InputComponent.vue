@@ -1,6 +1,6 @@
 <!-- Compoennt de Input per a formularis -->
 <script setup>
-    import { defineProps, ref } from 'vue';
+    import { ref } from 'vue';
 
     import ErrorSpan from '@/components/ErrorSpan.vue';
 

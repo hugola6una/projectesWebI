@@ -1,6 +1,6 @@
 <script setup>
     // Librairies
-    import { computed, defineProps } from 'vue';
+    import { computed} from 'vue';
     import { useRouter } from 'vue-router';
 
     const props = defineProps(['imageSrc', 'strAlt', 'route']); // Rep les propietats enviades per el pare

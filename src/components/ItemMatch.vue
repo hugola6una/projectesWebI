@@ -1,6 +1,5 @@
 <script setup>
     // Libraries
-    import { defineProps} from 'vue';
     // Components
     import ItemUserHisotricGame from '@/components/ItemUserHistoricBattle.vue';
 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, getCurrentInstance } from 'vue';
+import { ref,getCurrentInstance } from 'vue';
 
 const props = defineProps(['initialSelected', 'itemName', 'itemPrice', 'itemImage', 'itemQuantity']);
 const selected = ref(props.initialSelected);

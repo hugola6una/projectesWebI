@@ -1,6 +1,5 @@
 <script setup>
     // Libraries
-    import { defineProps } from 'vue';
 
     // Components
     import PlayerHistoric from '../components/PlayerHistoric.vue';

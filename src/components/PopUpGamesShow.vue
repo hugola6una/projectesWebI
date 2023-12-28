@@ -1,7 +1,7 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue';
 import PlayerHistoric from '../components/PlayerHistoric.vue';
-import PlayedHistoric from './PlayedHistoric.vue';
+// import PlayedHistoric from '../PlayedHistoric.vue';
 
 const isVisible = ref(true);
 const { emit } = getCurrentInstance();
