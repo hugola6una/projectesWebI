@@ -17,11 +17,11 @@
           <nav class="userSelectors">
             <div class="userOptions">
               <button @click="showContent('ranking')" :class="{ active: contentToShow === 'ranking' }">
-                <img src="src/assets/images/icons/trofeo.png" alt="Ranking" class="iArchive">
+                <!-- <img src="src/assets/images/icons/trofeo.png" alt="Ranking" class="iArchive"> -->
                 <span>Ranking</span>
               </button>
               <button @click="showContent('search')" :class="{ active: contentToShow === 'search' }">
-                <img src="src/assets/images/icons/search.png" alt="Search" class="iArchive">
+                <!-- <img src="src/assets/images/icons/search.png" alt="Search" class="iArchive"> -->
                 <span>Search</span>
               </button>
             </div>

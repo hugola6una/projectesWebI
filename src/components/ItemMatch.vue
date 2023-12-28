@@ -1,43 +1,67 @@
-<script>
-    import UserHisotricGame from '../components/ItemUserHistoricBattle.vue';
+<script setup>
+    // Libraries
+    import { defineProps} from 'vue';
+    // Components
+    import ItemUserHisotricGame from '@/components/ItemUserHistoricBattle.vue';
 
-    export default {
-        components: {UserHisotricGame},
-        props: {
-            match: Object,
-        },
-        methods: {
-        }
-    }
+    defineProps(['match']); // Rep el contingut del itemMatch per props
 </script>
 
 <template>
-    <article class="match" > 
-        <UserHisotricGame :player="match.player1"/>
+    <!-- Article contenint el match -->
+    <article class="match"> 
+        <!-- Component amb foto perfil i nom player -->
+        <ItemUserHisotricGame :player="match.player1"/>
         <h2>VS</h2>
-        <UserHisotricGame :player="match.player2"/>
+        <!-- Component amb foto perfil i nom player -->
+        <ItemUserHisotricGame :player="match.player2"/>
+        <!-- Mostra mida de tauler -->
         <p>{{match.size}}x{{match.size}}</p>
+        <!-- Mostra data de la partida -->
         <p>{{ match.date }}</p>
     </article>
 </template>
 
 <style scoped>
-.match {
-    border: 0.1vmax solid black;
-    display: flex;
-    text-align: center;
-    justify-content: space-around;
-    align-items: center;
-    cursor: pointer;
-}
+   * {
+        margin: 0;
+    }
+    /* Estil per el contenidor de match */
+    .match {
+        border: 0.2vh solid black;
+        display: flex;
+        text-align: center;
+        justify-content: space-around;
+        align-items: center;
+        cursor: pointer;
+        width: 100%;
+        height: 10vh;
+    }
 
-h2 {
-    font-size: 2vmax;
-    font-weight: bold;
-}
+    /* Estil per la constant VS */
+    h2 {
+        font-size: 4vh;
+        font-weight: bold;
+    }
 
-p {
-    font-size: 1vmax;   
-}
+    /* estil per les informacions adicionals */
+    p {
+        font-size: 1.5vh;   
+    }
 
+    @media  (max-width: 900px) {
+        .match {
+            height: 8vh;
+        }
+        /* Estil per la constant VS */
+        h2 {
+            font-size: 1vh;
+        }
+
+        /* estil per les informacions adicionals */
+        p {
+            font-size: 1vh;   
+        }
+        
+    }
 </style>

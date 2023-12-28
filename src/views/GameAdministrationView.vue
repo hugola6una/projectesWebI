@@ -22,15 +22,15 @@ function showContent(contentType) {
         <nav class="userSelectors">
             <div class="userOptions">
                 <button @click="showContent('create')" :class="{ active: contentToShow === 'create' }">
-                    <img src="src/assets/images/icons/create.png" alt="Create" class="iArchive">
+                    <!-- <img src="src/assets/images/icons/create.png" alt="Create" class="iArchive"> -->
                     <span>Create</span>
                 </button>
                 <button @click="showContent('show')" :class="{ active: contentToShow === 'show' }">
-                    <img src="src/assets/images/icons/show.png" alt="Show" class="iArchive">
+                    <!-- <img src="src/assets/images/icons/show.png" alt="Show" class="iArchive"> -->
                     <span>Show</span>
                 </button>
                 <button @click="showContent('search')" :class="{ active: contentToShow === 'search' }">
-                    <img src="src/assets/images/icons/search.png" alt="Search" class="iArchive">
+                    <!-- <img src="src/assets/images/icons/search.png" alt="Search" class="iArchive"> -->
                     <span>Search</span>
                 </button>
             </div>

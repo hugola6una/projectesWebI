@@ -4,7 +4,7 @@
 
 <template>
     <article class="search" >
-        <img src="src/assets/images/icons/search.png" alt="searchIcon" class="searchIcon" />
+        <!-- <img src="src/assets/images/icons/search.png" alt="searchIcon" class="searchIcon" /> -->
         <input type="text" placeholder="Search">
     </article>
 </template>

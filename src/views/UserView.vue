@@ -94,8 +94,6 @@
     .content {
       display: flex;
       background: white;
-      margin: 4vh;
-      overflow-y: auto;
       height: 100%;
       width: 100%;
     }

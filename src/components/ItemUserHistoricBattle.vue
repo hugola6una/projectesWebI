@@ -1,37 +1,39 @@
-<script>
-    export default {
-        props: {
-            player: Object,
-        },
-    }
+<script setup>
+    //Libraries
+    import { defineProps } from 'vue';
 
+    defineProps(['player']); // Rep el contingut del itemUserHistoricBattle per props
 </script>
 
 <template>
+    <!-- Contenidor amb la informació del palyer -->
     <div class="uProfile">
-        <img :src="player.imgSrc" alt=""/>
+        <!-- Imatge de perfil del player -->
+        <img :src="player.img" alt=""/>
+        <!-- Nom del player -->
         <span>{{player.name}}</span>
     </div>
 </template>
 
 <style scoped>
+    /* Estil del contenidor */
     .uProfile {
-        margin: 1vmax;
-        width: 12vmax;
-        height: 5vmax;
+        margin: 1.5vh;
         display: flex;
         text-align: center;
         justify-content: center;
         align-items: center;
     }
 
+    /* Estil nom jugador */
     span {
-        margin-left: 1vmax;
-        font-size: 1.3vmax;
+        margin-left: 2vh;
+        font-size: 2vh;
     }
 
+    /* Estil imatge de perfil */
     img {
-        width: 4vmax;
+        width: 6vh;
     }
 
     @media (max-width: 900px) {

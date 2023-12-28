@@ -1,58 +1,63 @@
-<script >
-    import ItemMatch from '../components/ItemMatch.vue';
-    import Popup from '../components/PopUp.vue';
+<script setup>
+    // Libraries
+    import { ref } from 'vue';
+    
+    // Components
+    import ItemMatch from '@/components/ItemMatch.vue';
+    import Popup from '@/components/PopUp.vue';
 
-    export default {
-        components: {ItemMatch, Popup},
-        data () {
-            return {
-                showPopup: false,
-                popUpTitle: 'MATCH MARC VS PERE DD/ MM/YYYY',
-                matches: [
-                    { id: 1, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'PERE', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8',date: 'DD/MM/YYYY', result: 'WON' },
-                    { id: 2, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'DAVID', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8',date: 'DD/MM/YYYY', result: 'LOSE' },
-                    { id: 3, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'EMMA', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8',date: 'DD/MM/YYYY', result: 'WON' },
-                    { id: 4, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'JAMES', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8', date: 'DD/MM/YYYY', result: 'LOSE' },
-                    { id: 5, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'LUCY', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8', date: 'DD/MM/YYYY', result: 'WON' },
-                    { id: 6, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'SAM', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8', date: 'DD/MM/YYYY', result: 'LOSE' },
-                    { id: 7, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'EMILY', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8', date: 'DD/MM/YYYY', result: 'WON' },
-                    { id: 8, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'OLIVER', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8', date: 'DD/MM/YYYY', result: 'LOSE' },
-                    { id: 9, player1: { name: 'PLAYER', imgSrc: 'src/assets/images/icons/playerdefault.png' }, player2: { name: 'SOPHIA', imgSrc: 'src/assets/images/icons/playerdefault.png'}, size: '8', date: 'DD/MM/YYYY', result: 'WON' },
-                ]
-            }
-        },
-        computed: {
-            matchesWon() {
-                return this.matches.filter(match => match.result === 'WON').length;
-            },
-            totalMatches() {
-                return this.matches.length;
-            }
-        },
-        methods: {
-            openPopup() {
-                this.showPopup = true;
-            },
-            closePopup() {
-                this.showPopup = false;
-            }
+    const matches = ref([{
+        id: 1,
+        player1: { name: 'Player1', img: 'src/assets/images/icons/playerdefault.png' },
+        player2: { name: 'Player2', img: 'src/assets/images/icons/playerdefault.png' },
+        size: 8,
+        date: 'DD/MM/YYYY',
+        result: 'WON',
+    },
+    ]);
+
+    // Funció per calcular el ratio de victoria
+    const calculateWinRation = () => {
+        const totalMatches = matches.value.length;
+        const wonMatches = matches.value.filter((match) => match.result === 'WON').length;
+
+        if (totalMatches === 0) {
+            return 'N/A'; 
         }
+
+        const winRatio = ((wonMatches / totalMatches) * 100).toFixed(2);
+        return `${winRatio}%`;
+    }
+
+    // Variable per controlar si el popup es visible o no
+    const isPopupVisible = ref(false);
+    const matchSelected = ref({});
+
+    // Funció encarregada de mostrar o amagar el popup
+    function togglePopUp (match) {
+        matchSelected.value = match;
+        isPopupVisible.value = !isPopupVisible.value;
     }
 </script>
 
 <template>
+    <!-- Contigut del article -->
     <article class="gamesContent">
-        <h3>RATIO: {{matchesWon}} / {{ totalMatches }}</h3>
-        <section class="games">
-        <ItemMatch v-for="match in matches" :key="match.id" :match="match" :class="match.result === 'WON' ? 'won' : 'lose'" @click="openPopup"/>
+        <!-- Titol de la secció-->
+        <h3>RATIO: {{ calculateWinRation() }}</h3>
+        <!-- Secció amb els items de les partides -->
+        <section v-if="!isPopupVisible" class="games">
+            <!-- Item de partida fem bucle er mostar tots els items -->
+            <ItemMatch v-for="match in matches" @click="togglePopUp(match)" :key="match.id" :match="match" :class="match.result === 'WON' ? 'won' : 'lose'" />
         </section>
-        <Popup v-if="showPopup" @closed="closePopup" :popUpTitle="popUpTitle" />
+        <!-- Pop up amb la info de la partida en cas de click -->
+        <Popup v-if="isPopupVisible" @closePopUp="togglePopUp" :popUpTitle="'Match: ' + matchSelected.id" :match="matchSelected"/>
     </article>
 </template>
 
 <style scoped>
-
-    .gamesContent {
+    /* Esil del contenidor dels matches del player */
+   .gamesContent {
         display: flex;
         flex-direction: column;
         background-color: white;
@@ -60,30 +65,37 @@
         text-align: center;
         align-items: center;
         width: 100%;
-        max-height: 60vh;
-    }
-
-    .gamesContent h3{
-        color: #362864;
-        font-size: 3vmax;
-    }
-    .games {
-        width: 100%;
         height: 100%;
-        overflow-y: auto;
     }
 
+    h3{
+        margin-top: 3vh;
+        color: #362864;
+        font-size: 3vh;
+    }
+
+    .games {
+        max-height:64vh; /* Max heigh per evitar mala visualitzacio en cas de desbordament */
+        width: 100%;
+        padding: 0vh 0vh 1vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* estil en cas de ser una victoria */
     .won {
         background-color: rgb(107, 173, 107);
     }
 
+    /* Estil en cas d eser una derrota */
     .lose {
         background-color: rgb(189, 99, 99);
     }
 
-    @media (max-width: 800px) {
-    .gamesContent {
-        max-height: 60vh;
+    @media (max-width: 900px) {
+        /* Ajustem mida font titol per evitar probelems de resolució */
+        h3 {
+            font-size: 2vh;
+        }
     }
-}
 </style>
