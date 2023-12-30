@@ -43,7 +43,7 @@
     <!-- Contigut amb el raning -->
     <div v-if="!showPopup" class="playersContent">
         <!-- Titol de la secció-->
-        <h1>RANKING</h1>
+        <h1 v-once>RANKING</h1>
         <!-- Secció amb els items dels jugadors -->
         <section class="players">
             <!-- Item de jugador fem bucle er mostar tots els items -->
@@ -77,13 +77,14 @@
     /* Estil titol de la seció */
     .playersContent h1{
         color: #362864;
-        font-size: 3vmax;
+        font-size: 3vh;
     }
     /* Estil secció players */
     .players {
+        margin-top: 2vh;
         width: 100%;
         height: 100%;
-        max-height: 50vh;
+        max-height: 55vh;
         overflow-y: auto;
     }
 

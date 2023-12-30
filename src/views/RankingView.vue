@@ -7,7 +7,7 @@
 
     // Components
     import SelectorComponent from '@/components/SelectorComponent.vue';
-    import RankingPlayersContent from '../components/RankingPlayersContent.vue';
+    import RankingPlayersContent from '@/components/RankingPlayersContent.vue';
 
     // El carrreguem com a lazy perque esta en segon pla
     const SearchContent = defineAsyncComponent(() => import('@/components/RankingSearchContent.vue'));
@@ -61,6 +61,7 @@
 </template>
 
 <style scoped>
+  /* Estils del seleccionadors de contiguts */
   .userSelectors {
         display: grid;
         grid-template-columns: 4fr 1fr;

@@ -10,14 +10,16 @@
 
 <template>
     <!-- Contenidor de search -->
-    <article class="search" >
+    <nav class="search" >
         <!-- Imatge del icone search -->
-        <img src="src/assets/images/icons/search.png" alt="searchIcon" class="searchIcon" />
+        <img src="@/assets/images/icons/search.png" alt="searchIcon" class="searchIcon" />
+        <!-- Input del search -->
         <input type="text" placeholder="Search" @input="updateSearch()">
-    </article>
+    </nav>
 </template>
 
 <style scoped>
+    /* estil del contenidor amb el buscador de search */
     .search {
         background-color: #CACAFB;
         margin-bottom: 2vh;
@@ -26,31 +28,31 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        height: 7vh;
     }
 
+    /* Estil input  */
     input {
         background: none;
-        width: 35vmax;
-        height: 3vmax;
-        font-size: 1.5vmax;
+        width: 100%;
+        height: 100%;
+        font-size: 3vh;
         border:none;
-        border-bottom: 0.1em solid #CACAFB;
+        border-bottom: 0.1vh solid #CACAFB;
     }
 
+    /* Estil input sense outline  */
+    input:focus {
+        outline: none;
+    }
 
+    /* estil icone de cerca */
     .searchIcon {
-        height: 3vh;
-        width: 3vh;
+        margin-left: 4vh;
+        width: 5vh;
     }
 
     @media (max-width: 800px) {
 
-        input {
-        background: none;
-        width: 35vmax;
-        height: 2vmax;
-        font-size: 1.5vmax;
-        border-bottom: 0.1em solid #CACAFB;
-        }
     }
 </style>

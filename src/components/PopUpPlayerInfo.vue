@@ -27,8 +27,9 @@
 
     
 <style scoped>
+    /* Estil popUp */
     .popup {
-        position: fixed;
+        position: fixed; /* Fixem posicio per a correcte display */
         top: 0;
         left: 0;
         width: 100%;
@@ -40,7 +41,7 @@
         background-color: #362864;
     }
 
-
+    /* Estil article del popUp */
     .top {
         display: grid;
         grid-template-columns: 4fr 1fr;
@@ -51,18 +52,20 @@
         color: white;
     }
 
+    /* estil titol popUp */
     .top h1 {
         justify-content: center;
         text-align: center;
         font-size: 2vh;
     }
 
+    /* Estl ocntigut popUp */
     .popupContent {
         display: flex;
         flex-direction: column;
-        margin: 2vmax;
-        margin-top: 5vmax;
-        padding: 2vmax;
+        margin: 3vh;
+        margin-top: 7vh;
+        padding: 3vh;
         height: 100%;
         width: 100%;
         text-align: center;
@@ -71,18 +74,20 @@
         border-radius: 5px;
     }
 
+    /* estil butó close */
     .top button {
         color: white;
         background-color: #362864;
         border: none;
-        font-size: 2vmax;
+        font-size: 4vh;
         cursor: pointer;
-        height: 3vmax;
+        height: 5vh;
         align-items: center;
         justify-content: center;
     }
 
 @media (max-width: 900px) {
+    /* Estil popUp  resolucions petites*/
     .popup {
         width: 100%;
         height: 100%;

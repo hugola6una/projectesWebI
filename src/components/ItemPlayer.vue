@@ -43,15 +43,27 @@
         height: 5vh;
         width: 5vh;
     }
-
     /* Estil nom */
     .name {
-        font-size: 1.5vmax;
+        font-size: 2.5vh;
         font-weight: bold;
     }
 
     /* Estil XP */
     p {
-        font-size: 1vmax;   
+        font-size: 2vh;   
+    }
+
+    @media (max-width: 900px) {
+            /* Estil nom */
+        .name {
+            font-size: 1.5vh;
+            font-weight: bold;
+        }
+
+        /* Estil XP */
+        p {
+            font-size: 1vh;   
+        }
     }
 </style>

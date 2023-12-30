@@ -39,11 +39,9 @@
 
 <template>
     <!-- Contenidor de search -->
-    <div v-if="!showPopup" class="searchContent">
-        <h3 v-once>SEARCH</h3>
-        <section class="search">
-            <SearchItem @input="updateSearch"/>
-        </section>
+    <div v-if="!showPopup" class="playerContent">
+        <h1 v-once>SEARCH</h1>
+        <SearchItem @input="updateSearch"/>
         <section class="players">
             <!-- Item de jugador fem bucle er mostar tots els items -->
             <ItemPlayer v-for="player in filteredPlayers" :key="player.player_ID" :player="player" @click="togglePopUp(player)"/>
@@ -54,41 +52,33 @@
 </template>
 
 <style scoped>
-
-    .searchContent {
+    /* Estil contigut en el contendior de searh */
+    .playerContent {
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin: 2vmax;
         background-color: white;
         justify-content: start;
         text-align: center;
         align-items: center;
     }
 
-    h3{
+    /* Titol secció */
+    h1{
         color: #362864;
-        font-size: 3vmax;
+        font-size: 3vh;
     }
+
+    /* Estil contigut en players */
     .players {
-        margin-top: 0%;
+        margin-top: 3vh;
         width: 100%;
         height: 200%;
         overflow-y: auto;
-        max-height: 40vh;
+        max-height: 45vh;
     }
-
-    .search {
-        width: 100%;
-        height: 50%;
-        margin-bottom: 0%;
-        overflow-y: auto;
-    }
-
 
     @media (max-width: 900px) {
-    .searchContent {
-        max-height: 60vh;
+    
     }
-}
 </style>
