@@ -31,6 +31,7 @@
         }
     }
 
+    // Funció per saber si el jugador soc jo
     function isMe(player) {
         return player.player_ID === JSON.parse(localStorage.getItem('player')).player_ID;
     }
@@ -68,6 +69,7 @@
         
     }
 
+    /* estil si el judaor soc jo */
     .me {
         background-color: #CACAFB;
     }

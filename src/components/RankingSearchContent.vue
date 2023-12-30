@@ -38,7 +38,8 @@
 </script>
 
 <template>
-    <div class="playersContent">
+    <!-- Contenidor de search -->
+    <div v-if="!showPopup" class="searchContent">
         <h3 v-once>SEARCH</h3>
         <section class="search">
             <SearchItem @input="updateSearch"/>
@@ -48,12 +49,13 @@
             <ItemPlayer v-for="player in filteredPlayers" :key="player.player_ID" :player="player" @click="togglePopUp(player)"/>
         </section>
     </div>
+    <!-- PopUp amb info jugador -->
     <PopupPlayerInfo v-if="showPopup" @closePopUp="togglePopUp" :player="player"></PopupPlayerInfo>
 </template>
 
 <style scoped>
 
-    .playersContent {
+    .searchContent {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -64,7 +66,7 @@
         align-items: center;
     }
 
-    .playersContent h3{
+    h3{
         color: #362864;
         font-size: 3vmax;
     }
@@ -85,7 +87,7 @@
 
 
     @media (max-width: 900px) {
-    .playersContent {
+    .searchContent {
         max-height: 60vh;
     }
 }

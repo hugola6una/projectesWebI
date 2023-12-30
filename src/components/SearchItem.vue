@@ -2,14 +2,17 @@
     // Libraries
     const emit = defineEmits(['input']);
 
+    // Emiteix el valor de l'input
     function updateSearch() {
         emit('input', event.target.value);
     }
 </script>
 
 <template>
+    <!-- Contenidor de search -->
     <article class="search" >
-        <img src="" alt="searchIcon" class="searchIcon" />
+        <!-- Imatge del icone search -->
+        <img src="src/assets/images/icons/search.png" alt="searchIcon" class="searchIcon" />
         <input type="text" placeholder="Search" @input="updateSearch()">
     </article>
 </template>
