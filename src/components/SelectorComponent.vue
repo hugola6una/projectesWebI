@@ -1,7 +1,8 @@
 <script setup>
+
     //  Librairies
 
-    defineProps(['imageSrc', 'strAlt', 'isSelected']) // Rep el contingut de la imatge, el text alternatiu i si esta seleccionat o no
+   defineProps(['imageSrc', 'strAlt', 'isSelected']) // Rep el contingut de la imatge, el text alternatiu i si esta seleccionat o no
 
 </script>
 

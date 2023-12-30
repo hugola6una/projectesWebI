@@ -33,8 +33,9 @@
     router.push('/games');
   }
 
+  // Fem un replace per a no poder tornar enrere
   function logout() {
-    router.push('/');
+    router.replace('/');
   }
 </script>
 

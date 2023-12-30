@@ -1,34 +1,41 @@
 <script setup>
     // Libraries
-    import { onMounted, reactive} from 'vue';
+    import { onMounted, ref} from 'vue';
     // API requests 
     import { attackPlayer } from '@/services/api/AttacksRequest.js';
     // Components
     import ItemAttack from '@/components/ItemAttack.vue';
 
+    const props = defineProps(['player']);
+
     onMounted(() => {
-        items = attackPlayer(JSON.parse(localStorage.getItem('player')).token);
+        const token = JSON.parse(localStorage.getItem('player')).token; // Obtenim token del local storage
+        getAttacks(token);
     })
 
     // Variables
-    var items = reactive ([])
+    var attacks = ref ([])
 
 
     // Functions
-    function toggleEvent(item) {
-        item.selected = !item.selected;
+    async function getAttacks(token) {
+        attacks.value = await attackPlayer(token, props.player.player_ID);
+    }
+
+    function toggleEvent(attack) {
+        console.log(attack);
     }
 </script>
 
 <template>
     <!-- Contingut dels attacks del player -->
-    <article class="attacksContent">
+    <article class="attacksContent" >
         <!-- Titol del article -->
         <h1>Colection</h1>
         <!-- Secció de items -->
         <section class="items">
             <!-- Item atac -->
-            <ItemAttack v-for="item in items" :key="item.id" :imageSrc="item.imgSrc" :name="item.name" :isSelected="item.selected" @updateSel="toggleEvent(item)"/>
+            <ItemAttack v-for="attack in attacks" :key="attack.attack_ID" :attack="attack" :isSelected="attack.equipped" @updateSel="toggleEvent(attack)"/>
         </section>
     </article>
 </template>
@@ -36,6 +43,7 @@
 <style scoped>
     /*Contenidor dels items d'atac */
     article {
+        width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: start;

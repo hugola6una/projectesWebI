@@ -7,12 +7,10 @@
   function navigateToGamesAdministration() {
     router.push('/games-administration');
   }
-
-  
- 
 </script>
 
-<template>    
+<!-- No necessita update per tant emprem v-once -->
+<template v-once>    
       <h1>ROBOT</h1>
       <h1>BATTLE</h1>
       <h2>ARENA</h2>

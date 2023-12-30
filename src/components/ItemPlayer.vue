@@ -1,37 +1,57 @@
 <script setup>
+    // Librairies
+    import { getImage } from '@/services/Auxiliar.js';
+
+    const props = defineProps(['player']); // Rep per props el jugador seleccionat
 
 </script>
 
 <template>
-    <article class="player" >
-        <img src="..\assets\images\icons\userIcon.png" alt="playerIcon" class="playerIcon" />
-        <h4>user</h4>
-        <p>155XP</p>
+    <!-- Atricle del jugador -->
+    <article class="player">
+        <!-- Imatge perfil jugador -->
+        <img :src="getImage(player.img)" alt="playerIcon" class="playerIcon" />
+        <!-- Nom del jugador -->
+        <p class="name">{{props.player.player_ID}}</p>
+        <!-- XP del jugador -->
+        <p>{{props.player.xp}} XP</p>
     </article>
 </template>
 
 <style scoped>
-.player {
-    margin-bottom: 2vh;
-    display: flex;
-    text-align: center;
-    justify-content: space-around;
-    align-items: center;
-    cursor: pointer;
-}
+    /* Posa color global */
+    * {
+        color : #362864;
+    }
 
-.playerIcon {
-    height: 5vh;
-    width: 5vh;
-}
+    /* Estil per el item player */
+    .player {
+        width: 100%;
+        height: 10vh;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        grid-template-columns: 1fr 2fr 1fr; /* Deinim aixi perque el nom ocupi una major part */
+        cursor: pointer;
+    }
 
-h4 {
-    font-size: 1.5vmax;
-    font-weight: bold;
-}
+    /* Estil foto perfil */
+    .playerIcon {
+        align-self: center;
+        justify-self: center;
+        height: 5vh;
+        width: 5vh;
+    }
 
-p {
-    font-size: 1vmax;   
-}
+    /* Estil nom */
+    .name {
+        font-size: 1.5vmax;
+        font-weight: bold;
+    }
 
+    /* Estil XP */
+    p {
+        font-size: 1vmax;   
+    }
 </style>

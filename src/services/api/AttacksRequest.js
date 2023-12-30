@@ -1,7 +1,7 @@
 // Get own attacks
-export async function attackPlayer(token){
+export async function attackPlayer(token, id){
     try {
-        const res = await  fetch("https://balandrau.salle.url.edu/i3/players/attacks", {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/players/" + id + "/attacks", {
             method: "GET",
             mode: "cors",
             headers: {

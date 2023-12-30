@@ -1,6 +1,6 @@
 <script setup>
   // Librairies
-  import {ref} from 'vue'
+  import {ref, defineEmits} from 'vue'
   import { useRouter } from 'vue-router'
   import { loginRequest } from '@/services/api/PlayerRequest.js'
 
@@ -12,6 +12,7 @@
 
   // Constants
   const router = useRouter();
+  const emit = defineEmits(['havePlayer']);
   // String constants
   const strCreatePlayer = ref("CREATE PLAYER");
   const strLoginPlayer = ref("SIGIN");
@@ -48,7 +49,7 @@
   // Navega cap a login guardant el player louejat
   function loginPlayer(data) {
     const player = { // Creem player object
-      name: data.player_ID,
+      player_ID: data.player_ID,
       xp: data.xp,
       level: data.level,
       coins: data.coins,
@@ -56,7 +57,7 @@
       img: data.img,
     }
     localStorage.setItem('player', JSON.stringify(player)); // Guardem plaeyr info a localstorage
-    router.push('/home') 
+    emit('havePlayer'); // Emitim event de login
   }
 
   // Other
@@ -109,7 +110,6 @@
       // Captura l'error en cas de error a la API
       errors.global.value = true;
       errors.global.message = error.message;
-      console.log(error);
     } 
   };
 

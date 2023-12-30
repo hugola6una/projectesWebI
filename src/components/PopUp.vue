@@ -1,11 +1,51 @@
 <script setup>
     // Libraries
+    import { onMounted, ref} from 'vue';
+
+    // API request
+    import { getMatchLogRequest } from '@/services/api/GamesRequest.js';
+
 
     // Components
-    import PlayerHistoric from '../components/PlayerHistoric.vue';
-    import PlayedHistoric from './PlayedHistoric.vue';
+    import PlayerHistoric from '@/components/PlayerHistoric.vue';
+    import PlayedHistoric from '@/components/PlayedHistoric.vue';
 
-    defineProps(['popUpTitle', 'match']); // Rep el contingut del item match  i del titol per props
+    const props = defineProps(['popUpTitle', 'match']); // Rep el contingut del item match  i del titol per props
+    const matchLog = ref({});
+
+    onMounted(() => {
+        getMatchLog();
+    });
+
+    // Peticio a la API per obtenir el log de la partida
+    async function getMatchLog() {
+        const token = JSON.parse(localStorage.getItem('player')).token;
+        const match_ID = props.match.game_ID;
+        try {
+            matchLog.value = await getMatchLogRequest(token, match_ID);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // Funció per calcular el temps en partida
+    function getTimeInMatch(actualTime) { 
+        const startTime = new Date(matchLog.value[0].date_time);
+        const actual = new Date(actualTime);
+    
+        const timeDifference = actual - startTime; // Calculem la diferencia entre el temps actual i el temps de inici de la partida
+
+        const secondsDifference = Math.floor(timeDifference / 1000); // Passem a segons
+
+        // Calcula minuts i segons
+        const minutes = Math.floor(secondsDifference / 60);
+        const seconds = secondsDifference % 60;
+
+        // Dona format com a  "mm:ss"
+        const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        return formattedTime;
+    }
 </script>
 
 <template>
@@ -15,12 +55,13 @@
         <article class="popupContent">
             <!-- Header del popUp amb el titol i el boto per tancar -->
             <header class="top">
-                <h3>{{ popUpTitle }}</h3>
+                <h3>{{props.popUpTitle}}</h3>
                 <button @click="$emit('closePopUp')">x</button>
                 <!-- Secció amb els jugadors -->
                 <div class="players">
-                    <PlayerHistoric class="player1" :player="match.player1"/>
-                    <PlayerHistoric class="palyer2" :player="match.player2"/>
+                    <!-- Passa el ID del jugador al compoennt Player Historic -->
+                    <PlayerHistoric class="player1" :player_ID="props.match.players_games[0].player_ID"/>
+                    <PlayerHistoric class="palyer2" :player_ID="match.players_games[1].player_ID"/>
                 </div>
             </header>
             <!-- Secció amb les partides jugades -->
@@ -28,15 +69,7 @@
                 <!-- Missatge de log -->
                 <!-- Right per ubicarlo a la dreta-->
                 <!-- Left per ubicarlo a la esquerra-->
-                <PlayedHistoric class="right"/> 
-                <PlayedHistoric class="left"/>
-                <PlayedHistoric class="left"/>
-                <PlayedHistoric class="left"/>
-                <PlayedHistoric class="right"/>
-                <PlayedHistoric class="left"/>
-                <PlayedHistoric class="right"/>
-                <PlayedHistoric class="left"/>
-                <PlayedHistoric class="right"/>
+                <PlayedHistoric v-for="log in matchLog" :key="log.date_time" :description="log.description" :time="getTimeInMatch(log.date_time)"  :isPlayer1="props.match.players_games[0].player_ID === log.player_ID"/>  <!-- Comprova quin player es -->
                 <!-- Missatge final de playeds -->
                 <p class="end">END</p>
             </main>
@@ -122,7 +155,8 @@
     }
 
     /* Contenidor amb les jugades de la partida */
-    .playeds {
+    .playeds {              
+        width: 100%;                                                                                                                    
         background-color: whitesmoke;
         margin-top: 4.5vh;
         display: flex;
@@ -131,22 +165,6 @@
         overflow-y: auto;
 
     }
-
-    /* Estil per a misstges jugador2 */
-    .right {
-        display: flex;
-        align-items: center;
-        align-self: flex-end;
-    }
-
-    /* Estils per a Jugador1 */
-    .left {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-        align-self: flex-start;
-    }
-
     /* estil missatge final END */
     .end {
         color: #362864;

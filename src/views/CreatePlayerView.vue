@@ -1,6 +1,6 @@
 <script setup>
   import { useRouter } from 'vue-router';
-  import { ref, reactive } from 'vue';
+  import { ref, reactive, defineEmits } from 'vue';
   import { createPlayerRequest} from '@/services/api/PlayerRequest.js';
 
 
@@ -11,13 +11,14 @@
   import ErrorSpan from '@/components/ErrorSpan.vue';
 
   // Variables
+  const emit = defineEmits(['havePlayer']);
   const router = useRouter();
   const strCreatePlayer = ref('CREATE');
   const strHaveAPlayer = ref('I HAVE A PLAYER');
 
   // Variables de error
   const errors = {
-    name: ref({ value: false, message: '' }), // Error en el nom
+    player: ref({ value: false, message: '' }), // Error en el nom
     password: ref({ value: false, message: '' }), // Error en el password
     passwordConfirm: ref({ value: false, message: '' }), // Error en la confirmaió password
     global: ref({ value: false, message: '' }), // Errors globals normalment en la request de la API
@@ -82,14 +83,15 @@
   // Realitza el registre del nou usuari i guarda varibales a localstorage
   function createPlayer (data) {
     const player = {  // Creem player object
-      name: data.player_ID,
+      player_ID: data.player_ID,
       xp: data.xp,
       level: data.level,
       coins: data.coins,
       token: data.token,
+      img: data.img,
     }
-    localStorage.setItem('player', player); // Guardem plaeyr info a localstorage
-    router.push('/home') 
+    localStorage.setItem('player', JSON.stringify(player)); // Guardem plaeyr info a localstorage
+    emit('havePlayer'); // Emitim event de login
   };
 
   // Funció encarregada de fer el submit del formulari i del resgitre del nou usuari
@@ -101,6 +103,11 @@
       errors.name.value = true;
       errors.name.message = "Missing Name";
     } 
+
+    if (formData.password.length > 20) {
+      errors.password.value = true;
+      errors.password.message = "Password must be at most 20 characters long";
+    }
 
     // Comprova camp no buit
     if (formData.passwordConfirm !== formData.password) {

@@ -1,13 +1,14 @@
 <script setup>
     // Libraries
     import { computed } from 'vue';
+    import { getImage } from '@/services/Auxiliar.js';
 
     // Variables
-    const maxXP = [0, 150, 500, 1000, 1500]; // Array amb els punts de experiencia necessaris per pujar de nivell
-    var player = JSON.parse(localStorage.getItem('player')); // Obtenim el player de localstorage
+    const maxXP = [150, 500, 1000, 1500]; // Array amb els punts de experiencia necessaris per pujar de nivell
+    const props = defineProps(['player']); // Rep per props el jugador seleccionat
 
     const progressBarWidth = computed(() => { // Calcula l'amplada de la barra de progrés
-        return (player.xp / maxXP[player.level+1]) * 100;
+        return (props.player.xp / maxXP[props.player.level]) * 100;
     });
 </script>
 
@@ -15,9 +16,9 @@
     <!-- Contingut de la info del player -->
     <article class="playerContent">
         <!-- Foto de perfil -->
-        <img :src="player.img" alt="userPhoto"/>
+        <img :src="getImage(props.player.img)" alt="userPhoto"/>
         <!-- Nom usuari -->
-        <h1>{{ player.name }}</h1>
+        <h1>{{ props.player.player_ID }}</h1>
         <!-- Contenidor amb nivell barra experiencia i xp -->
         <div class="level">
             <!-- barra de progress contenidor -->
@@ -26,10 +27,10 @@
                 <div class="progressBar" :style="{width:progressBarWidth + '%'}"></div>
             </div>
             <!-- Nivell -->
-            <p>Lvl. {{ player.level }}</p>
+            <p>Lvl. {{ props.player.level }}</p>
         </div>
         <!-- Xp actual i necessari per pujar de nivell -->
-        <p>{{player.xp}} / {{ maxXP[player.level] }} XP</p>
+        <p>{{props.player.xp}} / {{ maxXP[props.player.level] }} XP</p>
     </article>
 </template>
 

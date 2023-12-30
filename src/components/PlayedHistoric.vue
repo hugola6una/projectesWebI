@@ -1,21 +1,30 @@
 <script setup>
-
+    const props = defineProps(['description', 'time', 'isPlayer1'] ) // Rep info de la acció realitzada i el temps
 </script>
 
 <template>   
-    <div class="missatge">
+    <div :class="{ missatge: true, 'player1': props.isPlayer1 }">
         <!-- Acció realitzada -->
-        <p class="actionDone">ATTACK</p>
+        <p class="actionDone">{{ props.description }}</p>
         <!-- Temps de l'acció -->
-        <p>00:00</p>
+        <p class="time">{{time}}</p>
     </div>  
 </template>
 
 <style scoped>
+    .missatge {
+        display: grid;
+        grid-template-columns: 4fr 1fr;
+        align-items: center;
+    }
+
+    .player1 {
+        background-color: #c2b5f0;
+    }
     /* Estil tex */
-    p {
+    .time {
         color: #362864;
-        font-size: 2.5vh;
+        font-size: 1.5vh;
     }
     /* Estil del missatge d'acció */
     .actionDone {

@@ -1,32 +1,40 @@
 <script setup>
     // Libraries
-    import { ref } from 'vue';
+    import { ref, defineAsyncComponent, onMounted } from 'vue';
+
+    // Import API request
+    import { getFinishedGames } from '@/services/api/GamesRequest.js';
     
     // Components
     import ItemMatch from '@/components/ItemMatch.vue';
-    import Popup from '@/components/PopUp.vue';
+    // Carrreguem PopUp com a lazy per que esta a segon pla
+    const Popup = defineAsyncComponent(() => import('@/components/PopUp.vue'));
 
-    const matches = ref([{
-        id: 1,
-        player1: { name: 'Player1', img: 'src/assets/images/icons/playerdefault.png' },
-        player2: { name: 'Player2', img: 'src/assets/images/icons/playerdefault.png' },
-        size: 8,
-        date: 'DD/MM/YYYY',
-        result: 'WON',
-    },
-    ]);
+    const props = defineProps(['player']); // Rep per props el player
 
-    // Funció per calcular el ratio de victoria
-    const calculateWinRation = () => {
-        const totalMatches = matches.value.length;
-        const wonMatches = matches.value.filter((match) => match.result === 'WON').length;
+    const matches = ref([]);
 
-        if (totalMatches === 0) {
-            return 'N/A'; 
+    onMounted(() => {
+        getPlayerMatches();
+    });
+
+    async function getPlayerMatches() {
+        const token = JSON.parse(localStorage.getItem('player')).token;
+        const player_ID = props.player.player_ID;
+        try {
+            matches.value = await getFinishedGames(token, player_ID);
+        } catch (error) {
+            console.log(error);
         }
+    }
 
-        const winRatio = ((wonMatches / totalMatches) * 100).toFixed(2);
-        return `${winRatio}%`;
+    // Calcula el ratio de victoria
+    function calculateWinRatio() {       
+        if (matches.value.length === 0) return 'N/A'; // Evitem dividir per 0 (no hi ha partides
+        const totalMatches = matches.value.length;
+        const totalWins = matches.value.filter(match => match.players_games[0].winner).length;
+        const ratio = totalWins / totalMatches * 100;
+        return ratio.toFixed(2) + '%'; 
     }
 
     // Variable per controlar si el popup es visible o no
@@ -42,17 +50,18 @@
 
 <template>
     <!-- Contigut del article -->
-    <article class="gamesContent">
+    <article v-if="!isPopupVisible" class="gamesContent">
         <!-- Titol de la secció-->
-        <h3>RATIO: {{ calculateWinRation() }}</h3>
+        <h3>RATIO: {{ calculateWinRatio() }}</h3>
         <!-- Secció amb els items de les partides -->
-        <section v-if="!isPopupVisible" class="games">
+        <section v-if="!isPopupVisible" class="games" >
             <!-- Item de partida fem bucle er mostar tots els items -->
-            <ItemMatch v-for="match in matches" @click="togglePopUp(match)" :key="match.id" :match="match" :class="match.result === 'WON' ? 'won' : 'lose'" />
+            <ItemMatch v-for="match in matches" @click="togglePopUp(match)" :key="match.game_ID" :match="match" :class="{ won:match.players_games[0].winner }" />
         </section>
         <!-- Pop up amb la info de la partida en cas de click -->
-        <Popup v-if="isPopupVisible" @closePopUp="togglePopUp" :popUpTitle="'Match: ' + matchSelected.id" :match="matchSelected"/>
+        
     </article>
+    <Popup v-if="isPopupVisible" @closePopUp="togglePopUp" :popUpTitle="matchSelected.game_ID" :match="matchSelected" /> <!-- Falta control win or lose  -->
 </template>
 
 <style scoped>

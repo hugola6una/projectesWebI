@@ -1,16 +1,16 @@
 <script setup>
     // Libraries
 
-   const props = defineProps(['imageSrc', 'name', 'isSelected']);  // Rep el contingut del item per props
+   const props = defineProps(['attack','isSelected']);  // Rep el contingut del item per props
 </script>
 
 <template>
     <!-- Item d'attac envia un emit en cas de click -->
     <article  @click="$emit('updateSel')" :class="{ 'item': true, sel: props.isSelected }" >
         <!-- Imatge del atac -->
-        <img :src="props.imageSrc" alt="imageAttack" />
+        <img src="../assets/images/icons/swordIcon.png" alt="imageAttack" />
         <!-- Nom del atac -->
-        <p>{{ name }}</p>
+        <p>{{ props.attack.attack_ID }}</p>
     </article>
 </template>
 

@@ -1,16 +1,16 @@
 <script setup>
     //Libraries
 
-    defineProps(['player']); // Rep el contingut del itemUserHistoricBattle per props
+    defineProps(['player_ID']); // Rep el contingut del item per props
 </script>
 
 <template>
     <!-- Contenidor amb la informació del palyer -->
     <div class="uProfile">
         <!-- Imatge de perfil del player -->
-        <img :src="player.img" alt=""/>
+        <!-- <img src="" alt=""/> -->
         <!-- Nom del player -->
-        <span>{{player.name}}</span>
+        <span>{{player_ID}}</span>
     </div>
 </template>
 

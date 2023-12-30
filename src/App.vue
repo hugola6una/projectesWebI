@@ -1,20 +1,19 @@
 <script setup>
     // Librairies
-    import { ref, onMounted, watch } from 'vue';
-    import { useRoute } from 'vue-router';
+    import { ref, onMounted, watch, defineAsyncComponent } from 'vue';
+    import { useRoute, useRouter } from 'vue-router';
 
     // Components
-    import LateralMenu from '@/components/LateralMenu.vue';
-    import Top from '@/components/TopComponent.vue';
+    const LateralMenu = defineAsyncComponent(() => import('@/components/LateralMenu.vue'));
+    const Top = defineAsyncComponent(() => import('@/components/TopComponent.vue'));
 
     // Variables
     const route = useRoute();
+    const router = useRouter();
 
     const isAccessView = ref(true); // Per defecte és true perquè el component AccessView és el primer que es mostra
     const isHomeView = ref(false);  // Per defecte és false perquè el component HomeView és el segon que es mostra
 
-    // Obtenim el player de localstorage
-    var  player = JSON.parse(localStorage.getItem('player')); 
     // Funcions
     // Comprova si el component actual és el de login o el de home
     onMounted(() => {
@@ -27,11 +26,19 @@
     });
 
     // Comprova si el component actual és el de login o el de home i actualitza les variables
-    function checkCustomView() {
+    async function checkCustomView() {
         const accessViews = ['access', 'loginPlayer', 'createPlayer'];
         const homeViews = ['home', 'user', 'ranking', 'store', 'my-attacks', 'games'];
         isAccessView.value = accessViews.includes(route.name);
-        isHomeView.value = homeViews.includes(route.name);
+        isHomeView.value = homeViews.includes(route.name);  
+        if (isAccessView.value) { // Si estem en el component de accesss, esborrem el localStorage
+            localStorage.clear();
+        } 
+    }
+
+    // Funció que avisa que ja tenim player al localStorge
+    function getPlayer() {
+        router.replace('/home') 
     }
 </script>
 
@@ -41,14 +48,14 @@
         <!-- Component LateralMenu amb les opcions de navegació un cop registrat usuari-->
         <LateralMenu v-if="isHomeView"/>
         <main v-if="isHomeView">
-            <Top v-if="isHomeView" :coin="player.coins" />
+            <Top v-if="isHomeView"/>
             <!-- Component RouterView amb els diferents views de la web -->
             <section>
                 <RouterView v-if="isHomeView"/>
             </section>
         </main>
         <!-- Component RouterView amb els diferents views de la web -->
-        <RouterView v-if="isAccessView"/>
+        <RouterView v-if="isAccessView" @havePlayer="getPlayer()"/>
     </div>
 </template>
 

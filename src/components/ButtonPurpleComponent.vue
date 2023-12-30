@@ -3,12 +3,12 @@
     // Libraries
 
     
-    defineProps(['buttonText']) // Rep el text del botó com a prop 
+    defineProps(['buttonText', 'isEspecial']) // Rep el text del botó com a prop 
 </script>
 
 <template>
     <!-- Butó amb el text variable -->
-    <button>{{ buttonText }}</button>
+    <button :class="{ especial: isEspecial }">{{ buttonText }}</button>
 </template>
 
 <style scoped>
@@ -40,5 +40,12 @@
             background: white;
             color: #362864
         } 
+
+        .especial {
+            margin-top: 4vh;
+            width: 20vh;
+            background: #362864;
+            color: white;
+        }
     }
 </style>

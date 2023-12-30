@@ -1,6 +1,6 @@
 <script setup>
   // Librairies
-  import { ref } from 'vue';
+  import { defineEmits } from 'vue';
   import { useRouter } from 'vue-router';
 
   // Components
@@ -9,9 +9,8 @@
 
   // Constants
   const router = useRouter();
-  // String constants
-  const strCreatePlayer = ref("CREATE PLAYER");
-  const strHaveAPlayer = ref("I HAVE A PLAYER");
+  defineEmits(['havePlayer']);
+
 
   // Functions
   // Navigation
@@ -26,13 +25,13 @@
 
 <template>
     <!-- Component aside amb el logo -->
-    <LogoLeftComponent />
+    <LogoLeftComponent v-once/>
     <!-- Component aside amb els botons -->
     <aside class="accessOptions">
       <!-- Butó per a crear player -->
-      <ButtonPurpleComponent @click="navigateToCreatePlayer" :buttonText="strCreatePlayer"></ButtonPurpleComponent>
+      <ButtonPurpleComponent v-once @click="navigateToCreatePlayer" buttonText="CREATE PLAYER"></ButtonPurpleComponent>
       <!-- Butó per a inciiar sessió -->
-      <ButtonPurpleComponent @click="navigateToHaveAPlayer" :buttonText="strHaveAPlayer"></ButtonPurpleComponent>
+      <ButtonPurpleComponent v-once @click="navigateToHaveAPlayer" buttonText="I HAVE A PLAYER"></ButtonPurpleComponent>
     </aside>
 </template>
 

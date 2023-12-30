@@ -1,77 +1,64 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AccessViewView from '../views/AccessView.vue'
-import CreatePlayerView from '../views/CreatePlayerView.vue'
-import LoginView from '../views/LoginView.vue'
-import HomeView from '../views/HomeView.vue'
-import UserView from '../views/UserView.vue'
-import RankingView from '../views/RankingView.vue'
-import StoreView from '../views/StoreView.vue'
-import MyAttacksView from '../views/MyAttacksView.vue'
-import GamesView from '../views/GamesView.vue'
-import GameAdministrationView from '../views/GameAdministrationView.vue'
-import PlayView from '../views/PlayView.vue'
-
+import AccessViewView from '@/views/AccessView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      // Al ser l'incial no farem que sigui lazy loaded
       name: 'access',
       component: AccessViewView
     },
+    // La resta si perque no carreguin en un inci, aixo donarra un millo rendiment
     {
       path: '/create-player',
       name: 'createPlayer',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: CreatePlayerView
+      component: () => import('@/views/CreatePlayerView.vue')
     },
     {
       path: '/login-player',
       name: 'loginPlayer',
-      component: LoginView
+      component: () => import('@/views/LoginView.vue')
     },
     {
       path: '/home',
       name: 'home',
-      component: HomeView
+      component: () => import('@/views/HomeView.vue')
     },
     {
       path: '/user',
       name: 'user',
-      component: UserView
+      component: () => import('@/views/UserView.vue')
     },
     {
       path: '/ranking',
       name: 'ranking',
-      component: RankingView
+      component: () => import('@/views/RankingView.vue')
     },
     {
       path: '/store',
       name: 'store',
-      component: StoreView
+      component: () => import('@/views/StoreView.vue')
     },
     {
       path: '/my-attacks',
       name: 'my-attacks',
-      component: MyAttacksView
+      component: () => import('@/views/MyAttacksView.vue')
     },
     {
       path: '/games',
       name: 'games',
-      component: GamesView
+      component: () => import('@/views/GamesView.vue')
     },
     {
       path: '/play/:name/:size/:hp',
       name: 'play',
-      component: PlayView,
+      component: () => import('@/views/PlayView.vue'),
     },
     {
       path: '/games-administration',
       name: 'games-administration',
-      component: GameAdministrationView
+      component: () => import('@/views/GameAdministrationView.vue')
     }
   ]
 })

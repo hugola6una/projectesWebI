@@ -1,6 +1,6 @@
 <script setup>
   // Librairies
-  import { ref } from 'vue';
+  import { ref, defineAsyncComponent, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
 
   // API request
@@ -8,13 +8,31 @@
 
   
   // Components
+  // lazy load components com estan en segon pla no volem que carreguint directament
+  const AttacksContent = defineAsyncComponent(() => import('@/components/AttacksContent.vue'));
+  const GamesContent = defineAsyncComponent(() => import('@/components/GamesContent.vue'));
+
+  // Importats
+  import ButtonPurple from '@/components/ButtonPurpleComponent.vue';
   import SelectorComponent from '@/components/SelectorComponent.vue';
   import PlayerContent from '@/components/PlayerContent.vue';
-  import AttacksContent from '@/components/AttacksContent.vue';
-  import GamesContent from '@/components/GamesContent.vue';
-  import ButtonPurple from '@/components/ButtonPurpleComponent.vue';
+
+  const props = defineProps(['me','pPlayer']);
 
   const router = useRouter();
+
+  const player = ref({});
+
+  onMounted(() => {
+    // En cas de ser view sera undefined
+    if (props.me === undefined) {
+      player.value = JSON.parse(localStorage.getItem('player'));
+    } else {
+      player.value = props.pPlayer;
+      // Sino assigna valor prop      
+    }
+    
+  });
   
   const contentToShow = ref('player'); // variable del contingut a mostrar
 
@@ -47,7 +65,7 @@
           <SelectorComponent @click="activeButton('games')" imageSrc="src/assets/images/icons/historicGamesIcon.png" strAlt="Games" :isSelected="contentToShow === 'games'"/>
         </div>
         <!-- En cas de voler eliminar el player -->
-        <aside class="trashOption">
+        <aside v-if="props.me === undefined" class="trashOption" v-once>
           <!-- Buto per delete user -->
           <button class="bTrash" @click="activeButton('trash')">
             <!-- Icone de paperera -->
@@ -58,25 +76,25 @@
       <!-- Secció amb el contigut a mostrar -->
       <section class="content">
         <!-- Contingut del player -->
-        <PlayerContent v-if="contentToShow === 'player'"/>
+        <PlayerContent v-if="contentToShow === 'player'" :player="player"/>
         <!-- Contingut dels attacks -->
-        <AttacksContent v-else-if="contentToShow === 'attacks'"/>
+        <AttacksContent v-else-if="contentToShow === 'attacks'" :player="player"/>
         <!-- Contigut dels games -->
-        <GamesContent v-else-if="contentToShow === 'games'"/>
+        <GamesContent v-else-if="contentToShow === 'games'" :player="player"/>
 
         <!-- Contigut per elminar el player -->
-        <article v-else class="trashContent">
+        <article v-else class="trashContent" v-once>
           <!-- Titol del article -->
-          <h1>DELETE USER</h1>
+          <h1>DELETE {{name}}</h1>
           <!-- Missatge d'alerta -->
-          <h3>ARE YOU SURE YOU WANT TO DELETE “USER”?</h3>
+          <p>ARE YOU SURE YOU WANT TO DELETE “{{name}}” ?</p>
           <p>All player-related information will be deleted</p>
           <!-- Opcions pel delete -->
           <div class="bTrashOptions">
             <!-- Confrimació de la eliminació -->
-            <ButtonPurple buttonText="CONFIRM" @click="deleteUser"/>
+            <ButtonPurple buttonText="CONFIRM" @click="deleteUser" :isEspecial="true"/>
             <!-- Cancela eliminació -->
-            <ButtonPurple buttonText="CANCEL" @click="activeButton('player')"/>
+            <ButtonPurple buttonText="CANCEL" @click="activeButton('player')"  :isEspecial="true"/>
           </div>   
         </article>
       </section>
@@ -126,6 +144,7 @@
 
     /* Contigut del artile eliminar compte */
     .trashContent {
+      width: 100%;
       display: flex;
       flex-direction: column;
       background-color: white;
@@ -138,12 +157,6 @@
     .trashContent h1 {
       color: #362864;
       font-size: 3vmax;
-    }
-
-    /* Missatgeavis d eliminar compte  */
-    .trashContent h3 {
-      color: #362864;
-      font-size: 2vmax;
     }
 
     /* Missatgeavis d eliminar compte  */
@@ -165,6 +178,10 @@
       /* Estil sense text a les opcions per evitar problemes  */
       .userOptions span {
         display: none;
-      }  
+      } 
+      
+      .trashContent p {
+        font-size: 1vh;
+      }
   }
 </style>

@@ -1,39 +1,54 @@
 <script setup>
-    import ItemPlayer from '../components/ItemPlayer.vue';
-    import SearchItem from '../components/SearchItem.vue';
-    import Popup from '../components/PopUpPlayerInfo.vue';
-    import { ref } from 'vue';
+    import { ref, onMounted, defineAsyncComponent } from 'vue';  
 
+    // Import components
+    import ItemPlayer from '@/components/ItemPlayer.vue';
+    import SearchItem from '@/components/SearchItem.vue';
+    // Lazy compnent ja que carrega el component en segon pla
+    const PopupPlayerInfo = defineAsyncComponent(() => import('@/components/PopUpPlayerInfo.vue'));
+
+
+    const props = defineProps(['playerList']);
+    
+    // Funcions cridades en el montatge del component
+    onMounted(async() => {
+        filteredPlayers.value = props.playerList;
+    });
+
+    // Variables
     const showPopup = ref(false);
+    const filteredPlayers = ref([]);
+    const player = ref({});
 
-    const openPopup = () => {
-        showPopup.value = true;
-    };
+    // Funció per mostrar el popup
+    function togglePopUp(playerAux) {
+        showPopup.value = !showPopup.value;
+        if (showPopup.value) {
+            player.value = playerAux;
+        }
+    }
 
-    const closePopup = () => {
-        showPopup.value = false;
-    };
+    // Funció per filtrar els jugadors
+    function updateSearch(value) {
+        filteredPlayers.value = props.playerList.filter(player =>
+            player.player_ID.toLowerCase().includes(value.toLowerCase())
+        );
+    }
+
 </script>
 
 <template>
     <div class="playersContent">
-        <h3>SEARCH</h3>
+        <h3 v-once>SEARCH</h3>
         <section class="search">
-            <SearchItem/>
+            <SearchItem @input="updateSearch"/>
         </section>
         <section class="players">
-            <ItemPlayer @click="openPopup"/>
-            <ItemPlayer @click="openPopup"/>
-            <ItemPlayer @click="openPopup"/>
-            <ItemPlayer @click="openPopup"/>
-            <ItemPlayer @click="openPopup"/>
-            <ItemPlayer @click="openPopup"/>
-            <ItemPlayer @click="openPopup"/>
-            <ItemPlayer @click="openPopup"/>
+            <!-- Item de jugador fem bucle er mostar tots els items -->
+            <ItemPlayer v-for="player in filteredPlayers" :key="player.player_ID" :player="player" @click="togglePopUp(player)"/>
         </section>
-        <Popup v-if="showPopup" @closed="closePopup">
-        </Popup>
     </div>
+    <PopupPlayerInfo v-if="showPopup" @closePopUp="togglePopUp" :player="player"></PopupPlayerInfo>
 </template>
 
 <style scoped>
@@ -47,7 +62,6 @@
         justify-content: start;
         text-align: center;
         align-items: center;
-        max-height: 70vh;
     }
 
     .playersContent h3{
@@ -59,6 +73,7 @@
         width: 100%;
         height: 200%;
         overflow-y: auto;
+        max-height: 40vh;
     }
 
     .search {
