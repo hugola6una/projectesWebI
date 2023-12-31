@@ -105,7 +105,7 @@
     .userSelectors {
         display: grid;
         grid-template-columns: 4fr 1fr;
-        align-items: end;
+        align-self: start;
     }
 
     /*  estil opcions usuari*/

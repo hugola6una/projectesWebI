@@ -1,21 +1,14 @@
 <script setup>
-import { ref,getCurrentInstance } from 'vue';
+    // Librairies   
 
-const props = defineProps(['initialSelected', 'itemName', 'itemPrice', 'itemImage', 'itemQuantity']);
-const selected = ref(props.initialSelected);
-
-const { emit } = getCurrentInstance();
-
-const toggleSelection = () => {
-    selected.value = !selected.value;
-    emit('itemSelected', { selected: selected.value, price: props.itemPrice, name: props.itemName, image: props.itemImage, quantity: props.itemQuantity });
-};
+    defineProps(['attack']);
+    
 </script>
 
 <template>
-    <article :class="{ 'item': true, sel: selected }" @click="toggleSelection">
-        <img :src="itemImage" alt="attackIcon" class="iSword" />
-        <p class="name">{{ itemName }}</p>
+    <article :class="{ 'item': true, sel: false }" @click="toggleSelection">
+        <img src="../assets/images/icons/swordIcon.png" alt="attackIcon" class="iSword" />
+        <p class="name">{{ attack.attack_ID }}</p>
     </article>
 </template>
 
@@ -34,7 +27,6 @@ const toggleSelection = () => {
 }
 
 .item:hover {
-    border: 0.1em solid #80547f;
     background-color: #80547f60;
     cursor: pointer;
 }
@@ -44,6 +36,7 @@ const toggleSelection = () => {
     width: 4vmax;
 }
 .name {
+    color: #80547f;
     font-size: 1.2vmax;
 }
 

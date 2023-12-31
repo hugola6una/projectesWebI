@@ -1,145 +1,123 @@
 <script setup>
-import { ref } from 'vue';
-import ItemStore from '../components/ItemStore.vue';
-import SelectedItemsPopup from '../components/BuyPopUp.vue';
+    // Librairies
+    import { ref, defineAsyncComponent, onMounted} from 'vue';
 
-const items = ref([
-    { id: 1, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0 },
-    { id: 2, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 3, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 4, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 5, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 6, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 7, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 8, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 9, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png' , quantity: 0 },
-    { id: 10, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 11, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 12, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 13, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 14, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 15, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-]);
+    // API Requests
+    import { getBuyableAttacks } from '@/services/api/AttacksRequest.js'
 
-const totalPrice = ref(0);
-const selectedItems = ref([]);
-const showPopup = ref(false);
+    // Components
+    import ItemStore from '@/components/ItemStore.vue';
 
-const updateTotal = (item) => {
-    const isSelected = item.selected;
+    // No carreguem el popUp al deixem en segon pla
+    const SelectedItemsPopup = defineAsyncComponent(() => import('@/components/BuyPopUp.vue'));
 
-    if (isSelected) {
-        totalPrice.value += item.price;
-        selectedItems.value.push(item);
-    } else {
-        totalPrice.value -= item.price;
-        const index = selectedItems.value.findIndex(selectedItem => selectedItem.id === item.id);
-        if (index !== -1) {
-            selectedItems.value.splice(index, 1);
+    onMounted(() => {
+        getAttacks()
+    })
+
+    async function getAttacks() {
+        const token = JSON.parse(localStorage.getItem('player')).token
+        try {
+            attacks.value = await getBuyableAttacks(token);
+        } catch (error) {
+            console.log(error);
         }
     }
-};
 
-const buyButtonClick = () => {
-    showPopup.value = true;
-};
+    // Variables
+    const attacks = ref([]);
+    const totalPrice = ref(0);
+    const selectedItems = ref([]);
+    const showPopup = ref(false);
 
-const closePopup = () => {
-    showPopup.value = false;
-};
+    // Funcions
+    function togglePopup() {
+        showPopup.value = !showPopup.value;
+    }
+
 </script>
 
 <template>
-    <div class="buyContent">
-        <h3>TAP TO SELECT</h3>
+    <section v-if="!showPopup" class="buyContent">
+        <p>TAP TO SELECT</p>
         <section class="items">
-            <ItemStore
-                v-for="item in items"
-                :key="item.id"
-                :initialSelected="item.selected"
-                :itemName="item.name"
-                :itemPrice="item.price"
-                :itemImage="item.image"
-                @itemSelected="updateTotal"
-            />
+            <ItemStore v-for="attack in attacks" :key="attack.attack_ID" :attack="attack"></ItemStore>
         </section>
-        <div class="buyAction">
+        <article class="buyAction">
             <div class="amount">
                 <p>TOTAL: {{ totalPrice }}</p>
-                <img src="../assets/images/icons/coinIcon.png" alt="Coin" class="iCoin">
+                <img src="@/assets/images/icons/coinIcon.png" alt="Coin" class="iCoin">
             </div>
-            <button @click="buyButtonClick">BUY</button>
-        </div>
-        <SelectedItemsPopup
-            v-if="showPopup"
-            :selectedItems="selectedItems"
-            @closed="closePopup"
-        />
-    </div>
+            <button @click="togglePopup()">BUY</button>
+        </article>
+        
+    </section>
+    <SelectedItemsPopup v-if="showPopup" :selectedItems="selectedItems" @closed="togglePopup"/>
 </template>
 
 <style scoped>
-.buyContent {
-    margin: 2vmax;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    background-color: white;
-}
+    .buyContent {
+        height: 100%;
+        width: 100%;
+        display: grid;
+        grid-template-rows: 1fr 6fr 2fr;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: white;
+    }
 
-.buyContent h3 {
-    margin: 2vmax;
-    font-size: 1vmax;
-    color: #362864;
-}
+    .buyContent p {
+        margin: 2vmax;
+        font-size: 1vmax;
+        color: #362864;
+    }
 
-.items {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow-y: auto;
-    height: 40vh;
-    max-height: 40vh;
+    .items {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-y: auto;
+        max-height: 43vh;
 
-}
+    }
 
-.amount {
-    display: flex;
-    margin-top: 2vmax;
-    height: 3vmax;
-    width: 25vmax;
-    background-color: #80547f;
-    color: white;
-    text-align: start;
-    align-items: center;
-}
+    .amount {
+        display: flex;
+        margin-top: 2vmax;
+        height: 3vmax;
+        width: 25vmax;
+        background-color: #80547f;
+        color: white;
+        text-align: start;
+        align-items: center;
+    }
 
-.amount p {
-    font-size: 1vmax;
-}
+    .amount p {
+        color: white;
+        font-size: 1vmax;
+    }
 
-.amount img {
-    margin-left: 0.2vmax;
-    width: 2vmax;
-}
+    .amount img {
+        margin-left: 0.2vmax;
+        width: 2vmax;
+    }
 
-button {
-    color: white;
-    background-color: #362864;
-    height: 5vmax;
-    width: 25vmax;
-    font-size: 3vmax;
-    border: none;
-}
+    button {
+        color: white;
+        background-color: #362864;
+        height: 5vmax;
+        width: 25vmax;
+        font-size: 3vmax;
+        border: none;
+    }
 
-.buyAction {
-    margin-top: 2vmax;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2vmax;
-}
+    .buyAction {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
 
 @media (max-width: 900px) {
     .items {

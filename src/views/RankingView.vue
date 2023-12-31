@@ -42,14 +42,11 @@
 
 <template>
   <!-- Navegador per les diferents opcions del user -->
-  <nav class="userSelectors">
-      <!-- Opcions del usuari -->
-      <div class="userOptions">
+  <nav class="rankingSelectors">
       <!-- Opcio de perfil -->
       <SelectorComponent @click="showContent('ranking')" imageSrc="src/assets/images/icons/trofeo.png" strAlt="Ranking" :isSelected="active"/>
       <!-- Opció dels atacs -->
       <SelectorComponent @click="showContent('search')" imageSrc="src/assets/images/icons/search.png" strAlt="Search" :isSelected="!active"/>
-    </div>
   </nav>
   <!-- Secció amb el contigut a mostrar -->
   <section class="content">
@@ -62,10 +59,9 @@
 
 <style scoped>
   /* Estils del seleccionadors de contiguts */
-  .userSelectors {
-        display: grid;
-        grid-template-columns: 4fr 1fr;
-        align-items: end;
+  .rankingSelectors {
+        display: flex;
+        align-self: start;
     }
 
     /*  estil opcions usuari*/
