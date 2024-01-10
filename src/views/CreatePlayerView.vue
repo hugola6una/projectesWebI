@@ -11,13 +11,14 @@
   import ErrorSpan from '@/components/ErrorSpan.vue';
 
   // Variables
-  const emit = defineEmits(['havePlayer']);
   const router = useRouter();
+  const emit = defineEmits(['havePlayer']);
   const strCreatePlayer = ref('CREATE');
   const strHaveAPlayer = ref('I HAVE A PLAYER');
 
   // Variables de error
   const errors = {
+    name: ref({ value: false, message: '' }), // Error en el nom
     player: ref({ value: false, message: '' }), // Error en el nom
     password: ref({ value: false, message: '' }), // Error en el password
     passwordConfirm: ref({ value: false, message: '' }), // Error en la confirmaió password
