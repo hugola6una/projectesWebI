@@ -9,8 +9,11 @@
     const contentToShow = ref('buy');
 
   // Funció per canviar el contingut a mostrar
-  function activeButton(option) {
+  function activeButton(option) {    
+    console.log(option);
     contentToShow.value = option;
+    console.log(contentToShow.value);
+    return;
   }
 
 </script>
@@ -27,7 +30,7 @@
       <!-- Secció Buy -->
       <Buy v-if="contentToShow === 'buy'"/>
       <!-- Seccio Sell -->
-      <Sell v-if="contentToShow === 'sell'"/>
+      <!-- <Sell v-else/> -->
   </article>
 </template>
 

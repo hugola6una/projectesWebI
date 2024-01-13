@@ -3,7 +3,7 @@
     import { ref, defineAsyncComponent, onMounted} from 'vue';
 
     // API Requests
-    import { getBuyableAttacks, buyAttack } from '@/services/api/AttacksRequest.js'
+    import { getBuyableAttacks} from '@/services/api/AttacksRequest.js'
 
     // Components
     import ItemStore from '@/components/ItemStore.vue';
@@ -26,6 +26,7 @@
 
     // Variables
     const attacks = ref([]);
+    const selectedAttacks = ref([]);
     const totalPrice = ref(0);
     const selectedItems = ref([]);
     const showPopup = ref(false);
@@ -35,13 +36,29 @@
         showPopup.value = !showPopup.value;
     }
 
+    function checkSelected(attack) {
+        if (selectedAttacks.value.includes(attack)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function toggleSelecion(attack) {
+        if (selectedAttacks.value.includes(attack)) {
+            selectedAttacks.value.splice(selectedAttacks.value.indexOf(attack), 1);
+        } else {
+            selectedAttacks.value.push(attack);
+        }
+    }
+
 </script>
 
 <template>
     <section v-if="!showPopup" class="buyContent">
         <p>TAP TO SELECT</p>
         <section class="items">
-            <ItemStore v-for="attack in attacks" :key="attack.attack_ID" :attack="attack"></ItemStore>
+            <ItemStore v-for="attack in attacks" :key="attack.attack_ID" :attack="attack" :isSelected="checkSelected(attack)" @toggleSelection="toggleSelecion(attack)"></ItemStore>
         </section>
         <article class="buyAction">
             <div class="amount">
