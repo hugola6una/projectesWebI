@@ -24,6 +24,7 @@
         const token = JSON.parse(localStorage.getItem('player')).token;
         try {
             matches.value = await getAllMatchesRequest(token);
+            
         } catch (error) {
             console.log(error);
         }
