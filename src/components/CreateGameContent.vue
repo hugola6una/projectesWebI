@@ -1,66 +1,116 @@
-<script>
-export default {
-  data() {
-    return {
-      name: '',
-      size: 6,
-      hp: 800,
+<script setup>
+ import { ref} from 'vue';
+
+// Componentes
+ import ErrorSpan from '@/components/ErrorSpan.vue';
+ import InputComponent from '@/components/InputComponent.vue';
+ import { createGameRequest} from '@/services/api/GamesRequest.js';
+
+    let size = ref(6);
+    let hp = ref(7);
+
+    // Variables de error
+    const errors = {
+      name: ref({ value: false, message: '' }), // Error en el nom
+      global: ref({ value: false, message: '' }), // Errors globals normalment en la request de la API
     };
-  },
-  methods: {
-    handleSubmit() {
-      // post cap a la arena
-      const name = document.getElementsByName("name")[0].value;
-      const size = document.getElementsByName("size")[0].value;
-      const hp = document.getElementsByName("hp")[0].value;
-      
-      this.$router.push({
-        name: 'play',
-        params: { name, size, hp },
-      });
-    },
 
-    handleMouseOver() {
-      // Cambiar el color cuando el ratón pasa por encima
-      document.querySelector('buttonCreate').style.backgroundColor = '#634864'; 
-    },
+    // Inciialitza els errors
+    Object.values(errors).forEach(error => {
+      error.value = false;
+      error.message = '';
+    });
 
-    handleMouseOut() {
-     // Restaurar el color cuando el ratón sale
-      document.querySelector('buttonCreate').style.backgroundColor = '#362864'; 
-    },
+    // Variables del formulari 
+    const formData ={
+        name: ref('')
+      };
+  //Inicialitza
+  formData.name = "";
+
+  // Actualitza el model i els seus errors
+  function updateModel (value, field)  {
+      formData[field] = value;
+      updateError(field);
+    };
+
+    // Actualitza els errors en funció del camp respectiu
+  function updateError (field) {
+    switch (field) {
+      case 'name':
+        errors.name.value = false;
+        break;
+      default:
+      break;
+    }
+  };
 
     // funcions per el slider
-    updateSizeValue(event) {
-      this.size = event.target.value;
-    },
-    updateHpValue(event) {
-      this.hp = event.target.value;
-    },
-  },
-};
+    function updateSizeValue(event) {
+      size.value = event.target.value;
+    }
+    function updateHpValue(event) {
+      hp.value = event.target.value;
+    }
+
+    
+// Funció encarregada de fer el submit del formulari i del resgitre del nou usuari
+async function handleSubmit () {
+    errors.global.value = false; // Reset del error global 
+
+    // Comprova camp no buit
+    if (!formData.name) {
+      errors.name.value = true;
+      errors.name.message = "Missing Name";
+    } 
+
+    if (formData.name.length > 21) {
+      errors.name.value = true;
+      errors.name.message = "The name must have less than 21 characters";
+    } 
+
+    // Agafa l'error en cas d'exitir
+    if (Object.values(errors).some(error => error.value)) {
+      return;
+    }
+
+    // Fem peticio de registre + login per obtindre el token
+    try {
+      const token = JSON.parse(localStorage.getItem('player')).token
+      await createGameRequest(token, formData.name, parseInt(size.value), parseInt(hp.value));
+      //createGame(data); // Usuari creat
+    } catch (error) {
+      // Captura l'error en cas de error a la API
+      errors.global.value = true;
+      errors.global.message = error.message;
+    }
+  };
 </script>
 
 <template>
   <!-- Contingut de la pagina createGame -->
     <article class="createContent">
        <!-- Contingut del formulari per demanar les caracteristiques del game -->
-        <form id="arena" @submit.prevent="handleSubmit">
+        <form @submit.prevent="handleSubmit">
           <h4>Customize your game</h4>
            <!-- Demana nom -->
           <p>Choose a name for the game</p>
-          <input type="text" placeholder="Name" name="name">
+          <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
           <!-- Demana mida amb slider -->
           <p>Choose the size of the Arena (2-10)</p>
           <input type="range" min="2" max="10" value="6" class="slider" id="sizeSlider" name="size" @input="updateSizeValue">
           <p>Size:<span id="sizeValue">{{ size }}</span></p>
           <!-- Demana HP amb slider -->
           <p>Choose the HP of the players</p>
-          <input type="range" min="1" max="1500" value="800" class="slider" id="hpSlider" name="hp" @input="updateHpValue">
+          <input type="range" min="15" max="10000" value="50" class="slider" id="hpSlider" name="hp" @input="updateHpValue">
           <p>Hp:<span id="hpValue">{{ hp }}</span></p> 
+
           <!-- Boto per crear -->
-          <button  @mouseover="handleMouseOver" @mouseout="handleMouseOut" type="submit" class="createButton">CREATE</button>
+          <button type="submit" class="createButton">CREATE</button>
       </form>
+      <!-- Mensaje de error en caso de haber -->
+          <ErrorSpan v-if="errors.global.value" :message="errors.global.message" />
+
     </article>
 </template>
 
