@@ -1,89 +1,67 @@
 <script setup>
-    import ItemGames from '../components/ItemGames.vue';
-    function joinContent() {
-    var defaultContent = document.getElementById('defaultContent');
-    var alternateContent = document.getElementById('alternateContent');
 
-    if (defaultContent.style.display !== 'none') {
-      defaultContent.style.display = 'none';
-      alternateContent.style.display = 'block';
-    } else {
-      defaultContent.style.display = 'block';
-      alternateContent.style.display = 'none';
-    }
-  }
+    // Librairies
+    import { ref, onMounted, watch} from 'vue';
+
+   import ItemGames from '@/components/ItemGames.vue';
+
+   const props = defineProps(['gamesList']);
+
+   // Funcions cridades en el montatge del component
+   onMounted(() => {
+        games.value = props.gamesList;
+    });
+
+     // Controla els canvis de la llista de jugadors
+     watch(() => props.gamesList, () => {
+        games.value = props.gamesList;
+    });
+
+    const games = ref([]);
+
 </script>
 
 <template>
     <div id="defaultContent" class="gameContent">
         <h3>Select a game</h3>
         <section class="games">
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
+            <ItemGames v-for="game in games" :key="game.game_ID" :game="game" />
         </section>
-        <button @click="joinContent()">JOIN</button>
     </div>
-
-    <div id="alternateContent" class="gameContent" style="display: none;">
-        <h3>ARE YOU SURE YOU WANT TO JOIN “GAME#0”?</h3>
-        <div class="buttonsContent">
-        <button>Confirm</button>
-        <button>Cancel</button>
-        </div>
-    </div> 
 </template>
 
 <style scoped>
 
-    .buttonsContent {
-        margin-top: 25vh;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
     .gameContent {
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin: 1vmax;
         background-color: white;
         justify-content: start;
         text-align: center;
         align-items: center;
-        max-height: 75vh;
     }
 
     .gameContent h3{
         color: #362864;
         font-size: 3vmax;
-
     }
     .games {
-        width: 100%;
-        height: 100%;
         overflow-y: auto;
+        max-height: 55vh;
     }
-
     button {
-        color: white;
-        background-color: #362864;
-        height: 7vmax;
-        width: 20vmax;
-        font-size: 3vmax;
-        border: none;
-        margin-top: 2vh;
-        margin-bottom: 2vh;
-        margin: 2vh;
+      color: white;
+      background-color: #362864;
+      height: 5vmax;
+      width: 20vmax;
+      font-size: 3vmax;
+      border: none;
+      margin-left: 2vh;
     }
-
+    button:hover {
+    background-color: #634864; 
+    }
     @media (max-width: 800px) {
     .gameContent {
         max-height: 60vh;
@@ -100,10 +78,6 @@
         margin-bottom: 2vh;
     }
 
-    .buttonsContent button {
-        height: 4vmax;
-        width: 15vmax;
-        font-size: 2vmax;
-    }
+
 }
 </style>

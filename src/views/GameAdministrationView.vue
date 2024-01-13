@@ -1,7 +1,9 @@
 <script setup>
 // Librairies
-  import { ref} from 'vue';
-  
+  import { ref, onMounted} from 'vue';
+
+  // API request
+  import { getGames } from '@/services/api/GamesRequest.js';
 
   import CreateGameContent from '@/components/CreateGameContent.vue';
   import ShowGameContent from '@/components/ShowGameContent.vue';
@@ -9,6 +11,22 @@
   import SelectorComponent from '@/components/SelectorComponent.vue';
 
   const contentToShow = ref('create');
+
+  onMounted(async() => {
+        await getAllGames();
+    });
+
+    const games = ref([]);
+
+    // Funció per obtenir tots els jugadors de la API
+    async function getAllGames() {
+        const token = JSON.parse(localStorage.getItem('player')).token
+        try {
+            games.value = (await getGames(token));
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 function showContent(contentType) {
   contentToShow.value = contentType;
@@ -33,9 +51,9 @@ function showContent(contentType) {
           <!-- Contingut del create -->
           <CreateGameContent v-if="contentToShow === 'create'"/>
           <!-- Contingut del show -->
-          <ShowGameContent v-else-if="contentToShow === 'show'" />
+          <ShowGameContent v-else-if="contentToShow === 'show'" :gamesList="games" />
           <!-- Contingut del search -->
-          <SearchGameContent v-else-if="contentToShow === 'search'"/>
+          <SearchGameContent v-else-if="contentToShow === 'search'" :gamesList="games"/>
           </section>
 </template>
 
