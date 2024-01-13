@@ -1,10 +1,13 @@
 <script setup>
-  import { ref } from 'vue';  // Per refenciar variables
-  import lateralMenu from '../components/LateralMenu.vue';
-  import Top from '../components/TopComponent.vue';
-  import CreateGameContent from '../components/CreateGameContent.vue';
-  import ShowGameContent from '../components/ShowGameContent.vue';
-  import SearchGameContent from '../components/SearchGameContent.vue';
+// Librairies
+  import { ref} from 'vue';
+  
+
+  import CreateGameContent from '@/components/CreateGameContent.vue';
+  import ShowGameContent from '@/components/ShowGameContent.vue';
+  import SearchGameContent from '@/components/SearchGameContent.vue';
+  import SelectorComponent from '@/components/SelectorComponent.vue';
+
   const contentToShow = ref('create');
 
 function showContent(contentType) {
@@ -13,88 +16,44 @@ function showContent(contentType) {
 </script>
 
 <template>
- <div class="container">
-      
-      <lateralMenu />
-      <div class="body">
-        <Top />
-        <section class="center">
-        <nav class="userSelectors">
-            <div class="userOptions">
-                <button @click="showContent('create')" :class="{ active: contentToShow === 'create' }">
-                    <!-- <img src="src/assets/images/icons/create.png" alt="Create" class="iArchive"> -->
-                    <span>Create</span>
-                </button>
-                <button @click="showContent('show')" :class="{ active: contentToShow === 'show' }">
-                    <!-- <img src="src/assets/images/icons/show.png" alt="Show" class="iArchive"> -->
-                    <span>Show</span>
-                </button>
-                <button @click="showContent('search')" :class="{ active: contentToShow === 'search' }">
-                    <!-- <img src="src/assets/images/icons/search.png" alt="Search" class="iArchive"> -->
-                    <span>Search</span>
-                </button>
+        <!-- Navegador per les diferents opcions del game -->
+        <nav class="selectors">
+           <!-- Opcions del game -->
+            <div class="options">
+               <!-- Opcions del create -->
+              <SelectorComponent @click="showContent('create')" imageSrc="src/assets/images/icons/create.png" strAlt="Create" :isSelected="contentToShow === 'create'"/>
+               <!-- Opcions del show -->
+              <SelectorComponent @click="showContent('show')" imageSrc="src/assets/images/icons/show.png" strAlt="Show" :isSelected="contentToShow === 'show'"/> 
+               <!-- Opcions del search -->
+              <SelectorComponent @click="showContent('search')" imageSrc="src/assets/images/icons/search.png" strAlt="Search" :isSelected="contentToShow === 'search'"/>
             </div>
         </nav>
-        <article class="userContent">
-            <div v-if="contentToShow === 'create'" class="userContent">
-              <CreateGameContent />
-            </div> 
-            <div v-else-if="contentToShow === 'show'" class="userContent">
-              <ShowGameContent />
-            </div> 
-            <div v-else-if="contentToShow === 'search'" class="userContent">
-              <SearchGameContent />
-            </div> 
-        </article>
-        </section>
-
-      </div>
-
-    </div>
-  
+        <!-- Secció amb el contigut a mostrar -->
+        <section class="content">
+          <!-- Contingut del create -->
+          <CreateGameContent v-if="contentToShow === 'create'"/>
+          <!-- Contingut del show -->
+          <ShowGameContent v-else-if="contentToShow === 'show'" />
+          <!-- Contingut del search -->
+          <SearchGameContent v-else-if="contentToShow === 'search'"/>
+          </section>
 </template>
 
 <style scoped>
-     .container {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-  }
-
-  .body {
-    height: 100%;
-    width: 100%;
-    background: #362864;
-    display: grid;
-    grid-template-rows: 1fr 8fr;
-  }
-
-
-  .center {
-    display: grid;
-    grid-template-rows: 1fr 8fr;
-    height: 100%;
-  }
-
-  .userSelectors {
+/* Contenidor amb les opcions */
+  .selectors {
     display: grid;
     grid-template-columns: 4fr 1fr;
-    align-items: end;
+    align-items: start;
   }
-  .userOptions {
-    display: flex;
-    justify-content: left;
-    margin-left: 1.5vh;
-    align-items: center;
+  /*  estil opcions game */
+  .options {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 3.3vh;
   }
-
-  .iArchive {
-    width: 3vmax;
-    margin-right: 1vmax;
-  }
-
+/*  estil boto  */
   button {
     border: 0.1em solid #362864;
     height: 5vmax;
@@ -105,43 +64,29 @@ function showContent(contentType) {
     align-items: center;
     box-sizing: border-box;
   }
-
-  button.active {
-    background: #80547f;
-    color: white;
-  }
-  .userContent {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-  }
-  @media (max-width: 820px) {
-    .container {
-      grid-template-columns: 1fr;
+/* Contigut de la secció game */
+  .content {
       display: flex;
-      flex-direction: column;
-
-    }
-
-    .body {
+      background: white;
       height: 100%;
-      order: 1;
-    }
-    .userContent {
-      display: flex;
-      justify-content: center;
       width: 100%;
+  }
+  @media (max-width: 900px) {
+    /* Estil mida buttons per a resolcions més petites */
+    .content {
+      display: flex;
+      background: white;
       height: 100%;
+      width: 100%;
     }
-    .userOptions span {
+    .options span {
       display: none;
     }
-    .userOptions {
+    .options {
       margin-left: 2vh;
     }
     button {
-      width: 6vmax;
+      width: 8vh;
     }
   }
 </style>
