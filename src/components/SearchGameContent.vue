@@ -1,71 +1,49 @@
 <script setup>
-    import ItemGames from '../components/ItemGames.vue';
-    import SearchItem from '../components/SearchItem.vue';
+    import { ref, onMounted} from 'vue';  
+
+    import ItemGames from '@/components/ItemGames.vue';
+    import SearchItem from '@/components/SearchItem.vue';
+    
+    const props = defineProps(['gamesList']);
+
+    // Funcions cridades en el montatge del component
+    onMounted(async() => {
+        filteredGames.value = props.gamesList;
+    });
+    
+    // Variables
+    const filteredGames = ref([]);
+    
+
+     // Funció per filtrar els jugadors
+     function updateSearch(value) {
+        filteredGames.value = props.gamesList.filter(games =>
+            games.game_ID.toLowerCase().includes(value.toLowerCase())
+        );
+    }
+
 </script>
 
 <template>
     <div id="defaultContent" class="gameContent">
         <h3>Search available games</h3>
-        <section class="search">
-            <SearchItem/>
-        </section>
+            <SearchItem @input="updateSearch"/>
         <section class="games">
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
-            <ItemGames/>
+            <ItemGames v-for="game in filteredGames" :key="game.game_ID" :game="game" />
         </section>
-        <button @click="joinContent()">JOIN</button>
     </div>
-
-    <div id="alternateContent" class="gameContent" style="display: none;">
-        <h3>ARE YOU SURE YOU WANT TO JOIN “GAME#0”?</h3>
-        <div class="buttonsContent">
-        <button>Confirm</button>
-        <button>Cancel</button>
-        </div>
-    </div>  
-
+   
 </template>
 
-<script>
- function joinContent() {
-    var defaultContent = document.getElementById('defaultContent');
-    var alternateContent = document.getElementById('alternateContent');
-
-    if (defaultContent.style.display !== 'none') {
-      defaultContent.style.display = 'none';
-      alternateContent.style.display = 'block';
-    } else {
-      defaultContent.style.display = 'block';
-      alternateContent.style.display = 'none';
-    }
-  }
-</script>
-
 <style scoped>
-.buttonsContent {
-        margin-top: 25vh;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
     .gameContent {
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin: 1vmax;
         background-color: white;
         justify-content: start;
         text-align: center;
         align-items: center;
-        max-height: 76.5vh;
     }
 
     .gameContent h3{
@@ -73,17 +51,12 @@
         font-size: 3vmax;
     }
     .games {
-        margin-top: 0%;
-        width: 100%;
-        height: 200%;
         overflow-y: auto;
+        max-height: 46vh;
     }
 
     .search {
         width: 100%;
-        height: 50%;
-        margin-bottom: 0%;
-        overflow-y: auto;
     }
 
     button {
@@ -111,10 +84,6 @@
         margin-top: 2vh;
         margin-bottom: 2vh;
     }
-    .buttonsContent button {
-        height: 4vmax;
-        width: 15vmax;
-        font-size: 2vmax;
-    }
+    
 }
 </style>

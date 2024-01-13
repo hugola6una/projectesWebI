@@ -23,6 +23,7 @@ export async function attackPlayer(token, id){
     };  
 }
 
+// Get buyable attacks
 export async function getBuyableAttacks(token) {
     try {
         const res = await  fetch("https://balandrau.salle.url.edu/i3/shop/attacks", {
@@ -122,7 +123,8 @@ export async function getOwnAttacks(token) {
     }; 
 }
 
-export async function createAttack(token) {
+// Create attack
+export async function createAttackRequest(token, attack) { 
     try {
         const res = await  fetch("https://balandrau.salle.url.edu/i3/shop/attacks", {
             method: "POST",
@@ -131,6 +133,11 @@ export async function createAttack(token) {
                 "Content-Type": "application/json",
                 "Bearer": token,
             },
+            body: JSON.stringify({
+                attack_ID: attack.attack_ID,
+                positions: attack.positions,
+                img: attack.img,
+            }),
         })
         
         // En cas de que no sigui correcte, llança error
@@ -138,10 +145,13 @@ export async function createAttack(token) {
             const error = await res.json();
             throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
         } 
-        const data = await res.json();
-        return data;
+        try {
+            await res.json();
+        } catch (error) {
+            return;
+        }
     } catch(error) {
         // Seteja missatge d'error a mostrar
         throw new Error(`${error.message}`);
-    }; 
+    };  
 }

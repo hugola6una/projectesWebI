@@ -1,97 +1,88 @@
 <script setup>
-  import { ref } from 'vue';
-  import Top from '../components/TopComponent.vue';
-  import ItemCollection from '../components/ItemCollection.vue';
-  import MyAttacksPopUp from '../components/MyAttacksPopUp.vue';
+  // Librairies
+  import { ref, defineAsyncComponent, onMounted, watch} from 'vue';
 
-  const items = ref([
-    { id: 1, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0 },
-    { id: 2, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 3, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 4, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 5, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 6, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 7, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 8, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 9, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png' , quantity: 0 },
-    { id: 10, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 11, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 12, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 13, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 14, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 15, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-]);
+  // API Requests
+  import { attackPlayer } from '@/services/api/AttacksRequest.js';
+
+  // Components
+  import ItemCollection from '@/components/ItemCollection.vue';
+
+  // Componetns segon plà
+  const MyAttacksPopUp = defineAsyncComponent(() => import('@/components/MyAttacksPopUp.vue'));
+
+  // Variables
+  const attacks = ref ([]);
+
+  // Durant el montatje de la view obtenim els atacs que disposem
+  onMounted(() => {
+        getAttacks();
+    });
+
+    watch(attacks, () => {
+        
+    });
+
+    
+
+
+    // Functions
+    async function getAttacks() {
+      try {
+        const token = JSON.parse(localStorage.getItem('player')).token; // Obtenim token del local storage
+        const id  = JSON.parse(localStorage.getItem('player')).player_ID; // Obtenim token del local storage
+        attacks.value = await attackPlayer(token, id);
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+  function hasCreated() {
+    togglePopupCreaction();
+    getAttacks();
+  }
 
 const showPopup = ref(false);
 
-const createButtonClick = () => {
-    showPopup.value = true;
-};
-
-const closePopup = () => {
-    showPopup.value = false;
-};
+const togglePopupCreaction = () => {
+  showPopup.value = !showPopup.value;
+}
 
 </script>
 
 <template>      
-      <div class="body">
-        <Top />
-        <div class="center">
-          <h1 class="colectionTitle">COLECTION</h1>    
-          <section>
-            <ItemCollection
-                v-for="item in items"
-                :key="item.id"
-                :initialSelected="item.selected"
-                :itemName="item.name"
-                :itemPrice="item.price"
-                :itemImage="item.image"
-            />
+    <h1  v-if="!showPopup" class="colectionTitle">COLECTION</h1>    
+    <section  v-if="!showPopup">
+      <ItemCollection v-for="attack in attacks" :key="attack.attack_ID" :attack="attack"/>
+    </section>
+    <button  v-if="!showPopup" @click="togglePopupCreaction">CREATE</button>    
+    <MyAttacksPopUp v-if="showPopup" @onClosed="togglePopupCreaction" @onCreated="hasCreated()"/>
 
-          </section>
-          <button @click="createButtonClick">CREATE</button>
-        </div>
-        <MyAttacksPopUp v-if="showPopup" @closed="closePopup" />
-      </div>  
 </template>
 
 <style scoped>
-  .body {
-    height: 100%;
-    background: #362864;
-    display: grid;
-    grid-template-rows: 1fr 8fr;
-  }
 
-
-  .center {
-    color: white;
-    font-size: 1.5vmax;  
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-  }
-
+  /* estil per el titol del cos  */
   .colectionTitle {
-    margin-left: 4vmax;
+    text-align: center;
     color: white;
-    font-size: 3vmax;  
+    font-size: 5vh;  
 
   }
-
+  
+  /* estil per el cos de la pagina */
   section {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* fem que sigui wrap per anar adaptanse al contigut i l'amplada de lapagina */
     justify-content: center;
-    overflow-y: auto;
-    height: 60vh;
-    max-height: 60vh;
+    overflow-y: auto; /* fem que tingui scroll vertical en cas de sobrepassar el max heigh */
+    height: 55vh;
+    max-height: 55vh;
   }
 
-  .center button {
+  /* Estil botó */
+  button {
     width: 20vmax;
     height: 6vmax;
     font-size: 2vmax;
@@ -101,21 +92,21 @@ const closePopup = () => {
     border: none;
   }
 
+  /* Estil botó acció hover */
+  button:hover {
+    color: white;
+  }
 
 
+  /* Estil telefons */
   @media (max-width: 900px) {
-    .container {
-      grid-template-columns: 1fr;
-      grid-template-rows: 8fr 1fr;
-    }
-
-    .body {
-      height: 100%;
-      order: 1;
-    }
 
     section {
       max-height: 50vh;
+    }
+
+    .colectionTitle {
+      font-size: 4vh;
     }
   }
 </style>
