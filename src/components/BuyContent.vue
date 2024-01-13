@@ -26,12 +26,15 @@
 
     async function buyAttacks() {
         const token = JSON.parse(localStorage.getItem('player')).token
-        try {
-            await buyAttack(token, selectedAttacks.value);
-            getAttacks();
-            selectedAttacks.value = [];
-        } catch (error) {
-            console.log(error);
+        for (let i = 0; i < selectedAttacks.value.length; i++) {
+            const id = selectedAttacks[i].attack_ID;
+
+            try {
+                await buyAttack(token, id);
+                selectedAttacks.value = [];
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -75,7 +78,7 @@
                 <p>TOTAL: {{ totalPrice }}</p>
                 <img src="@/assets/images/icons/coinIcon.png" alt="Coin" class="iCoin">
             </div>
-            <button @click="togglePopup()">BUY</button>
+            <button @click="togglePopup()" :disabled="selectedAttacks.length === 0">BUY</button>
         </article>
         
     </section>
