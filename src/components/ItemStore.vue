@@ -1,12 +1,13 @@
 <script setup>
     // Librairies   
 
-    defineProps(['attack']);
+    defineProps(['attack', 'isSelected']);
     
 </script>
 
 <template>
-    <article :class="{ 'item': true, sel: false }" @click="toggleSelection">
+    <!-- Contigut article representa el item -->
+    <article :class="{ 'item': true, sel: isSelected }" @click="$emit('toggleSelection')">
         <img src="../assets/images/icons/swordIcon.png" alt="attackIcon" class="iSword" />
         <p class="name">{{ attack.attack_ID }}</p>
     </article>
@@ -16,11 +17,10 @@
 .item {
     display: flex;
     flex-direction: column;
-    width: 8vmax;
-    height: 6vmax;
+    width: 10vh;
     border: none;
-    padding: 1vmax;
-    margin: 1vmax;
+    padding: 1vh;
+    margin: 1vh;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -32,15 +32,21 @@
 }
 
 .item img {
-    margin-top: 1.5vmax;
-    width: 4vmax;
+    margin-top: 2vh;
+    width: 5vh;
 }
 .name {
+    width: 100%;
     color: #80547f;
-    font-size: 1.2vmax;
+    font-size: 1.5vh;
+    word-wrap: break-word;
 }
 
 .sel {
     background-color: #80547f;
+}
+
+.sel p {
+    color: white;
 }
 </style>
