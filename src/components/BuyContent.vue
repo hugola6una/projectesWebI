@@ -3,13 +3,13 @@
     import { ref, defineAsyncComponent, onMounted} from 'vue';
 
     // API Requests
-    import { getBuyableAttacks} from '@/services/api/AttacksRequest.js'
+    import { getBuyableAttacks, buyAttack} from '@/services/api/AttacksRequest.js'
 
     // Components
     import ItemStore from '@/components/ItemStore.vue';
 
     // No carreguem el popUp al deixem en segon pla
-    const SelectedItemsPopup = defineAsyncComponent(() => import('@/components/BuyPopUp.vue'));
+    const BuyPopUp = defineAsyncComponent(() => import('@/components/BuyPopUp.vue'));
 
     onMounted(() => {
         getAttacks()
@@ -24,11 +24,21 @@
         }
     }
 
+    async function buyAttacks() {
+        const token = JSON.parse(localStorage.getItem('player')).token
+        try {
+            await buyAttack(token, selectedAttacks.value);
+            getAttacks();
+            selectedAttacks.value = [];
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     // Variables
     const attacks = ref([]);
     const selectedAttacks = ref([]);
     const totalPrice = ref(0);
-    const selectedItems = ref([]);
     const showPopup = ref(false);
 
     // Funcions
@@ -69,7 +79,7 @@
         </article>
         
     </section>
-    <SelectedItemsPopup v-if="showPopup" :selectedItems="selectedItems" @closed="togglePopup"/>
+    <BuyPopUp v-if="showPopup" :selectedAttacks="selectedAttacks" @closed="togglePopup" @buyItems="buyAttacks"/>
 </template>
 
 <style scoped>

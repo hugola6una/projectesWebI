@@ -30,7 +30,7 @@
       <!-- Secció Buy -->
       <Buy v-if="contentToShow === 'buy'"/>
       <!-- Seccio Sell -->
-      <!-- <Sell v-else/> -->
+      <Sell v-if="contentToShow === 'sell'"/>
   </article>
 </template>
 
