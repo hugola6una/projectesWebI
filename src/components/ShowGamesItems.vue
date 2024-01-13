@@ -14,13 +14,15 @@
 
 <style scoped>
 .game {
-    margin-bottom: 2vh;
-    display: flex;
-    text-align: center;
-    justify-content: space-around;
-    align-items: center;
-    cursor: pointer;
-    background-color: #EFEFFE;
+        background-color: #EFEFFE;
+        width: 100%;
+        height: 10vh;
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr; /* Deinim aixi perque el nom ocupi una major part */
+        cursor: pointer;
 }
 
 .game:active {
@@ -28,8 +30,15 @@
 }
 
 p {
-    font-size: 1vmax;
-    color: #362864;   
+    font-size: 2vh;
+    color: #362864; 
+    margin: 0;  
 }
-
+@media (max-width: 900px) {
+        
+        /* Estil XP */
+        p {
+            font-size: 1vh;   
+        }
+    }
 </style>

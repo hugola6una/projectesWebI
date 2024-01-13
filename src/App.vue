@@ -28,7 +28,7 @@
     // Comprova si el component actual és el de login o el de home i actualitza les variables
     async function checkCustomView() {
         const accessViews = ['access', 'loginPlayer', 'createPlayer'];
-        const homeViews = ['home', 'user', 'ranking', 'store', 'my-attacks', 'games'];
+        const homeViews = ['home', 'user', 'ranking', 'store', 'my-attacks', 'games', 'games-administration'];
         isAccessView.value = accessViews.includes(route.name);
         isHomeView.value = homeViews.includes(route.name);  
         if (isAccessView.value) { // Si estem en el component de accesss, esborrem el localStorage
