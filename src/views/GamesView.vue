@@ -1,8 +1,8 @@
 <script setup>
   import { ref } from 'vue';  // Per refenciar variables
-  import Top from '../components/TopComponent.vue';
-  import GamesShowContent from '../components/GamesShowContent.vue';
-  import GamesSearchContent from '../components/GamesSearchContent.vue';
+  import Top from '@/components/TopComponent.vue';
+  import GamesShowContent from '@/components/GamesShowContent.vue';
+  import GamesSearchContent from '@/components/GamesSearchContent.vue';
   const contentToShow = ref('show');
 
 function showContent(contentType) {
