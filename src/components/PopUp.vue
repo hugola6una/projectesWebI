@@ -69,7 +69,7 @@
                 <!-- Missatge de log -->
                 <!-- Right per ubicarlo a la dreta-->
                 <!-- Left per ubicarlo a la esquerra-->
-                <PlayedHistoric v-for="log in matchLog" :key="log.date_time" :description="log.description" :time="getTimeInMatch(log.date_time)"  :isPlayer1="props.match.players_games[0].player_ID === log.player_ID"/>  <!-- Comprova quin player es -->
+                <PlayedHistoric v-for="log in matchLog" :key="log.date_time" :description="log.description" :time="getTimeInMatch(log.date_time)"  :isPlayer1="props.match.players_games[0].player_ID === log.player_ID"/>  Comprova quin player es
                 <!-- Missatge final de playeds -->
                 <p class="end">END</p>
             </main>

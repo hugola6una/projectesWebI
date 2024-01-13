@@ -46,6 +46,30 @@ export async function getMatchLogRequest(token, id){
     };  
 }
 
+export async function getAllMatchesRequest(token){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas", {
+            method: "GET",
+             mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+          })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+       
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
+
 // Create Game Request
 export async function createGameRequest(token, game_ID, size, HP_max){
     try {
@@ -99,3 +123,4 @@ export async function getGames(token){
         throw new Error(`${error.message}`);
     };  
 }
+

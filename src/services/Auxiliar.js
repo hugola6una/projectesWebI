@@ -10,3 +10,9 @@ export function getImage (img) {
         return 'src/assets/images/icons/userIcon.png';
     }
 }
+
+export function formDate(date) {
+    const parsedDate = new Date(date);
+    const formattedDate = `${parsedDate.getDate().toString().padStart(2, '0')}/${(parsedDate.getMonth() + 1).toString().padStart(2, '0')}/${parsedDate.getFullYear()}`;
+    return formattedDate;
+}
