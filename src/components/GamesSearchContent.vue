@@ -1,142 +1,136 @@
 <script setup>
-    import SearchItem from '../components/SearchItem.vue';
-    import ItemGamesTable from '../components/ItemGamesTable.vue';
-    import Popup from '../components/PopUpGamesShow.vue';
-    import { ref } from 'vue';
+    // Librairies
+    import { onMounted, ref, defineAsyncComponent} from 'vue';
 
-    const showPopup = ref(false);
+    // Components
+    import SearchItem from '@/components/SearchItem.vue';
+    import ItemGamesTable from '@/components/ItemGamesTable.vue';
 
-    const openPopup = () => {
-        showPopup.value = true;
-    };
+    // Segon pla
+    // Carrega segon plà
+    const Popup = defineAsyncComponent(() => import('@/components/PopUp.vue'));
+    
+    const props = defineProps(['matchesList']); // rep props del parent
+    const showPopup = ref(false); // Variable per saber si mostrar popup o no
+    const filteredMatches = ref([]); // Variable per guardar els matches filtrats
+    const matchSelected = ref({}); // Variable per guardar el match seleccionat
 
-    const closePopup = () => {
-        showPopup.value = false;
-    };
+    onMounted(async () => {
+        filteredMatches.value = props.matchesList; // Inicialitzem els matches filtrats
+    });
+
+    // Funció per mostrar o amagar el popup
+    function togglePopUp (match) { // Comprova que match estart per mostrar el log de match
+        showPopup.value = !showPopup.value;
+        if (showPopup.value) {
+            if (match.start) {
+                matchSelected.value = match;
+            } else {
+                showPopup.value = false;    
+            }
+        }
+    }
+
+    // Funció per filtrar els matches
+    function updateSearch(value) {
+        // Filtem els matches per el nom
+        filteredMatches.value = props.matchesList.filter(match =>
+            match.game_ID.toLowerCase().includes(value.toLowerCase())
+        );
+    }
 </script>
 
 <template>
-    <div class="playersContent">
-        <div class="searchItem">
-            <SearchItem />
-        </div>
-        <div class="tableContainer">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Filter By</th>
-                        <th><button>FINISHED</button></th>
-                        <th><button>CREATION DATE</button></th>
-                        <th><button>END DATE</button></th>
-                        <th><button>AVAILABLE</button></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                    <ItemGamesTable @click="openPopup" />
-                </tbody>
-            </table>
-
-            <Popup v-if="showPopup" @closed="closePopup">
-            <p>{{ popupContent }}</p>
-            </Popup></div>
-        </div>
+    <!-- Contenidor amb el contigut -->
+    <article v-if="!showPopup" class="playersContent"> 
+        <!-- Component per cerca de matches -->
+        <SearchItem @input="updateSearch" />
+        <!-- Taula amb el resultat -->
+        <table>
+            <!-- Header de la taula -->
+            <thead>
+                <!-- Titols de les columnes de les taules -->
+                <tr>
+                    <!-- Game_ID -->
+                    <th><button>Name</button></th>
+                    <!-- Mida -->
+                    <th><button>Size</button></th>
+                    <!-- Data de creació -->
+                    <th><button>CREATION DATE</button></th>
+                    <!-- S'ha acabat el joc? -->
+                    <th><button>FINISHED</button></th>       
+                    <!-- Està disponible? -->                 
+                    <th><button>AVAILABLE</button></th>
+                </tr>
+            </thead>
+            <!-- Cos de la taula -->
+            <tbody>
+                <!-- Entrades a la taula segons els matches existents -->
+                <ItemGamesTable v-for="match in filteredMatches" @click="togglePopUp(match)" :key="match.match_ID" :match="match"/>
+            </tbody>
+        </table>
+    </article>
+    <!-- PopUp amb informació del match -->
+    <Popup v-if="showPopup" @closePopUp="togglePopUp" :popUpTitle="matchSelected.game_ID" :match="matchSelected"/>
 </template>
 
 <style scoped>
-
-    .tableContainer {
-        width: 100%;
-        align-items: center;
-        overflow: auto;
-    }
-
-    .searchItem {
-        flex: 1;
-        margin-top: 1vh;
-        width: 100%;
-        align-items: center;
-    }
-
+    /* estil de la taula */
     table {
-      border-collapse: separate;
-      width: 100%;
+        border-collapse: separate;
+        width: 100%;
+        flex: 1;
+        margin-top: 2vh;
     }
 
+    /* Estil de la capçalera de la taula */
     th {
-      font-size: 1vh;
-      text-align: center;
-      color: #362864;
+        font-size: 1vh;
+        text-align: center;
+        color: #362864;
     }
 
-    tbody tr {
-        cursor: pointer;
-        margin: 0%;
-    }
-
-    tbody tr:active {
-        background-color: #CACAFB;
-    }
-
-    td {
-      font-size: 0.8vh;
-      text-align: center;
-      color: #362864;
-      padding-top: 3vh;
-      padding-bottom: 3vh;
-    }
+    /* Estil de la secció */
     .playersContent {
         display: flex;
         flex-direction: column;
         width: 100%;
-        margin: 1vmax;
+        margin-top: 3vh;
         background-color: white;
         justify-content: start;
         text-align: center;
-        align-items: flex-start;
-        max-height: 76.5vh;
+        align-items: center;
+        max-height: 60vh;
+        overflow: auto;
     }
 
+    /* Estil botó */
     button {
         color: white;
-        background-color: #CACAFB;
+        background-color: #362864;
         height: auto;
         width: auto;
+        height: 4vh;
         font-size: 1.5vh;
         border: none;
     }
 
-    .playersContent h3{
-        color: #362864;
-        font-size: 1vmax;
-    }
+    /* estil per a teleons */
+    @media (max-width: 900px) {
+        /* Opci´oscroll en cas telefon per visualització correcta */
+        .playersContent {
+            margin: 0;
+            max-width: 40vh;
+            overflow-x: auto;
+            max-height: 60vh;
+        
+        }
 
-    .players {
-        width: 100%;
-        height: 100%;
-        overflow-y: auto;
-    }
+        button {
+            height: 3vmax;
+            width: auto;
+            font-size: 0.8vh;
+        }
 
-    @media (max-width: 820px) {
-    .playersContent {
-        max-height: 60vh;
     }
-
-    button {
-        height: 3vmax;
-        width: auto;
-        font-size: 0.8vh;
-    }
-
-}
 </style>

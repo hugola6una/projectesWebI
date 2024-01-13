@@ -65,12 +65,6 @@
     }
 
     /*  estil opcions usuari*/
-    .userOptions {
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        margin-left: 3.3vh;
-    }
 
         /* Contigut de la secció user */
     .content {

@@ -1,17 +1,12 @@
 <script setup>
     // Libraries
+    import { formDate } from '@/services/Auxiliar.js'
     // Components
     import ItemUserHisotricGame from '@/components/ItemUserHistoricBattle.vue';
 
     defineProps(['match']); // Rep el contingut del itemMatch per props
-    console.match
     
-    // Funció per formatejar la data en format DD/MM/YYYY
-    function formDate(date) {
-        const parsedDate = new Date(date);
-        const formattedDate = `${parsedDate.getDate().toString().padStart(2, '0')}/${(parsedDate.getMonth() + 1).toString().padStart(2, '0')}/${parsedDate.getFullYear()}`;
-        return formattedDate;
-    }
+    // Funció per formatejar la data en format DD/MM/YY
 </script>
 
 <template>

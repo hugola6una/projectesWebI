@@ -1,134 +1,73 @@
 <script setup>
-  import { ref } from 'vue';  // Per refenciar variables
-  import Top from '../components/TopComponent.vue';
-  import GamesShowContent from '../components/GamesShowContent.vue';
-  import GamesSearchContent from '../components/GamesSearchContent.vue';
+  // Librairies
+  import { ref, defineAsyncComponent, onMounted} from 'vue';  // Per refenciar variables
+
+  // API request
+  import { getAllMatchesRequest } from '@/services/api/GamesRequest.js';
+
+  // Components
+  import GamesShowContent from '@/components/GamesShowContent.vue';
+  import SelectorComponent from '@/components/SelectorComponent.vue';
+
+  // Carrega segon plà
+  const GamesSearchContent = defineAsyncComponent(() => import('@/components/GamesSearchContent.vue'));
+
+  const matches = ref([]);
+
+  // Executa en el montatge inicalitza matches
+  onMounted(() => {
+    getPlayerMatches();
+  });
+
+  // Funció per obtenir els matches del jugador
+  async function getPlayerMatches() {
+        const token = JSON.parse(localStorage.getItem('player')).token;
+        try {
+            matches.value = await getAllMatchesRequest(token);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+  // variabele per saber quin contingut mostrar
   const contentToShow = ref('show');
 
-function showContent(contentType) {
-  contentToShow.value = contentType;
-}
+  // funció per canviar el contingut a mostrar
+  function activeOption(option) {
+    contentToShow.value = option;
+  }
 </script>
 
-<template>
-      <div class="body">
-        <Top />
-        <section class="center">
-          <nav class="userSelectors">
-            <div class="userOptions">
-              <button @click="showContent('show')" :class="{ active: contentToShow === 'show' }">
-                      <!-- <img src="src/assets/images/icons/show.png" alt="Show" class="iArchive"> -->
-                      <span>Show</span>
-                  </button>
-                  <button @click="showContent('search')" :class="{ active: contentToShow === 'search' }">
-                    <!-- <img src="src/assets/images/icons/search.png" alt="Search" class="iArchive"> -->
-                    <span>Search</span>
-                </button>
-            </div>
+<template>     
+  <nav class="gamesSelectors">
+    <!-- Opció de show games -->
+    <SelectorComponent @click="activeOption('show')" imageSrc="src/assets/images/icons/show.png" strAlt="Show" :isSelected="contentToShow === 'show'"/>
+    <!-- Opció cerca de games -->
+    <SelectorComponent @click="activeOption('search')" imageSrc="src/assets/images/icons/search.png" strAlt="Search" :isSelected="contentToShow === 'search'"/>
             
-          </nav>
-
-          <article class="userContent">
-            <div v-if="contentToShow === 'show'" class="userContent">
-              <GamesShowContent />
-            </div> 
-            <div v-else-if="contentToShow === 'search'" class="userContent">
-              <GamesSearchContent />
-            </div> 
-        </article>
-        </section>
-      </div>
+  </nav>
+  <!-- Contigut de la section -->
+  <section class="content">
+      <!-- Contingut del games -->
+      <GamesShowContent v-if="contentToShow === 'show'" :matchesList="matches"/>
+      <!-- Contingut de la cerca -->
+      <GamesSearchContent v-else :matchesList="matches"/>
+  </section>    
 </template>
 
 <style scoped>
-    .container {
-      display: grid;
-      grid-template-columns: 1fr 4fr;
-      align-items: center;
-      height: 100%;
-      width: 100%; 
+/* Estils del seleccionadors de contiguts */
+  .gamesSelectors {
+        display: flex;
+        align-self: start;
     }
 
-  .body {
-    height: 100%;
-    width: 100%;
-    background: #362864;
-    display: grid;
-    grid-template-rows: 1fr 8fr;
-  }
-
-
-  .center {
-    display: grid;
-    grid-template-rows: 1fr 8fr;
-    height: 100%;
-  }
-
-  .userSelectors {
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-    align-items: end;
-  }
-  .userOptions {
-    display: flex;
-    justify-content: left;
-    margin-left: 1.5vh;
-    align-items: center;
-  }
-
-  .iArchive {
-    width: 3vmax;
-    margin-right: 1vmax;
-  }
-
-  button {
-    border: 0.1em solid #362864;
-    height: 5vmax;
-    width: 15vmax;
-    font-size: 1.3vmax;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-  }
-
-  button.active {
-    background: #80547f;
-    color: white;
-  }
-  .userContent {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    max-height: 45vmax;
-
-  }
-
-  @media (max-width: 900px) {
-    .container {
-      grid-template-columns: 1fr;
+    /*  estil opcions usuari*/
+        /* Contigut de la secció user */
+    .content {
       display: flex;
-      flex-direction: column;
-    }
-
-    .body {
-      order: 1;
-    }
-
-    .userContent {
-      display: flex;
-      justify-content: center;
+      background: white;
       width: 100%;
       height: 100%;
     }
-    .userOptions span {
-      display: none;
-    }
-    .userOptions {
-      margin-left: 2vh;
-    }
-    button {
-      width: 6vmax;
-    }
-  }
 </style>

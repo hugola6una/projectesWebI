@@ -1,6 +1,6 @@
 <script setup>
   // Librairies
-  import { ref, defineAsyncComponent, onMounted, watch} from 'vue';
+  import { ref, defineAsyncComponent, onMounted, reactive} from 'vue';
 
   // API Requests
   import { attackPlayer } from '@/services/api/AttacksRequest.js';
@@ -12,18 +12,14 @@
   const MyAttacksPopUp = defineAsyncComponent(() => import('@/components/MyAttacksPopUp.vue'));
 
   // Variables
-  const attacks = ref ([]);
+  const state = reactive({ // Reactive per actualitzar la view en cas de canvi
+    attacks: [],
+  });
 
   // Durant el montatje de la view obtenim els atacs que disposem
   onMounted(() => {
         getAttacks();
-    });
-
-    watch(attacks, () => {
-        
-    });
-
-    
+    }); 
 
 
     // Functions
@@ -31,17 +27,19 @@
       try {
         const token = JSON.parse(localStorage.getItem('player')).token; // Obtenim token del local storage
         const id  = JSON.parse(localStorage.getItem('player')).player_ID; // Obtenim token del local storage
-        attacks.value = await attackPlayer(token, id);
+        state.attacks = await attackPlayer(token, id);
       } catch (error) {
         alert(error);
       }
     }
-
+  
+  // En cas de que s'hagi creat tanquem popUp i obtenim els nous attacks
   function hasCreated() {
     togglePopupCreaction();
     getAttacks();
   }
 
+  // Variables de control per mostrar el popUp
 const showPopup = ref(false);
 
 const togglePopupCreaction = () => {
@@ -51,11 +49,16 @@ const togglePopupCreaction = () => {
 </script>
 
 <template>      
-    <h1  v-if="!showPopup" class="colectionTitle">COLECTION</h1>    
+    <!-- Titol del apartat de colelció -->
+    <h1  v-if="!showPopup" class="colectionTitle">COLECTION</h1>  
+      <!-- Secció amb articles   -->
     <section  v-if="!showPopup">
-      <ItemCollection v-for="attack in attacks" :key="attack.attack_ID" :attack="attack"/>
+      <!-- Atircles/items de attack del player -->
+      <ItemCollection v-for="attack in state.attacks" :key="attack.attack_ID" :attack="attack"/>
     </section>
+    <!-- Botó per obrir popUp de creació -->
     <button  v-if="!showPopup" @click="togglePopupCreaction">CREATE</button>    
+    <!-- PopUp creació -->
     <MyAttacksPopUp v-if="showPopup" @onClosed="togglePopupCreaction" @onCreated="hasCreated()"/>
 
 </template>
