@@ -3,7 +3,7 @@
     import { ref, defineAsyncComponent, onMounted} from 'vue';
 
     // API Requests
-    import { getBuyableAttacks } from '@/services/api/AttacksRequest.js'
+    import { getBuyableAttacks, buyAttack } from '@/services/api/AttacksRequest.js'
 
     // Components
     import ItemStore from '@/components/ItemStore.vue';
