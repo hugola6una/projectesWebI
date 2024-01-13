@@ -1,78 +1,86 @@
 <script setup>
-import { ref } from 'vue';
-import ItemCollection from '../components/ItemCollection.vue';
+import { ref , onMounted} from 'vue';
+//import ItemCollection from '@/components/ItemCollection.vue';
+
+// API request
+import { getCurrentGame } from '@/services/api/GamesRequest.js';
 const currentScreen = ref('joc');
 const changeScreen = () => {
     currentScreen.value = currentScreen.value === 'joc' ? 'howto' : 'joc';
 };
-</script>
-<script>
-  export default {
-  data() {
-    return {
-      piece: {x: 0, y: 0},
-      name: '',
-      size: '',
-      hp: '',
-      board: [],
-      isLargeScreen: window.innerWidth >= 820,
-    };
-  },
-  mounted() {
-    this.name = this.$route.params.name;
-    this.size = this.$route.params.size;
-    this.hp = this.$route.params.hp;
-    this.generateBoard();
-  },
 
-  methods: {
-    generateBoard() {
-      const boardSize = parseInt(this.size);
-      const newBoard = [];
+onMounted(async() => {
+    getGame();
+    generateBoard();
+  });
+const game = ref([]);
+    // Funció per obtenirel joc actual del jugador de la API
+    async function getGame() {
+        const token = JSON.parse(localStorage.getItem('player')).token
+        try {
+            game.value = (await getCurrentGame(token));
 
-      for (let i = 0; i < boardSize; i++) {
-        const row = [];
-        for (let j = 0; j < boardSize; j++) {
-          const color = (i + j) % 2 === 0 ? 'white' : 'black';
-          row.push({ color });
+        } catch (error) {
+            console.log(error);
         }
-        newBoard.push(row);
       }
 
-      this.board = newBoard;
-    },
+const board = ref([]); 
+const generateBoard = () => {
+    const boardSize = parseInt(game.value.size);
+    const newBoard = [];
 
-    handleKeyPress(event) {
-      const step = 50;
-      switch (event.key) {
+    for (let i = 0; i < boardSize; i++) {
+        const row = [];
+        for (let j = 0; j < boardSize; j++) {
+            const color = (i + j) % 2 === 0 ? 'white' : 'black';
+            row.push({ color });
+        }
+        newBoard.push(row);
+    }
+
+    for (let i = 0; i < boardSize; i++) {
+        for (let j = 0; j < boardSize; j++) {
+            const cell = newBoard[i][j];
+            cell.piece = null;
+            cell.coordinates = { x: i, y: j };  
+        }
+    }
+
+    board.value  = newBoard;
+};
+
+const x = ref();
+const y = ref();
+
+const handleKeyPress = (event) => {
+    const step = 50;
+    switch (event.key) {
         case 'w':
-            if (this.piece.x != 0) {
-                this.piece.x -= step;
+            if (x.value !== 0) {
+                x.value -= step;
             }
-          break;
+            break;
         case 's':
-            if (this.piece.x != ((parseInt(this.size)-1)*step)) {
-            this.piece.x += step;
+            if (x.value !== ((parseInt(game.value.size) - 1) * step)) {
+                x.value += step;
             }
-          break;
+            break;
         case 'a':
-            if (this.piece.y != 0) {
-            this.piece.y -= step;
+            if (y.value !== 0) {
+                y.value -= step;
             }
             break;
         case 'd':
-            if (this.piece.y != ((parseInt(this.size)-1)*step)) {
-            this.piece.y += step;
+            if (y.value !== ((parseInt(game.value.size) - 1) * step)) {
+              y.value += step;
             }
-          break;
-      }
-      this.$forceUpdate();
-    },
+            break;
+    }
+};
 
-    pieceIsInCell(rowIndex, cellIndex) {
-        return this.piece.x / 50 === rowIndex && this.piece.y / 50 === cellIndex;
-    },
-  },
+const pieceIsInCell = (rowIndex, cellIndex) => {
+    return x.value / 50 === rowIndex && y.value / 50 === cellIndex;
 };
 
 </script>
@@ -98,21 +106,16 @@ const changeScreen = () => {
         <img src="..\assets\images\icons\playerdefault.png" class="profile2">
         <div class="playerText">Player1 VS Player2</div>
       </div>
-      <div class="arenaContainer" v-show="currentScreen === 'joc'">
-        <div class="arena" @keydown="handleKeyPress" tabindex="0" >
-        <div v-for="(row, rowIndex) in board" :key="rowIndex" class="arena-row">
-          <div
-            v-for="(cell, cellIndex) in row"
-            :key="cellIndex"
-            :class="['arena-cell', cell.color]"
-          >
-          <img v-if="pieceIsInCell(rowIndex, cellIndex)" src="..\assets\images\icons\robot1.png"
-          :style="{ x: piece.x, y: piece.y , width: '100%', height: '100%' }"
-        />
+      <div class="arena-container" v-show="currentScreen === 'joc'">
+        <div class="arena" @keydown="handleKeyPress" tabindex="0">
+             <div v-for="(row, rowIndex) in board" :key="rowIndex" class="arena-row">
+                <div v-for="(cell, cellIndex) in row" :key="cellIndex" :class="['arena-cell', cell.color]">
+                    <img v-if="pieceIsInCell(rowIndex, cellIndex)" src="..\assets\images\icons\robot1.png"
+                    :style="{ left: cellIndex * 50 + 'px', top: rowIndex * 50 + 'px', width: '100%', height: '100%' }"/> 
             
+                </div>
+            </div>
         </div>
-        </div>
-      </div>
       </div>
       <div class="arenaContainer" v-show="currentScreen === 'howto'">
         <div>
@@ -128,9 +131,7 @@ const changeScreen = () => {
         </router-link>
     
         <div class="bAttacks">
-          <ItemCollection />
-          <ItemCollection />
-          <ItemCollection />
+         
         </div>
       </div>
     </div>
@@ -213,8 +214,8 @@ p {
 
 .arena {
   display: grid;
-  grid-template-columns: repeat(${boardSize}, 1fr);
-  grid-template-rows: repeat(${boardSize}, 1fr);
+  grid-template-columns: repeat(boardSize, 1fr);
+  grid-template-rows: repeat(boardSize, 1fr);
   grid-gap: 2px;
 }
 
@@ -340,4 +341,3 @@ p {
 }
   
 </style>
-  

@@ -13,7 +13,7 @@
 
     const isAccessView = ref(true); // Per defecte és true perquè el component AccessView és el primer que es mostra
     const isHomeView = ref(false);  // Per defecte és false perquè el component HomeView és el segon que es mostra
-
+    const isPlayView = ref(false);  // Per defecte és false perquè el component PlayView és el tercer que es mostra
     // Funcions
     // Comprova si el component actual és el de login o el de home
     onMounted(() => {
@@ -29,8 +29,10 @@
     async function checkCustomView() {
         const accessViews = ['access', 'loginPlayer', 'createPlayer'];
         const homeViews = ['home', 'user', 'ranking', 'store', 'my-attacks', 'games', 'games-administration'];
+        const playViews = ['play'];
         isAccessView.value = accessViews.includes(route.name);
-        isHomeView.value = homeViews.includes(route.name);  
+        isHomeView.value = homeViews.includes(route.name); 
+        isPlayView.value = playViews.includes(route.name);  
         if (isAccessView.value) { // Si estem en el component de accesss, esborrem el localStorage
             localStorage.clear();
         } 
@@ -44,7 +46,7 @@
 
 <template>
     <!-- Contenidor global  contenint diferents estils -->
-    <div :class="{ 'container': true ,'accessContainer': isAccessView, 'homeContainer': isHomeView}" @loginRequest="handleLogin">
+    <div :class="{ 'container': true ,'accessContainer': isAccessView, 'homeContainer': isHomeView, 'playContainer': isPlayView}" @loginRequest="handleLogin">
         <!-- Component LateralMenu amb les opcions de navegació un cop registrat usuari-->
         <LateralMenu v-if="isHomeView"/>
         <main v-if="isHomeView">
@@ -56,7 +58,9 @@
         </main>
         <!-- Component RouterView amb els diferents views de la web -->
         <RouterView v-if="isAccessView" @havePlayer="getPlayer()"/>
+        <RouterView v-if="isPlayView" @havePlayer="getPlayer()"/>
     </div>
+
 </template>
 
 <style scoped>
@@ -79,6 +83,14 @@
         grid-template-columns: 1fr 4fr;
         height: 100%;
         width: 100%;
+    }
+    
+    /* Estil per a l'homeView 2 columnes 1/5 i 4/5 */
+    .playContainer {
+        display: grid;
+        grid-template-rows: 1fr 5fr 1fr;
+        align-items: center;
+        height: 100vh;
     }
 
     main {

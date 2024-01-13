@@ -1,13 +1,16 @@
 <script setup>
  import { ref} from 'vue';
+// Libraries
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 // Componentes
  import ErrorSpan from '@/components/ErrorSpan.vue';
  import InputComponent from '@/components/InputComponent.vue';
  import { createGameRequest} from '@/services/api/GamesRequest.js';
 
     let size = ref(6);
-    let hp = ref(7);
+    let hp = ref(15);
 
     // Variables de error
     const errors = {
@@ -74,17 +77,25 @@ async function handleSubmit () {
       return;
     }
 
+    function navigateToPlay() {
+      router.push('/play');
+   }
+
     // Fem peticio de registre + login per obtindre el token
     try {
       const token = JSON.parse(localStorage.getItem('player')).token
       await createGameRequest(token, formData.name, parseInt(size.value), parseInt(hp.value));
       //createGame(data); // Usuari creat
+      navigateToPlay();
     } catch (error) {
       // Captura l'error en cas de error a la API
       errors.global.value = true;
       errors.global.message = error.message;
     }
   };
+
+  
+
 </script>
 
 <template>
