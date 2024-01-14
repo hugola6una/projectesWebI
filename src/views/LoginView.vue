@@ -15,7 +15,7 @@
   const emit = defineEmits(['havePlayer']);
   // String constants
   const strCreatePlayer = ref("CREATE PLAYER");
-  const strLoginPlayer = ref("SIGIN");
+  const strLoginPlayer = ref("SIGN IN");
 
   // Errors
   const errors = {
