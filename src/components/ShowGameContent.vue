@@ -3,6 +3,18 @@
     // Librairies
     import { ref, onMounted, watch} from 'vue';
 
+     // Libraries
+     import { useRouter } from 'vue-router';
+
+        const router = useRouter();
+
+        function navigateToPlay() {
+        router.push('/play');
+        }
+        // API request
+        import { enterGame } from '@/services/api/GamesRequest.js';
+
+
    import ItemGames from '@/components/ItemGames.vue';
 
    const props = defineProps(['gamesList']);
@@ -19,13 +31,24 @@
 
     const games = ref([]);
 
+    // Funció per entrar a game
+    async function joinGame (game_ID) { 
+        const token = JSON.parse(localStorage.getItem('player')).token
+        try {
+            enterGame(token, game_ID);
+            navigateToPlay();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 </script>
 
 <template>
     <div id="defaultContent" class="gameContent">
         <h3>Select a game</h3>
         <section class="games">
-            <ItemGames v-for="game in games" :key="game.game_ID" :game="game" />
+            <ItemGames v-for="game in games" @click="joinGame(game.game_ID)" :key="game.game_ID" :game="game" />
         </section>
     </div>
 </template>

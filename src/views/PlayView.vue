@@ -1,343 +1,315 @@
 <script setup>
-import { ref } from 'vue';
-import ItemCollection from '../components/ItemCollection.vue';
-const currentScreen = ref('joc');
-const changeScreen = () => {
-    currentScreen.value = currentScreen.value === 'joc' ? 'howto' : 'joc';
-};
-</script>
-<script>
-  export default {
-  data() {
-    return {
-      piece: {x: 0, y: 0},
-      name: '',
-      size: '',
-      hp: '',
-      board: [],
-      isLargeScreen: window.innerWidth >= 820,
-    };
-  },
-  mounted() {
-    this.name = this.$route.params.name;
-    this.size = this.$route.params.size;
-    this.hp = this.$route.params.hp;
-    this.generateBoard();
-  },
+  // Librairies
+  import { onMounted, ref, watch } from 'vue';
 
-  methods: {
-    generateBoard() {
-      const boardSize = parseInt(this.size);
-      const newBoard = [];
+  // API Requests
+  import { getCurrentGameRequest, changeDirectionRequest } from '@/services/api/GamesRequest.js';
 
-      for (let i = 0; i < boardSize; i++) {
-        const row = [];
-        for (let j = 0; j < boardSize; j++) {
-          const color = (i + j) % 2 === 0 ? 'white' : 'black';
-          row.push({ color });
-        }
-        newBoard.push(row);
+  // Components
+  import PlayerLife from '@/components/PlayerBattle.vue';
+
+  const token = JSON.parse(localStorage.getItem('player')).token;
+  const title = ref('Waiting... vs Waiting');
+  
+
+  const game = ref({}); // Info de la partida
+  const nRows = ref(); // Numero de rows
+  const playerPosition = ref({ row: 0, column: 0, direction: "down" },
+                                  { row: nRows.value -1, column: nRows.value-1, direction: "up"}); // Més 5 equival a un row/column
+
+  const player1 = ref({}); // Info del player1
+  const player2 = ref({}); // Info del player2 
+
+  const who = ref('0'); // 0 player 1; 1 player 2
+
+  onMounted(() => {
+    getCurrentGame(); // Obtenim la partida actua
+    window.addEventListener('keydown', keyPressed); // Crea listener en tota la fienstre
+    
+  });
+
+  // Comprova actualitzacions del component
+  watch(() => game.value[0], () => {
+    whoIam();
+      nRows.value = game.value[0].size; // Actualitzem el numero de rows
+      if (game.value[0].players_games) { // Comprova si hi ha 2 jugadors
+        player1.value = game.value[0].players_games[0]; // Actualitzem la info del player1
+        playerPosition.value[0] = { row: player1.value.y_game, column: player1.value.x_game, direction: player1.value.direction }; // Actualitzem la posició del player
       }
+      if ( game.value[0].players_games[1]) { // Comprova si hi ha 2 jugadors
+        player2.value = game.value[0].players_games[1]; // Actualitzem la info del player2
+        playerPosition.value[1] = { row: player2.value.y_game, column: player2.value.x_game, direction: player2.value.direction }; // Actualitzem la posició del player
+      }
+      checkPlayerIn();
+  });
 
-      this.board = newBoard;
-    },
+  // Request a la API per obtenir la partida actual
+  async function getCurrentGame() {
+    try {
+      game.value = await getCurrentGameRequest(token);
+    } catch (error) {
+      alert(error);
+    }
+  }
 
-    handleKeyPress(event) {
-      const step = 50;
-      switch (event.key) {
+  function whoIam() {
+    const player = JSON.parse(localStorage.getItem('player')).player_ID;
+    if (player == game.value[0].players_games[0].player_ID) {
+      who.value = '0';
+    } else {
+      who.value = '1';
+    }
+  }
+  // Controla les tecles que es prem
+  function keyPressed(event) {
+    const { key } = event;
+    
+      switch (key) {
         case 'w':
-            if (this.piece.x != 0) {
-                this.piece.x -= step;
-            }
-          break;
-        case 's':
-            if (this.piece.x != ((parseInt(this.size)-1)*step)) {
-            this.piece.x += step;
-            }
+          if (playerPosition.value[who.value].direction === "up") { //Comprova que el jugador estigui mirant cap a on es mou
+            movePlayer1(-1, 0); // En cas que miri cap a on es mou, es mou 
+            return;
+          } else {
+            playerPosition.value[who.value].direction = "up"; // Si no està mirant cap a on es mou, actualitza la mirada
+          }
           break;
         case 'a':
-            if (this.piece.y != 0) {
-            this.piece.y -= step;
-            }
-            break;
-        case 'd':
-            if (this.piece.y != ((parseInt(this.size)-1)*step)) {
-            this.piece.y += step;
-            }
+          if (playerPosition.value[who.value].direction === "left") { //Comprova que el jugador estigui mirant cap a on es mou
+            movePlayer1(0, -1); // En cas que miri cap a on es mou, es mou 
+            return;
+          } else {
+            playerPosition.value[who.value].direction = "left"; // Si no està mirant cap a on es mou, actualitza la mirada
+          }
           break;
-      }
-      this.$forceUpdate();
-    },
+        case 's':
+          if (playerPosition.value[who.value].direction === "down") {
+            movePlayer1(1, 0);
+            return;
+          } else {
+            playerPosition.value[who.value].direction = "down";
+          }
+          break;
+        case 'd':
+          if (playerPosition.value[who.value].direction === "right") {
+            movePlayer1(0, 1);
+            return;
+          } else {
+            playerPosition.value[who.value].direction = "right";
+          }
+          break;
+        default:
+          break;
+      }  
+      changeDirection();
+  }
 
-    pieceIsInCell(rowIndex, cellIndex) {
-        return this.piece.x / 50 === rowIndex && this.piece.y / 50 === cellIndex;
-    },
-  },
-};
+  async function changeDirection() {
+      try {
+          await changeDirectionRequest(token, playerPosition.value[who.value].direction);
+      } catch (error) {
+        alert(error);
+      }
+  }
+
+
+
+  // Mou el player1
+  function movePlayer1(y, x) {
+    playerPosition.value[who.value].row += y; // Actualitza el valor y del player1
+    playerPosition.value[who.value].column += x; // Actualitza el valor x del player1
+
+    if (playerPosition.value[who.value].row > nRows.value - 1) { // Limitem que no sorti de la taula en x
+      playerPosition.value[who.value].row = nRows.value - 1;
+    } else if (playerPosition.value[who.value].row < 0) {
+      playerPosition.value[who.value].row = 0;
+    }
+
+    if (playerPosition.value[who.value].column > nRows.value - 1) { // Limitem que no sorti de la taula en y
+      playerPosition.value[who.value].column = nRows.value - 1;
+    } else if (playerPosition.value[who.value].column < 0) {
+      playerPosition.value[who.value].column = 0;
+    } 
+
+
+  } 
+  
+  // Decodifica el Up,right, elft , down
+  function decodeDirection(player) {
+      switch (playerPosition.value[player].direction) {
+        case "up":
+          return 180;
+        case "right":
+          return -90;
+        case "down":
+          return 0;
+        case "left":
+          return 90;
+        default:
+          return 0;
+      }
+    
+  }
+
+  // Comprovem el estat dels jugadors en la partida
+  function checkPlayerIn() {
+    if (game.value.length > 0 && game.value[0].players_games && game.value[0].players_games.length === 1) {
+      title.value = game.value[0].players_games[0].player_ID + ' VS ' + 'Waiting...';
+    }
+
+    if (game.value.length > 0 && game.value[0].players_games && game.value[0].players_games.length === 2) {
+      title.value = game.value[0].players_games[0].player_ID + ' VS ' + game.value[0].players_games[1].player_ID;
+    }
+  }
+
+  // Comprova si hi ha una peça en una cel·la
+  function pieceInCell(row, cell, player) {
+    if (player === 0) {
+      if (playerPosition.value[0].row === row && playerPosition.value[0].column === cell) {
+        return true;
+      } 
+    } else {
+      if (playerPosition.value[1].row === row && playerPosition.value[1].column === cell) {
+        return true;
+      } 
+    }
+    return false;
+  }
 
 </script>
 
-<template>
-    <div class="container">
-        <button class="show-content-button" @click="changeScreen()">
-        {{ currentScreen === 'joc' ? 'How to Play' : 'Back to Game' }}
-        </button>
-      <div class="top">
 
-        <img src="..\assets\images\icons\playerdefault.png" class="profile1">
-        <div class="hp1">
-            <div class="hpContainer">
-                <div class="skills level1">1200xp</div>
-            </div>
-        </div>
-        <div class="hp2">
-            <div class="hpContainer">
-                <div class="skills level2">1500xp</div>
-            </div>
-        </div>
-        <img src="..\assets\images\icons\playerdefault.png" class="profile2">
-        <div class="playerText">Player1 VS Player2</div>
-      </div>
-      <div class="arenaContainer" v-show="currentScreen === 'joc'">
-        <div class="arena" @keydown="handleKeyPress" tabindex="0" >
-        <div v-for="(row, rowIndex) in board" :key="rowIndex" class="arena-row">
-          <div
-            v-for="(cell, cellIndex) in row"
-            :key="cellIndex"
-            :class="['arena-cell', cell.color]"
-          >
-          <img v-if="pieceIsInCell(rowIndex, cellIndex)" src="..\assets\images\icons\robot1.png"
-          :style="{ x: piece.x, y: piece.y , width: '100%', height: '100%' }"
-        />
-            
-        </div>
-        </div>
-      </div>
-      </div>
-      <div class="arenaContainer" v-show="currentScreen === 'howto'">
-        <div>
-            <h1>How to Play?</h1>
-            <p>Use w, a, s, d to move</p>
-        </div>
+<template>
+  <!-- Header del game mostra info dels player -->
+  <header>
+    <!-- Vida jugador 1 -->
+    <PlayerLife :playerAux="player1"/> 
+    <!-- Infonoms jugadors -->
+    <div class="mid">
+      <p>{{title}}</p>
     </div>
-      <div class="bottom">
-        <router-link to="/home" class="link">
-          <button class="bLogout">
-          <img src="../assets/images/icons/logout_9965863.png" class="profile1">
-        </button>
-        </router-link>
+    <!-- Vida jugador 2 -->
+    <PlayerLife :playerAux="player2"/>
+  </header>
+  <main>
+    <!-- Estil board -->
+    <div class="board"  tabindex="0">
+      <!-- Bucle passant per les columnes -->
+      <div v-for="(row, x) in nRows" :key="row" class="row">
+        <!-- Bucle passant pintant les celles -->
+        <div v-for="(cell, y) in nRows" :key="cell" :class="{ cell, even: (row + cell) % 2 === 0, odd: (row + cell) % 2 !== 0 }" :style="{width:50/nRows + 'vh', height:50/nRows + 'vh'}">
+          <!-- Element player 1 pinta si esta aqui -->
+          <div v-if="pieceInCell(x,y,0)" class="player1" :style="{ top: playerPosition[0].row / nRows + 'vh', left: playerPosition[0].column / nRows + 'vh' , width:50/nRows + 'vh', height:50/nRows + 'vh', rotate: decodeDirection(0) + 'deg'}">
+            <img src="@/assets/images/icons/robot1.png" alt="player1">
+          </div>
+          <!-- Element player 2 pinta si esta aqui -->
+          <div v-if="pieceInCell(x,y,1)" class="player2" :style="{ top: playerPosition[1].row + 'vh', left: playerPosition[1].column + 'vh' , width:50/nRows + 'vh', height:50/nRows + 'vh', rotate: decodeDirection(1) + 'deg'}">
+            <img src="@/assets/images/icons/robot2.png" alt="player2">
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p>Peus</p>
+  </footer>
     
-        <div class="bAttacks">
-          <ItemCollection />
-          <ItemCollection />
-          <ItemCollection />
-        </div>
-      </div>
-    </div>
-  </template>
+</template>
 
 <style scoped>
 
-h1 {
-    text-align: center;
-    font-size: 4vh;
-}
-
-p {
-    text-align: center;
-    font-size: 2vh;
-}
-.profile1 {
-    height: 7vmax;
-  width: 7vmax;
-  grid-column: 1;
-  grid-row: 1;
-  margin: 1vh;
-}
-.playerText {
-  grid-column: 1 / span 4; 
-  grid-row: 2;
-  text-align: center;
-  color: white;
-  font-size: 2vmax;
-  margin-top: 1vh; 
-}
-.level1 {width: 90%; background-color: #291D49;}
-.level2 {width: 100%; background-color: #291D49;}
-.hp1 {
-    height: 100%;
-    width: 100%;
-    grid-column: 2;
-    grid-row: 1;
-    display: flex;
-}
-
-.hpContainer {
-    margin-top: 2.5vh;
-    width: 90%;
-    height: 3.5vh;
-    background-color: white;
-    display: flex;
-    align-items: center;
-}
-
-.title {
-    margin-left: 2vh;
-    grid-row: 2;
-    grid-column: 1 / 4;
+  /* Estil header */
+  header {
     width: 100%;
     height: 100%;
-}
-
-.skills {
-  color: white;
-  font-size: 1.5vmax;
-  text-align: right;
-}
-.hp2 {
-    height: 100%;
-  width: 100%;
-    grid-column: 3;
-  grid-row: 1;
-  display: flex;
-}
-
-.profile2 {
-    height: 7vmax;
-  width: 7vmax;
-  grid-column: 4;
-  grid-row: 1;
-  margin: 1vh;
-}
-
-
-.arena {
-  display: grid;
-  grid-template-columns: repeat(${boardSize}, 1fr);
-  grid-template-rows: repeat(${boardSize}, 1fr);
-  grid-gap: 2px;
-}
-
-.arena:focus {
-  outline: 0.1em solid #383838;
-}
-
-.arena-row {
-  display: flex;
-}
-
-.arena-cell {
-  height: 7vh;
-  width: 7vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.arena-cell img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.white {
-  background-color: #E1E2FE;
-}
-
-.black {
-  background-color: #291D49;
-}
-
-.show-content-button {
-  margin: 1vmax;
-  font-size: 1vmax;
-  height: 2vmax;
-  border: none;
-}
-
-  .container {
-    display: grid;
-    grid-template-rows: 1fr 5fr 1fr;
-    align-items: center;
-    height: 100vh; 
-  }
-
-  .arenaContainer {
-    background-color: #CACAFB;
-    height: 100%;
-    grid-row: 2;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .top {
     background-color: #ABA9F8;
-    height: 100%;
-    grid-row: 1;
+    justify-content: center;
+    align-items: center;
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    align-items: center;
-    justify-content: center;
+    grid-template-columns: 1fr 1.5fr 1fr; /* Definim tipus grid per tindre 3 camps */
+    
   }
 
-  .bottom {
-    background-color: #ABA9F8;
+  /* Estil per del mig del header */
+  .mid {
+    width: 100%;
     height: 100%;
-    grid-row: 3;
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-    flex-direction: row;
+    display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .bLogout {
-    justify-self: start;
-    display: flex;
-    box-sizing: border-box;
-    height: 3vmax;
-    width: 4vmax;
-    margin-left: 1vmax;
-    align-items: center;
-    justify-content: center;
-    border: none;
-  }
-
-  .bLogout img {
-    width: 2vmax;
-    height: 2vmax;
-  }
-
-  .bAttacks {
-    display: flex;
-    align-self: center;
-    justify-self: center;
-  }
-
-
-  @media (max-width: 820px) {
-    .container {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 5fr 1fr;
-    }
-
-    .body,
-    .top,
-    .bottom,
-    .arenaContainer {
-      grid-column: 1;
-    }
-
-    .arena-cell {
-        height: 5vh;
-        width: 5vh;
-    }
-
-}
+    font-size: 3vh;
+  } 
   
+
+  /* Estil del cos*/
+  main {
+    width: 100%;
+    height: 100%;
+    background-color: #E1E2FE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Estil de la row */
+  .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0vh;
+  }
+
+  /* Estil de la cella */
+  .cell {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+
+  /* Estil color cell parell */
+  .even {
+    background-color: #E1E2FE;
+  }
+
+  /* Estil color cell imparell */
+  .odd {
+    background-color: #291D49;
+  }
+
+  /* estil player 1 */
+  .player1 {
+    margin: 0%;
+    padding: 0%;
+    background-color: green; 
+  }
+
+  /* Estil imatge player 1 ocupa tot el espai */
+  .player1 img {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Estil player 2 */
+  .player2 {
+    margin: 0;
+    background-color: red; 
+  }
+
+  /* estil imatge player 2 */
+  .player2 img {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* estil footer */
+  footer {
+    width: 100%;
+    height: 100%;
+    background-color: #ABA9F8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 </style>
   

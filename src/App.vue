@@ -13,6 +13,7 @@
 
     const isAccessView = ref(true); // Per defecte és true perquè el component AccessView és el primer que es mostra
     const isHomeView = ref(false);  // Per defecte és false perquè el component HomeView és el segon que es mostra
+    const isGameView = ref(false);  // Per defecte és false perquè el component GameView és el segon que es mostra
 
     // Funcions
     // Comprova si el component actual és el de login o el de home
@@ -29,6 +30,8 @@
     async function checkCustomView() {
         const accessViews = ['access', 'loginPlayer', 'createPlayer'];
         const homeViews = ['home', 'user', 'ranking', 'store', 'my-attacks', 'games', 'games-administration'];
+        const gameView = ['play'];
+        isGameView.value = gameView.includes(route.name);
         isAccessView.value = accessViews.includes(route.name);
         isHomeView.value = homeViews.includes(route.name);  
         if (isAccessView.value) { // Si estem en el component de accesss, esborrem el localStorage
@@ -44,7 +47,7 @@
 
 <template>
     <!-- Contenidor global  contenint diferents estils -->
-    <div :class="{ 'container': true ,'accessContainer': isAccessView, 'homeContainer': isHomeView}" @loginRequest="handleLogin">
+    <div :class="{ 'container': true ,'accessContainer': isAccessView, 'homeContainer': isHomeView, 'gameContainer': isGameView}" @loginRequest="handleLogin">
         <!-- Component LateralMenu amb les opcions de navegació un cop registrat usuari-->
         <LateralMenu v-if="isHomeView"/>
         <main v-if="isHomeView">
@@ -56,6 +59,7 @@
         </main>
         <!-- Component RouterView amb els diferents views de la web -->
         <RouterView v-if="isAccessView" @havePlayer="getPlayer()"/>
+        <RouterView v-else-if="isGameView"/>
     </div>
 </template>
 
@@ -79,6 +83,13 @@
         grid-template-columns: 1fr 4fr;
         height: 100%;
         width: 100%;
+    }
+
+    .gameContainer {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 4fr 1fr;
+        width: 100%;
+        height: 100%;
     }
 
     main {
