@@ -22,11 +22,11 @@
     try {
       const token = JSON.parse(localStorage.getItem('player')).token;
       game.value = await getCurrentGameRequest(token);
-      console.log(game.value);
     } catch (error) {
       alert(error);
     }
   }
+
 
   function checkPlayerIn() {
     if (game.value.length > 0 && game.value[0].players_games && game.value[0].players_games.length === 1) {
@@ -50,7 +50,13 @@
     <PlayerLife />
   </header>
   <main>
-    <p>Body</p>
+    <div class="board">
+      <div v-for="row in 10" :key="row" class="row">
+        <div v-for="cell in 10" :key="cell" :class="{ cell, even: (row + cell) % 2 === 0, odd: (row + cell) % 2 !== 0 }">
+
+        </div>
+      </div>
+    </div>
   </main>
   <footer>
     <p>Peus</p>
@@ -87,6 +93,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0vh;
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0;
+    height: 5vh;
+    width: 5vh;
+  }
+
+  .even {
+    background-color: #E1E2FE;
+  }
+
+  .odd {
+    background-color: #291D49;
   }
 
   footer {
