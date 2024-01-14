@@ -46,6 +46,30 @@ export async function getMatchLogRequest(token, id){
     };  
 }
 
+export async function enterGame(token, id){ 
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas/" + id + "/play", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+        })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+        const data = await res.json();
+        return data;
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
 export async function getAllMatchesRequest(token){
     try {
         const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas", {
@@ -93,7 +117,6 @@ export async function createGameRequest(token, game_ID, size, HP_max){
             const error = await res.json();
             throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
         } 
-       
     } catch(error) {
         // Seteja missatge d'error a mostrar
         throw new Error(`${error.message}`);
@@ -119,6 +142,63 @@ export async function getGames(token){
         } 
         const data = await res.json();
         return data;
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
+// Get CURRENT Game Request
+export async function getCurrentGameRequest(token){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/players/arenas/current", {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+        })
+            
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+        const data = await res.json();
+        return data;
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
+// Change Actual direction Request
+export async function changeDirectionRequest(token, direction){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas/direction", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+            body: JSON.stringify({
+                direction: direction,
+            }),
+        })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+
+        try {
+            await res.json();
+        } catch(error) {
+            return;
+        }
     } catch(error) {
         // Seteja missatge d'error a mostrar
         throw new Error(`${error.message}`);
