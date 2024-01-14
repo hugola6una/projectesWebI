@@ -1,5 +1,13 @@
 <script setup>
   import { ref} from 'vue';
+  // Libraries
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+
+  function navigateToPlay() {
+    router.push('/play');
+  }
 
   // Componentes
   import ErrorSpan from '@/components/ErrorSpan.vue';
@@ -79,6 +87,7 @@ async function handleSubmit () {
       const token = JSON.parse(localStorage.getItem('player')).token
       await createGameRequest(token, formData.name, parseInt(size.value), parseInt(hp.value));
       //createGame(data); // Usuari creat
+      navigateToPlay();
     } catch (error) {
       // Captura l'error en cas de error a la API
       errors.global.value = true;
