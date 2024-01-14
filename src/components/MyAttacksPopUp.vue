@@ -58,13 +58,13 @@
                 <!-- Input del slider del attack -->
                 <p>Insert the X axis (1-8)</p>
                 <div class="slideContainer">
-                    <input type="range" min="1" max="8" v-model="xAxis" class="slider" id="myRangeX" @input="xAxisChanged">
+                    <input type="range" min="0" max="10" v-model="xAxis" class="slider" id="myRangeX" @input="xAxisChanged">
                     <p>X axis: {{ xAxis }}</p>
                 </div>
                 <!-- Input del slider del attack -->
                 <p>Insert the Y axis (1-8)</p>
                 <div class="slideContainer">
-                    <input type="range" min="1" max="8" v-model="yAxis" class="slider" id="myRangeY" @input="yAxisChanged">
+                    <input type="range" min="0" max="10" v-model="yAxis" class="slider" id="myRangeY" @input="yAxisChanged">
                     <p>Y Axis: {{ yAxis }}</p>
                 </div>
             </main>

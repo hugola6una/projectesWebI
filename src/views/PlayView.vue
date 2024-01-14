@@ -137,6 +137,11 @@
             playerPosition.value[who.value].direction = "right";
           }
           break;
+          case 'k':
+            if (selectedAttack.value != '') {
+              attackOponent();
+            }
+          break;
         default:
           break;
       }  
@@ -219,10 +224,16 @@
     return false;
   }
 
+  const selectedAttack = ref('');
+
+  function selectAttack(attack_ID) {
+    selectedAttack.value = attack_ID;
+  }
+
   // Funció per entrar a game
-  async function attackOponent(attack_ID) { 
+  async function attackOponent() { 
         try {
-            const res = await attackRequest(token, attack_ID);
+            const res = await attackRequest(token, selectedAttack.value);
             console.log(res);
         } catch (error) {
             console.log(error);
@@ -264,14 +275,16 @@
     </div>
   </main>
   <footer>
-    <ItemAttack v-for="attack in enableAttacks"  @click="attackOponent(attack.attack_ID)" :key="attack.attack_ID" :attack="attack"/>
+    <ItemAttack v-for="attack in enableAttacks"  @click="selectAttack(attack.attack_ID)" :key="attack.attack_ID" :attack="attack" :class="{ 'selected-attack': attack.attack_ID === selectedAttack }"/>
     <button class="corner-button" @click="exitGame()">QUIT</button>
   </footer>
     
 </template>
 
 <style scoped>
-
+.selected-attack {
+  background-color: #786aa8;
+}
   .corner-button {
       position: fixed;
       bottom: 5vh;

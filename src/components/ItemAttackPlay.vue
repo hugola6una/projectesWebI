@@ -10,6 +10,7 @@
         <img src="@/assets/images/icons/swordIcon.png">
         <!-- Nom del attack -->
         <p class="name">{{attack.attack_ID}}</p>
+        <p class="name">{{attack.positions}}</p>
     </article>
 </template>
 
@@ -28,6 +29,10 @@
         margin: 1vh;
         cursor: pointer;
     } 
+
+    p{
+        margin: 0%;
+    }
 
     /* Estil imatge item */
     .item img {
