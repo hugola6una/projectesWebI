@@ -1,52 +1,42 @@
 <script setup>
-    defineProps(['item']);
+    defineProps(['item']); // rep item del pare
 
 </script>
 
 <template>
+    <!-- Contenidor del item -->
     <div class="solicitedItem">  
-        <img :src="item.image" alt="attackIcon" class="iSword" />
-        <h3>{{ item.name }}</h3>
+        <!-- Imatge atttack -->
+        <img src="@/assets/images/icons/swordIcon.png" alt="attackIcon" class="iSword" />
+        <!-- Nom atack -->
+        <p>{{ item.attack_ID }}</p>
+        <!-- Preu attack -->
         <p>{{ item.price }}</p>     
     </div>
 </template>
 
 <style scoped>
-.solicitedItem {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 4vmax;
-    list-style-type: none;
-}
 
-.attackInfo {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-}
+    /* Estil del item */
+    .solicitedItem {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 4vh;
+        list-style-type: none;
+    }
 
-.quantityAttack {
-    width: 100%;
-    text-align: center;
-}
-
-
-.solicitedItem img {
-    width: 6vmax;
-    justify-self: start;
-    align-self: flex-start;
-}
-
-h3 {
-    font-size: 2vmax;
-    justify-self: center;
-}
-
-p {
-    margin-right: 7vmax;
-    font-size: 2vmax;
-}
+    /* Imatge attack */
+    .solicitedItem img {
+        width: 9vh;
+        justify-self: start;
+        align-self: flex-start;
+    }
+    /* Estil text */
+    p {
+        margin-right: 7vmax;
+        font-size: 2vmax;
+        color: #362864;
+    }
 </style>

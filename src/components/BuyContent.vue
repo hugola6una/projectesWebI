@@ -44,17 +44,20 @@
     }
 
     async function buyAttacks() {
-        const token = JSON.parse(localStorage.getItem('player')).token
-        for (let i = 0; i < selectedAttacks.value.length; i++) {
-            const id = selectedAttacks[i].attack_ID;
-
-            try {
+        console.log(selectedAttacks.value.length);
+        try {
+            showPopup.value = false;
+            const token = JSON.parse(localStorage.getItem('player')).token
+            for (let i = 0; i < selectedAttacks.value.length; i++) {
+                const id = selectedAttacks.value[i].attack_ID;
                 await buyAttack(token, id);
-                selectedAttacks.value = [];
-            } catch (error) {
-                console.log(error);
             }
+        } catch (error) {
+            alert(error);
+        } finally {
+            selectedAttacks.value = [];
         }
+        
     }
 
     function checkSelected(attack) {
@@ -92,7 +95,7 @@
         </article>
         
     </section>
-    <BuyPopUp v-if="showPopup" :selectedAttacks="selectedAttacks" @closed="togglePopup" @buyItems="buyAttacks"/>
+    <BuyPopUp v-if="showPopup" :selectedAttacks="selectedAttacks" @closePopUp="togglePopup()" @buyItems="buyAttacks()"/>
 </template>
 
 <style scoped>
