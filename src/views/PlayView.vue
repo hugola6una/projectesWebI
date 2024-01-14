@@ -1,15 +1,17 @@
 <script setup>
   // Librairies
-  import { onMounted, ref, watch } from 'vue';
+  import { onMounted, ref, watch, reactive } from 'vue';
 
   import { useRouter } from 'vue-router';
 
   const router = useRouter();
   // API Requests
   import { getCurrentGameRequest, changeDirectionRequest, changeMovementRequest, leaveGame } from '@/services/api/GamesRequest.js';
+  import { getOwnAttacks } from '@/services/api/AttacksRequest.js';
 
   // Components
   import PlayerLife from '@/components/PlayerBattle.vue';
+  import ItemAttack from '@/components/ItemAttackPlay.vue';
 
   const token = JSON.parse(localStorage.getItem('player')).token;
   const title = ref('Waiting... vs Waiting');
@@ -27,6 +29,7 @@
 
   onMounted(() => {
     getCurrentGame(); // Obtenim la partida actua
+    getAttacks();
     playerPosition.value[0] = { row: 0, column: 0, direction: "down" }; // Posició inicial del player1
     playerPosition.value[1] = { row: 0, column: 0, direction: "down" }; // Posició inicial del player1
     //setInterval(getCurrentGame, 5000);
@@ -56,6 +59,27 @@
       alert(error);
     }
   }
+    
+  const state = reactive({ // Reactive per actualitzar la view en cas de canvi
+    attacks: [],
+  });
+
+  const enable = reactive({ // Reactive per actualitzar la view en cas de canvi
+    attacks: [],
+  });
+
+  async function getAttacks() {
+      try {
+        state.attacks = await getOwnAttacks(token);
+        getEnableAttacks();
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    function getEnableAttacks() {
+      enable.attacks = state.attacks.filter(attack => attack.equipped == true);
+    }
 
   // Request a la API per abandonar la partida actual
   async function exitGameRequest() {
@@ -236,8 +260,8 @@
     </div>
   </main>
   <footer>
-    <p>Peus</p>
-    <button class="corner-button" @click="exitGame()">QUIT GAME</button>
+    <ItemAttack v-for="attack in state.attacks" :key="attack.attack_ID" :attack="attack"/>
+    <button class="corner-button" @click="exitGame()">QUIT</button>
   </footer>
     
 </template>
@@ -246,11 +270,11 @@
 
   .corner-button {
       position: fixed;
-      bottom: 10px; /* Ajusta según sea necesario */
-      right: 10px; /* Ajusta según sea necesario */
+      bottom: 5vh;
+      right: 2vh;
       background-color: #291D49;
       color: white;
-      padding: 10px;
+      padding: 2vh;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -277,6 +301,11 @@
     justify-content: center;
     font-size: 3vh;
   } 
+
+  footer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr; 
+  }
   
 
   /* Estil del cos*/
@@ -348,6 +377,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  @media (max-width: 800px) {
+    .corner-button {
+      position: fixed;
+      bottom: 5h;
+      right: 2vh;
+      background-color: #291D49;
+      color: white;
+      padding: 1vh;
+      font-size: 3vh;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   }
 
 </style>
