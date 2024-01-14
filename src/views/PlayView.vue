@@ -23,8 +23,9 @@
   const who = ref('0'); // 0 player 1; 1 player 2
 
   onMounted(() => {
-    getCurrentGame(); // Obtenim la partida actual
+    getCurrentGame(); // Obtenim la partida actua
     window.addEventListener('keydown', keyPressed); // Crea listener en tota la fienstre
+    
   });
 
   // Comprova actualitzacions del component
@@ -105,7 +106,14 @@
   async function changeDirection() {
       try {
           await changeDirectionRequest(token, playerPosition.value[who.value].direction);
-          
+      } catch (error) {
+        alert(error);
+      }
+  }
+
+  async function changeDirection() {
+      try {
+          await changeDirectionRequest(token, playerPosition.value[who.value].direction);
       } catch (error) {
         alert(error);
       }
@@ -127,6 +135,8 @@
     } else if (playerPosition.value[who.value].column < 0) {
       playerPosition.value[who.value].column = 0;
     } 
+
+
   } 
   
   // Decodifica el Up,right, elft , down
