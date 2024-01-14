@@ -28,7 +28,7 @@
   onMounted(() => {
     getCurrentGame(); // Obtenim la partida actua
     //window.addEventListener('keydown', keyPressed); // Crea listener en tota la fienstre
-    setInterval(getCurrentGame, 5000);
+    //setInterval(getCurrentGame, 5000);
     
   });
 
@@ -216,7 +216,7 @@
     <!-- Vida jugador 2 -->
     <PlayerLife :playerAux="player2"/>
   </header>
-  <main>
+  <main @keydown="keyPressed()">
     <!-- Estil board -->
     <div class="board"  tabindex="0">
       <!-- Bucle passant per les columnes -->
