@@ -155,3 +155,65 @@ export async function createAttackRequest(token, attack) {
         throw new Error(`${error.message}`);
     };  
 }
+
+// Equipe attack Request
+export async function equipAttackRequest(token, attack_ID) { 
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/players/attacks/" + attack_ID, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+            body: JSON.stringify({
+                attack_ID: attack_ID,
+            }),
+        })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+        try {
+            await res.json();
+        } catch (error) {
+            return;
+        }
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
+// unEquipe attack Request
+export async function unEquipAttackRequest(token, attack_ID) { 
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/players/attacks/" + attack_ID, {
+            method: "DELETE",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+            body: JSON.stringify({
+                attack_ID: attack_ID,
+            }),
+        })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+        try {
+            await res.json();
+        } catch (error) {
+            return;
+        }
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}

@@ -1,12 +1,12 @@
 <script setup>
     // Libraries
 
-   const props = defineProps(['attack','isSelected']);  // Rep el contingut del item per props
+   const props = defineProps(['attack']);  // Rep el contingut del item per props
 </script>
 
 <template>
     <!-- Item d'attac envia un emit en cas de click -->
-    <article  @click="$emit('updateSel')" :class="{ 'item': true, sel: props.isSelected }" >
+    <article  @click="$emit('updateSel')" :class="{ 'item': true, sel: props.attack.equipped }" >
         <!-- Imatge del atac -->
         <img src="../assets/images/icons/swordIcon.png" alt="imageAttack" />
         <!-- Nom del atac -->

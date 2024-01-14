@@ -2,7 +2,7 @@
     // Libraries
     import { onMounted, ref} from 'vue';
     // API requests 
-    import { attackPlayer } from '@/services/api/AttacksRequest.js';
+    import { attackPlayer, equipAttackRequest, unEquipAttackRequest } from '@/services/api/AttacksRequest.js';
     // Components
     import ItemAttack from '@/components/ItemAttack.vue';
 
@@ -19,11 +19,26 @@
 
     // Functions
     async function getAttacks(token) {
-        attacks.value = await attackPlayer(token, props.player.player_ID);
+        try {
+            attacks.value = await attackPlayer(token, props.player.player_ID);
+        } catch (error) {
+            console.log(error);
+        }  
     }
 
-    function toggleEvent(attack) {
-        console.log(attack);
+    async function toggleEvent(attack) {
+        const token = JSON.parse(localStorage.getItem('player')).token; // Obtenim token del local storage
+        try {
+            if (attack.equipped) {
+                await unEquipAttackRequest(token, attack.attack_ID);
+            } else {
+                await equipAttackRequest(token, attack.attack_ID);
+            }
+        } catch (error) {
+            alert(error);
+        } finally {
+            getAttacks(token);
+        }
     }
 </script>
 
@@ -35,7 +50,7 @@
         <!-- Secció de items -->
         <section class="items">
             <!-- Item atac -->
-            <ItemAttack v-for="attack in attacks" :key="attack.attack_ID" :attack="attack" :isSelected="attack.equipped" @updateSel="toggleEvent(attack)"/>
+            <ItemAttack v-for="attack in attacks" :key="attack.attack_ID" :attack="attack" @updateSel="toggleEvent(attack)"/>
         </section>
     </article>
 </template>
