@@ -2,8 +2,11 @@
   // Librairies
   import { onMounted, ref, watch } from 'vue';
 
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
   // API Requests
-  import { getCurrentGameRequest, changeDirectionRequest } from '@/services/api/GamesRequest.js';
+  import { getCurrentGameRequest, changeDirectionRequest, changeMovementRequest, leaveGame } from '@/services/api/GamesRequest.js';
 
   // Components
   import PlayerLife from '@/components/PlayerBattle.vue';
@@ -24,7 +27,8 @@
 
   onMounted(() => {
     getCurrentGame(); // Obtenim la partida actua
-    window.addEventListener('keydown', keyPressed); // Crea listener en tota la fienstre
+    //window.addEventListener('keydown', keyPressed); // Crea listener en tota la fienstre
+    setInterval(getCurrentGame, 5000);
     
   });
 
@@ -52,6 +56,20 @@
     }
   }
 
+  // Request a la API per abandonar la partida actual
+  async function exitGameRequest() {
+    try {
+      game.value = await leaveGame(token, game.value[0].game_ID);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  function exitGame(){
+    exitGameRequest();
+    router.push('/home');
+  }
+
   function whoIam() {
     const player = JSON.parse(localStorage.getItem('player')).player_ID;
     if (player == game.value[0].players_games[0].player_ID) {
@@ -68,6 +86,7 @@
         case 'w':
           if (playerPosition.value[who.value].direction === "up") { //Comprova que el jugador estigui mirant cap a on es mou
             movePlayer1(-1, 0); // En cas que miri cap a on es mou, es mou 
+            changeMovement("up");
             return;
           } else {
             playerPosition.value[who.value].direction = "up"; // Si no està mirant cap a on es mou, actualitza la mirada
@@ -76,6 +95,7 @@
         case 'a':
           if (playerPosition.value[who.value].direction === "left") { //Comprova que el jugador estigui mirant cap a on es mou
             movePlayer1(0, -1); // En cas que miri cap a on es mou, es mou 
+            changeMovement("left");
             return;
           } else {
             playerPosition.value[who.value].direction = "left"; // Si no està mirant cap a on es mou, actualitza la mirada
@@ -84,6 +104,7 @@
         case 's':
           if (playerPosition.value[who.value].direction === "down") {
             movePlayer1(1, 0);
+            changeMovement("down");
             return;
           } else {
             playerPosition.value[who.value].direction = "down";
@@ -92,6 +113,7 @@
         case 'd':
           if (playerPosition.value[who.value].direction === "right") {
             movePlayer1(0, 1);
+            changeMovement("right");
             return;
           } else {
             playerPosition.value[who.value].direction = "right";
@@ -111,7 +133,13 @@
       }
   }
 
-
+  async function changeMovement(move) {
+      try {
+          await changeMovementRequest(token, move);
+      } catch (error) {
+        alert(error);
+      }
+  }
 
   // Mou el player1
   function movePlayer1(y, x) {
@@ -129,8 +157,6 @@
     } else if (playerPosition.value[who.value].column < 0) {
       playerPosition.value[who.value].column = 0;
     } 
-
-
   } 
   
   // Decodifica el Up,right, elft , down
@@ -211,11 +237,24 @@
   </main>
   <footer>
     <p>Peus</p>
+    <button class="corner-button" @click="exitGame()">QUIT GAME</button>
   </footer>
     
 </template>
 
 <style scoped>
+
+  .corner-button {
+      position: fixed;
+      bottom: 10px; /* Ajusta según sea necesario */
+      right: 10px; /* Ajusta según sea necesario */
+      background-color: #291D49;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
   /* Estil header */
   header {
