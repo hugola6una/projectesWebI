@@ -111,13 +111,7 @@
       }
   }
 
-  async function changeDirection() {
-      try {
-          await changeDirectionRequest(token, playerPosition.value[who.value].direction);
-      } catch (error) {
-        alert(error);
-      }
-  }
+
 
   // Mou el player1
   function movePlayer1(y, x) {
