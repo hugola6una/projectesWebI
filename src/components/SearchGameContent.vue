@@ -37,7 +37,8 @@
     async function joinGame (game_ID) { 
         const token = JSON.parse(localStorage.getItem('player')).token
         try {
-            enterGame(token, game_ID);
+            const res = await enterGame(token, game_ID);
+            console.log(res);
             navigateToPlay();
         } catch (error) {
             console.log(error);

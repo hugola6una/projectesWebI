@@ -49,7 +49,7 @@ export async function getMatchLogRequest(token, id){
 export async function enterGame(token, id){ 
     try {
         const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas/" + id + "/play", {
-            method: "GET",
+            method: "POST",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
