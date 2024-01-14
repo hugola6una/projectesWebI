@@ -31,9 +31,9 @@
                 <button @click="onClosed" class="closeButton">x</button>
             </div>
             <ul>
-                <li v-for="item in selectedAttacks" :key="item.id">
+                <li v-for="(item, id ) in selectedAttacks" :key="item.id">
                     <SolicitedItem :item="item"/>
-                    <input type="number" v-model="prices[item.id]" min="1" max="99">
+                    <input type="number" v-model="prices[id]" min="1" max="99">
                 </li>
             </ul>
             <button @click="sellItems" class="sellButton">SELL</button>
