@@ -16,7 +16,7 @@
         <ItemUserHisotricGame :player_ID="match.players_games[0].player_ID" />
         <h2>VS</h2>
         <!-- Component amb foto perfil i nom player -->
-        <ItemUserHisotricGame :player_ID="match.players_games[1].player_ID" />
+        <ItemUserHisotricGame :player_ID="match.players_games[1]?match.players_games[1].player_ID:null" />
         <!-- Mostra mida de tauler -->
         <p>{{match.size}}x{{match.size}}</p>
         <!-- Mostra data de la partida -->
