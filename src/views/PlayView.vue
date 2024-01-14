@@ -14,13 +14,13 @@
 
   const game = ref({}); // Info de la partida
   const nRows = ref(); // Numero de rows
-  const player1Position = ref({ row: 0, column: 0, direction: "down" }); // Més 5 equival a un row/column
-  const player2Position = ref({ row: nRows.value -1, column: nRows.value-1, direction: "up"}); // Més 5 equival a un row/column
+  const playerPosition = ref({ row: 0, column: 0, direction: "down" },
+                                  { row: nRows.value -1, column: nRows.value-1, direction: "up"}); // Més 5 equival a un row/column
 
   const player1 = ref({}); // Info del player1
   const player2 = ref({}); // Info del player2 
 
-  const player1orNplayer2 = ref('');
+  const who = ref('0'); // 0 player 1; 1 player 2
 
   onMounted(() => {
     getCurrentGame(); // Obtenim la partida actual
@@ -29,18 +29,16 @@
 
   // Comprova actualitzacions del component
   watch(() => game.value[0], () => {
-    console.log(game.value[0]);
+    whoIam();
       nRows.value = game.value[0].size; // Actualitzem el numero de rows
-      player2Position.value = { row: nRows.value -1, column: nRows.value-1, direction: 0}; // Actualitzem la posició del player2
       if (game.value[0].players_games) { // Comprova si hi ha 2 jugadors
         player1.value = game.value[0].players_games[0]; // Actualitzem la info del player1
-        player1Position.value = { row: player1.value.y_game, column: player1.value.x_game, direction: player1.value.direction }; // Actualitzem la posició del player
+        playerPosition.value[0] = { row: player1.value.y_game, column: player1.value.x_game, direction: player1.value.direction }; // Actualitzem la posició del player
       }
       if ( game.value[0].players_games[1]) { // Comprova si hi ha 2 jugadors
         player2.value = game.value[0].players_games[1]; // Actualitzem la info del player2
-        player2Position.value = { row: player2.value.y_game, column: player2.value.x_game, direction: player2.value.direction }; // Actualitzem la posició del player
+        playerPosition.value[1] = { row: player2.value.y_game, column: player2.value.x_game, direction: player2.value.direction }; // Actualitzem la posició del player
       }
-      // player2.value = game.value[0].players_games[1]; // Actualitzem la info del player2
       checkPlayerIn();
   });
 
@@ -56,108 +54,58 @@
   function whoIam() {
     const player = JSON.parse(localStorage.getItem('player')).player_ID;
     if (player == game.value[0].players_games[0].player_ID) {
-      player1orNplayer2.value = '1';
+      who.value = '0';
     } else {
-      player1orNplayer2.value = '0';
+      who.value = '1';
     }
-
-    console.log(player);
-    console.log(game.value[0].players_games[0].player_ID);
-    console.log(player1orNplayer2.value);
   }
   // Controla les tecles que es prem
   function keyPressed(event) {
     const { key } = event;
-    const player = JSON.parse(localStorage.getItem('player')).player_ID;
-    if (player == game.value[0].players_games[0].player_ID) {
+    
       switch (key) {
         case 'w':
-          if (player1Position.value.direction === "up") { //Comprova que el jugador estigui mirant cap a on es mou
+          if (playerPosition.value[who.value].direction === "up") { //Comprova que el jugador estigui mirant cap a on es mou
             movePlayer1(-1, 0); // En cas que miri cap a on es mou, es mou 
             return;
           } else {
-            player1Position.value.direction = "up"; // Si no està mirant cap a on es mou, actualitza la mirada
+            playerPosition.value[who.value].direction = "up"; // Si no està mirant cap a on es mou, actualitza la mirada
           }
           break;
         case 'a':
-          if (player1Position.value.direction === "left") { //Comprova que el jugador estigui mirant cap a on es mou
+          if (playerPosition.value[who.value].direction === "left") { //Comprova que el jugador estigui mirant cap a on es mou
             movePlayer1(0, -1); // En cas que miri cap a on es mou, es mou 
             return;
           } else {
-            player1Position.value.direction = "left"; // Si no està mirant cap a on es mou, actualitza la mirada
+            playerPosition.value[who.value].direction = "left"; // Si no està mirant cap a on es mou, actualitza la mirada
           }
           break;
         case 's':
-          if (player1Position.value.direction === "down") {
+          if (playerPosition.value[who.value].direction === "down") {
             movePlayer1(1, 0);
             return;
           } else {
-            player1Position.value.direction = "down";
+            playerPosition.value[who.value].direction = "down";
           }
           break;
         case 'd':
-          if (player1Position.value.direction === "right") {
+          if (playerPosition.value[who.value].direction === "right") {
             movePlayer1(0, 1);
             return;
           } else {
-            player1Position.value.direction = "right";
+            playerPosition.value[who.value].direction = "right";
           }
           break;
         default:
           break;
-      }
-    } else {
-
-      switch (key) {
-        case 'w':
-          if (player2Position.value.direction === "up") { //Comprova que el jugador estigui mirant cap a on es mou
-            movePlayer2(-1, 0); // En cas que miri cap a on es mou, es mou 
-            return;
-          } else {
-            player2Position.value.direction = "up"; // Si no està mirant cap a on es mou, actualitza la mirada
-          }
-          break;
-        case 'a':
-          if (player2Position.value.direction === "left") { //Comprova que el jugador estigui mirant cap a on es mou
-            movePlayer2(0, -1); // En cas que miri cap a on es mou, es mou 
-            return;
-          } else {
-            player2Position.value.direction = "left"; // Si no està mirant cap a on es mou, actualitza la mirada
-          }
-          break;
-        case 's':
-          if (player2Position.value.direction === "down") {
-            movePlayer2(1, 0);
-            return;
-          } else {
-            player2Position.value.direction = "down";
-          }
-          break;
-        case 'd':
-          if (player2Position.value.direction === "right") {
-            movePlayer2(0, 1);
-            return;
-          } else {
-            player2Position.value.direction = "right";
-          }
-          break;
-        default:
-          break;
-      }
-
-    }
-
-    changeDirection();
+      }  
+      changeDirection();
   }
 
   async function changeDirection() {
-    const player = JSON.parse(localStorage.getItem('player')).player_ID;
       try {
-        if (player == game.value[0].players_games[0].player_ID) {
-          await changeDirectionRequest(token, player1Position.value.direction);
-        } else {
-          await changeDirectionRequest(token, player2Position.value.direction);
-          }
+          await changeDirectionRequest(token, playerPosition.value[who.value].direction);
+          
       } catch (error) {
         alert(error);
       }
@@ -165,44 +113,25 @@
 
   // Mou el player1
   function movePlayer1(y, x) {
-    player1Position.value.row += y; // Actualitza el valor y del player1
-    player1Position.value.column += x; // Actualitza el valor x del player1
+    playerPosition.value[who.value].row += y; // Actualitza el valor y del player1
+    playerPosition.value[who.value].column += x; // Actualitza el valor x del player1
 
-    if (player1Position.value.row > nRows.value - 1) { // Limitem que no sorti de la taula en x
-      player1Position.value.row = nRows.value - 1;
-    } else if (player1Position.value.row < 0) {
-      player1Position.value.row = 0;
+    if (playerPosition.value[who.value].row > nRows.value - 1) { // Limitem que no sorti de la taula en x
+      playerPosition.value[who.value].row = nRows.value - 1;
+    } else if (playerPosition.value[who.value].row < 0) {
+      playerPosition.value[who.value].row = 0;
     }
 
-    if (player1Position.value.column > nRows.value - 1) { // Limitem que no sorti de la taula en y
-      player1Position.value.column = nRows.value - 1;
-    } else if (player1Position.value.column < 0) {
-      player1Position.value.column = 0;
+    if (playerPosition.value[who.value].column > nRows.value - 1) { // Limitem que no sorti de la taula en y
+      playerPosition.value[who.value].column = nRows.value - 1;
+    } else if (playerPosition.value[who.value].column < 0) {
+      playerPosition.value[who.value].column = 0;
     } 
   } 
-
-  // Mou el player2
-  function movePlayer2(y, x) {
-    player2Position.value.row += y; // Actualitza el valor y del player1
-    player2Position.value.column += x; // Actualitza el valor x del player1
-
-    if (player2Position.value.row > nRows.value - 1) { // Limitem que no sorti de la taula en x
-      player2Position.value.row = nRows.value - 1;
-    } else if (player2Position.value.row < 0) {
-      player2Position.value.row = 0;
-    }
-
-    if (player2Position.value.column > nRows.value - 1) { // Limitem que no sorti de la taula en y
-      player2Position.value.column = nRows.value - 1;
-    } else if (player2Position.value.column < 0) {
-      player2Position.value.column = 0;
-    } 
-  } 
+  
   // Decodifica el Up,right, elft , down
-  function decodeDirection() {
-    const player = JSON.parse(localStorage.getItem('player')).player_ID;
-    if (player == game.value[0].players_games[0].player_ID) {
-      switch (player1Position.value.direction) {
+  function decodeDirection(player) {
+      switch (playerPosition.value[player].direction) {
         case "up":
           return 180;
         case "right":
@@ -214,20 +143,7 @@
         default:
           return 0;
       }
-    } else {
-      switch (player2Position.value.direction) {
-        case "up":
-          return 180;
-        case "right":
-          return -90;
-        case "down":
-          return 0;
-        case "left":
-          return 90;
-        default:
-          return 0;
-      }
-    }
+    
   }
 
   // Comprovem el estat dels jugadors en la partida
@@ -243,12 +159,12 @@
 
   // Comprova si hi ha una peça en una cel·la
   function pieceInCell(row, cell, player) {
-    if (player == 1) {
-      if (player1Position.value.row === row && player1Position.value.column === cell) {
+    if (player === 0) {
+      if (playerPosition.value[0].row === row && playerPosition.value[0].column === cell) {
         return true;
       } 
     } else {
-      if (player2Position.value.row === row && player2Position.value.column === cell) {
+      if (playerPosition.value[1].row === row && playerPosition.value[1].column === cell) {
         return true;
       } 
     }
@@ -278,11 +194,11 @@
         <!-- Bucle passant pintant les celles -->
         <div v-for="(cell, y) in nRows" :key="cell" :class="{ cell, even: (row + cell) % 2 === 0, odd: (row + cell) % 2 !== 0 }" :style="{width:50/nRows + 'vh', height:50/nRows + 'vh'}">
           <!-- Element player 1 pinta si esta aqui -->
-          <div v-if="pieceInCell(x,y, 1)" class="player1" :style="{ top: player1Position.row / nRows + 'vh', left: player1Position.column / nRows + 'vh' , width:50/nRows + 'vh', height:50/nRows + 'vh', rotate: decodeDirection() + 'deg'}">
+          <div v-if="pieceInCell(x,y,0)" class="player1" :style="{ top: playerPosition[0].row / nRows + 'vh', left: playerPosition[0].column / nRows + 'vh' , width:50/nRows + 'vh', height:50/nRows + 'vh', rotate: decodeDirection(0) + 'deg'}">
             <img src="@/assets/images/icons/robot1.png" alt="player1">
           </div>
           <!-- Element player 2 pinta si esta aqui -->
-          <div v-if="pieceInCell(x,y, 2)" class="player2" :style="{ top: player2Position.row + 'vh', left: player2Position.column + 'vh' , width:50/nRows + 'vh', height:50/nRows + 'vh', rotate: decodeDirection() + 'deg'}">
+          <div v-if="pieceInCell(x,y,1)" class="player2" :style="{ top: playerPosition[1].row + 'vh', left: playerPosition[1].column + 'vh' , width:50/nRows + 'vh', height:50/nRows + 'vh', rotate: decodeDirection(1) + 'deg'}">
             <img src="@/assets/images/icons/robot2.png" alt="player2">
           </div>
         </div>
