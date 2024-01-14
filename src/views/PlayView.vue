@@ -1,12 +1,17 @@
 <script setup>
   // Librairies
-  import { onMounted, ref, watch } from 'vue';
+  import { onMounted, ref, watch, reactive } from 'vue';
 
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
   // API Requests
-  import { getCurrentGameRequest, changeDirectionRequest } from '@/services/api/GamesRequest.js';
+  import { getCurrentGameRequest, changeDirectionRequest, changeMovementRequest, leaveGame  , attackRequest} from '@/services/api/GamesRequest.js';
+  import { getOwnAttacks} from '@/services/api/AttacksRequest.js';
 
   // Components
   import PlayerLife from '@/components/PlayerBattle.vue';
+  import ItemAttack from '@/components/ItemAttackPlay.vue';
 
   const token = JSON.parse(localStorage.getItem('player')).token;
   const title = ref('Waiting... vs Waiting');
@@ -15,7 +20,7 @@
   const game = ref({}); // Info de la partida
   const nRows = ref(); // Numero de rows
   const playerPosition = ref({ row: 0, column: 0, direction: "down" },
-                                  { row: nRows.value -1, column: nRows.value-1, direction: "up"}); // Més 5 equival a un row/column
+                              { row: 1, column: 1, direction: "up"}); // Més 5 equival a un row/column
 
   const player1 = ref({}); // Info del player1
   const player2 = ref({}); // Info del player2 
@@ -24,7 +29,10 @@
 
   onMounted(() => {
     getCurrentGame(); // Obtenim la partida actua
-    window.addEventListener('keydown', keyPressed); // Crea listener en tota la fienstre
+    getAttacks();
+    playerPosition.value[0] = { row: 0, column: 0, direction: "down" }; // Posició inicial del player1
+    playerPosition.value[1] = { row: 0, column: 0, direction: "down" }; // Posició inicial del player1
+    //setInterval(getCurrentGame, 5000);
     
   });
 
@@ -51,6 +59,35 @@
       alert(error);
     }
   }
+  const stateAttacks = ref([]);
+  const enableAttacks = ref([]);
+
+  async function getAttacks() {
+      try {
+        stateAttacks.value = await getOwnAttacks(token);
+        getEnableAttacks();
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    function getEnableAttacks() {
+      enableAttacks.value = stateAttacks.value.filter(attack => attack.equipped == true);
+    }
+
+  // Request a la API per abandonar la partida actual
+  async function exitGameRequest() {
+    try {
+      game.value = await leaveGame(token, game.value[0].game_ID);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  function exitGame(){
+    exitGameRequest();
+    router.push('/home');
+  }
 
   function whoIam() {
     const player = JSON.parse(localStorage.getItem('player')).player_ID;
@@ -62,12 +99,12 @@
   }
   // Controla les tecles que es prem
   function keyPressed(event) {
-    const { key } = event;
-    
+      const { key } = event;
       switch (key) {
         case 'w':
           if (playerPosition.value[who.value].direction === "up") { //Comprova que el jugador estigui mirant cap a on es mou
             movePlayer1(-1, 0); // En cas que miri cap a on es mou, es mou 
+            changeMovement("up");
             return;
           } else {
             playerPosition.value[who.value].direction = "up"; // Si no està mirant cap a on es mou, actualitza la mirada
@@ -76,6 +113,7 @@
         case 'a':
           if (playerPosition.value[who.value].direction === "left") { //Comprova que el jugador estigui mirant cap a on es mou
             movePlayer1(0, -1); // En cas que miri cap a on es mou, es mou 
+            changeMovement("left");
             return;
           } else {
             playerPosition.value[who.value].direction = "left"; // Si no està mirant cap a on es mou, actualitza la mirada
@@ -84,6 +122,7 @@
         case 's':
           if (playerPosition.value[who.value].direction === "down") {
             movePlayer1(1, 0);
+            changeMovement("down");
             return;
           } else {
             playerPosition.value[who.value].direction = "down";
@@ -92,10 +131,16 @@
         case 'd':
           if (playerPosition.value[who.value].direction === "right") {
             movePlayer1(0, 1);
+            changeMovement("right");
             return;
           } else {
             playerPosition.value[who.value].direction = "right";
           }
+          break;
+          case 'k':
+            if (selectedAttack.value != '') {
+              attackOponent();
+            }
           break;
         default:
           break;
@@ -111,7 +156,13 @@
       }
   }
 
-
+  async function changeMovement(move) {
+      try {
+          await changeMovementRequest(token, move);
+      } catch (error) {
+        alert(error);
+      }
+  }
 
   // Mou el player1
   function movePlayer1(y, x) {
@@ -129,8 +180,6 @@
     } else if (playerPosition.value[who.value].column < 0) {
       playerPosition.value[who.value].column = 0;
     } 
-
-
   } 
   
   // Decodifica el Up,right, elft , down
@@ -175,6 +224,22 @@
     return false;
   }
 
+  const selectedAttack = ref('');
+
+  function selectAttack(attack_ID) {
+    selectedAttack.value = attack_ID;
+  }
+
+  // Funció per entrar a game
+  async function attackOponent() { 
+        try {
+            const res = await attackRequest(token, selectedAttack.value);
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 </script>
 
 
@@ -190,7 +255,7 @@
     <!-- Vida jugador 2 -->
     <PlayerLife :playerAux="player2"/>
   </header>
-  <main>
+  <main @keydown="keyPressed">
     <!-- Estil board -->
     <div class="board"  tabindex="0">
       <!-- Bucle passant per les columnes -->
@@ -210,12 +275,27 @@
     </div>
   </main>
   <footer>
-    <p>Peus</p>
+    <ItemAttack v-for="attack in enableAttacks"  @click="selectAttack(attack.attack_ID)" :key="attack.attack_ID" :attack="attack" :class="{ 'selected-attack': attack.attack_ID === selectedAttack }"/>
+    <button class="corner-button" @click="exitGame()">QUIT</button>
   </footer>
     
 </template>
 
 <style scoped>
+.selected-attack {
+  background-color: #786aa8;
+}
+  .corner-button {
+      position: fixed;
+      bottom: 5vh;
+      right: 2vh;
+      background-color: #291D49;
+      color: white;
+      padding: 2vh;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
   /* Estil header */
   header {
@@ -238,6 +318,11 @@
     justify-content: center;
     font-size: 3vh;
   } 
+
+  footer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr; 
+  }
   
 
   /* Estil del cos*/
@@ -309,6 +394,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  @media (max-width: 800px) {
+    .corner-button {
+      position: fixed;
+      bottom: 5h;
+      right: 2vh;
+      background-color: #291D49;
+      color: white;
+      padding: 1vh;
+      font-size: 3vh;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   }
 
 </style>

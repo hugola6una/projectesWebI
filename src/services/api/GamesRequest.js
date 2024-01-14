@@ -205,3 +205,92 @@ export async function changeDirectionRequest(token, direction){
     };  
 }
 
+// Change Actual position Request
+export async function changeMovementRequest(token, movement){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas/move", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+            body: JSON.stringify({
+                movement: movement,
+            }),
+        })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+
+        try {
+            await res.json();
+        } catch(error) {
+            return;
+        }
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
+// Change Actual position Request
+export async function attackRequest(token, id){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas/attack/" + id, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            }
+        })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+
+        try {
+            await res.json();
+        } catch(error) {
+            return;
+        }
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
+// Change Actual position Request
+export async function leaveGame(token, id){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas/" + id + "/play", {
+            method: "DELETE",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+        })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+
+        try {
+            await res.json();
+        } catch(error) {
+            return;
+        }
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
