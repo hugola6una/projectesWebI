@@ -22,8 +22,8 @@
   const playerPosition = ref({ row: 0, column: 0, direction: "down" },
                               { row: 1, column: 1, direction: "up"}); // Més 5 equival a un row/column
 
-  const player1 = ref({}); // Info del player1
-  const player2 = ref({}); // Info del player2 
+  const player1 = ref({game_ID: '0', player_ID: 'Waiting...', x_game: 1, y_game:1, direction: "up", hp: 100, xp_win: 0, coins_win:100}); // Info del player1
+  const player2 = ref({game_ID: '0', player_ID: 'Waiting...', x_game: 1, y_game:1, direction: "up", hp: 100, xp_win: 0, coins_win:100}); // Info del player2
 
   const who = ref('0'); // 0 player 1; 1 player 2
 
@@ -38,6 +38,10 @@
 
   // Comprova actualitzacions del component
   watch(() => game.value[0], () => {
+    if (game.value[0] === undefined) {
+      navigateToHome();
+    }
+    
     whoIam();
       nRows.value = game.value[0].size; // Actualitzem el numero de rows
       if (game.value[0].players_games) { // Comprova si hi ha 2 jugadors
@@ -57,8 +61,21 @@
       game.value = await getCurrentGameRequest(token);
     } catch (error) {
       alert(error);
+    } finally {
+      endGame();
     }
   }
+
+  function navigateToHome() {
+        router.push('/home');
+        }
+
+  function endGame() {
+    if (game.value[0].finished == true) {
+      navigateToHome();
+    }
+  }
+
   const stateAttacks = ref([]);
   const enableAttacks = ref([]);
 
@@ -86,7 +103,7 @@
 
   function exitGame(){
     exitGameRequest();
-    router.push('/home');
+    navigateToHome();
   }
 
   function whoIam() {
