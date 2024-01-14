@@ -77,11 +77,11 @@ const togglePopupCreaction = () => {
   section {
     width: 100%;
     display: flex;
-    flex-wrap: wrap; /* fem que sigui wrap per anar adaptanse al contigut i l'amplada de lapagina */
+    flex-wrap: wrap;
     justify-content: center;
-    overflow-y: auto; /* fem que tingui scroll vertical en cas de sobrepassar el max heigh */
-    height: 55vh;
-    max-height: 55vh;
+    overflow-y: auto;
+    height: 43vh;
+    max-height: 43vh;
   }
 
   /* Estil botó */

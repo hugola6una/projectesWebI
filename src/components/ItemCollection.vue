@@ -42,8 +42,10 @@
     }
 
     .name {
-        word-wrap: break-word;
         font-size: 1.5vh;
         color: #362864;
+        white-space: nowrap; /* No msotrem sencer s ino entra */
+        max-width: 10vh;
+        text-overflow: ellipsis;
     }
 </style>
