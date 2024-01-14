@@ -14,22 +14,22 @@
         const token = JSON.parse(localStorage.getItem('player')).token
         try {
             attacks.value = await getOwnAttacks(token);
+            attacks.value = attacks.value.filter(attack => !attack.on_sale);
         } catch (error) {
             console.log(error);
         }
     }
 
-    async function sellAttacks() {
-        const token = JSON.parse(localStorage.getItem('player')).token
-        for (let i = 0; i < selectedAttacks.value.length; i++) {
-            const id = selectedAttacks[i].attack_ID;
-
-            try {
-                await sellAttack(token, id);
-                selectedAttacks.value = [];
-            } catch (error) {
-                console.log(error);
+    async function sellAttacks(sellData) {
+        try {
+            const token = JSON.parse(localStorage.getItem('player')).token
+            for (let i = 0; i < sellData.length; i++) {
+                await sellAttack(token, sellData[i].attack.attack_ID, sellData[i].price);
             }
+        } catch (error) {
+            alert(error);
+        } finally {
+            selectedAttacks.value = [];
         }
     }
 

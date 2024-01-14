@@ -44,7 +44,6 @@
     }
 
     async function buyAttacks() {
-        console.log(selectedAttacks.value.length);
         try {
             showPopup.value = false;
             const token = JSON.parse(localStorage.getItem('player')).token

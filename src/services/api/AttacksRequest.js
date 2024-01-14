@@ -73,7 +73,7 @@ export async function buyAttack(token, id) {
 
 }
 
-export async function sellAttack(token, id) {
+export async function sellAttack(token, id, price) {
     try {
         const res = await  fetch("https://balandrau.salle.url.edu/i3/shop/attacks/" + id + "/sell", {
             method: "POST",
@@ -82,6 +82,9 @@ export async function sellAttack(token, id) {
                 "Content-Type": "application/json",
                 "Bearer": token,
             },
+            body: JSON.stringify({
+                price: price,
+            }),
         })
         
         // En cas de que no sigui correcte, llança error
@@ -89,8 +92,11 @@ export async function sellAttack(token, id) {
             const error = await res.json();
             throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
         } 
-        const data = await res.json();
-        return data;
+        try {   
+            await res.json();
+        } catch (error) {
+            return;
+        }
     } catch(error) {
         // Seteja missatge d'error a mostrar
         throw new Error(`${error.message}`);

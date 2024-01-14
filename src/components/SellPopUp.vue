@@ -1,13 +1,25 @@
 <script setup>
+    // Librairies
+    import { ref} from 'vue';
+
+    // Components
     import SolicitedItem from '@/components/SolicitedItem.vue';
 
-    const {selectedAttacks, onClosed} = defineProps(['selectedAttacks', 'onClosed']);
-    const emit = defineEmits(['sellItems']);
+    const {selectedAttacks, onClosed} = defineProps(['selectedAttacks', 'onClosed']); // rep props del parent
+    const emit = defineEmits(['sellItems']); // defineix els emits
 
+    // En cas de vendra items
     function sellItems() {
-        emit('sellItems');
+        const sellData = selectedAttacks.map((item) => ({
+            attack: item,
+            price: prices.value[item.id] || 1, // Per defecte 1
+        }));
+
+        emit('sellItems', sellData);
         onClosed();
     }
+
+    const prices = ref([]); // Preus dels items
 
 </script>
 
@@ -20,10 +32,11 @@
             </div>
             <ul>
                 <li v-for="item in selectedAttacks" :key="item.id">
-                    <SolicitedItem :item="item" @quantityChanged="handleQuantityChanged" />
+                    <SolicitedItem :item="item"/>
+                    <input type="number" v-model="prices[item.id]" min="1" max="99">
                 </li>
             </ul>
-            <button @click="sellItems" class="sellButton">BUY</button>
+            <button @click="sellItems" class="sellButton">SELL</button>
         </div>
     </div>
 </template>
@@ -97,6 +110,15 @@ ul {
     padding: 0;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+li {
+    display: flex;
+    align-items: center;
+}
+
+input {
+    height: 3vh;
 }
 
 .sellButton {

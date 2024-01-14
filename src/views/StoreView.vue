@@ -10,9 +10,7 @@
 
   // Funció per canviar el contingut a mostrar
   function activeButton(option) {    
-    console.log(option);
     contentToShow.value = option;
-    console.log(contentToShow.value);
     return;
   }
 
