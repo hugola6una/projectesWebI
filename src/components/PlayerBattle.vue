@@ -1,18 +1,47 @@
 <script setup>
     // Librairies
+    import { ref, watch, onMounted } from 'vue';
     import { getImage } from '@/services/Auxiliar.js';
 
-    
+    // ApiREsquest
+    import { getPlayerRequest } from '@/services/api/PlayerRequest.js';
+
+    const props = defineProps(['playerAux']);
+    const player = ref({});
+    const image = ref('');
+
+    onMounted(() => {
+        getPlayer()
+    })
+
+    watch(() => props.playerAux, () => {
+        getPlayer()
+    })
+
+    async function getPlayer() {
+        if (!props.playerAux || props.playerAux.player_ID === undefined) {
+            image.value =  getImage('');
+            return;
+        }
+        try {
+            const token = JSON.parse(localStorage.getItem('player')).token;
+            player.value = await getPlayerRequest(token, props.playerAux.player_ID);
+            image.value = getImage(player.value.img);
+        } catch (error) {
+            // alert(error);
+        }
+    }
 </script>
 
 <template>
     <div class="player-life">
-        <img :src="getImage('../assets/images/icons/swordIcon.png')">
+        <img :src="image">
         <div class="life-container">
             <div class="life" :style="{width:50 + '%'}"> <!--Varia en funció de la vida del player-->
 
             </div>
         </div>
+        <p>{{ props.playerAux?props.playerAux.hp:'??' }} Hp</p>
     </div>
 </template>
 
@@ -31,7 +60,7 @@
     .life-container {
         display: flex;
         flex-direction: row;
-        width: 27vh;
+        width: 23vh;
         height: 4vh;
         background-color: #E1E2FE;
         border-radius: 2vh;
@@ -45,6 +74,7 @@
     }
 
     p {
+        font-size: 1vh;
         margin-left: 2vh;
     }
 

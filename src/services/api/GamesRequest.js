@@ -149,3 +149,35 @@ export async function getCurrentGameRequest(token){
     };  
 }
 
+// Change Actual direction Request
+export async function changeDirectionRequest(token, direction){
+    try {
+        const res = await  fetch("https://balandrau.salle.url.edu/i3/arenas/direction", {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Bearer": token,
+            },
+            body: JSON.stringify({
+                direction: direction,
+            }),
+        })
+        
+        // En cas de que no sigui correcte, llança error
+        if (!res.ok) {   
+            const error = await res.json();
+            throw new Error(`${error.error.message}`); // Envia codi d'error i missatge
+        } 
+
+        try {
+            await res.json();
+        } catch(error) {
+            return;
+        }
+    } catch(error) {
+        // Seteja missatge d'error a mostrar
+        throw new Error(`${error.message}`);
+    };  
+}
+
