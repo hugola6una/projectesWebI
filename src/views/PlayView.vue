@@ -1,6 +1,6 @@
 <script setup>
   // Librairies
-  import { onMounted, ref, watch, reactive } from 'vue';
+  import { onMounted, ref, watch} from 'vue';
 
   import { useRouter } from 'vue-router';
 
@@ -32,7 +32,7 @@
     getAttacks();
     playerPosition.value[0] = { row: 0, column: 0, direction: "down" }; // Posició inicial del player1
     playerPosition.value[1] = { row: 0, column: 0, direction: "down" }; // Posició inicial del player1
-    //setInterval(getCurrentGame, 5000);
+    setInterval(getCurrentGame, 5000);
     
   });
 
@@ -233,11 +233,10 @@
   // Funció per entrar a game
   async function attackOponent() { 
         try {
-            const res = await attackRequest(token, selectedAttack.value);
-            console.log(res);
+            await attackRequest(token, selectedAttack.value);
         } catch (error) {
             console.log(error);
-        }
+        } 
     }
 
 </script>
