@@ -6,8 +6,8 @@
 
   const router = useRouter();
   // API Requests
-  import { getCurrentGameRequest, changeDirectionRequest, changeMovementRequest, leaveGame } from '@/services/api/GamesRequest.js';
-  import { getOwnAttacks } from '@/services/api/AttacksRequest.js';
+  import { getCurrentGameRequest, changeDirectionRequest, changeMovementRequest, leaveGame  , attackRequest} from '@/services/api/GamesRequest.js';
+  import { getOwnAttacks} from '@/services/api/AttacksRequest.js';
 
   // Components
   import PlayerLife from '@/components/PlayerBattle.vue';
@@ -59,18 +59,12 @@
       alert(error);
     }
   }
-    
-  const state = reactive({ // Reactive per actualitzar la view en cas de canvi
-    attacks: [],
-  });
-
-  const enable = reactive({ // Reactive per actualitzar la view en cas de canvi
-    attacks: [],
-  });
+  const stateAttacks = ref([]);
+  const enableAttacks = ref([]);
 
   async function getAttacks() {
       try {
-        state.attacks = await getOwnAttacks(token);
+        stateAttacks.value = await getOwnAttacks(token);
         getEnableAttacks();
       } catch (error) {
         alert(error);
@@ -78,7 +72,7 @@
     }
 
     function getEnableAttacks() {
-      enable.attacks = state.attacks.filter(attack => attack.equipped == true);
+      enableAttacks.value = stateAttacks.value.filter(attack => attack.equipped == true);
     }
 
   // Request a la API per abandonar la partida actual
@@ -225,6 +219,16 @@
     return false;
   }
 
+  // Funció per entrar a game
+  async function attackOponent(attack_ID) { 
+        try {
+            const res = await attackRequest(token, attack_ID);
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 </script>
 
 
@@ -260,7 +264,7 @@
     </div>
   </main>
   <footer>
-    <ItemAttack v-for="attack in state.attacks" :key="attack.attack_ID" :attack="attack"/>
+    <ItemAttack v-for="attack in enableAttacks"  @click="attackOponent(attack.attack_ID)" :key="attack.attack_ID" :attack="attack"/>
     <button class="corner-button" @click="exitGame()">QUIT</button>
   </footer>
     
