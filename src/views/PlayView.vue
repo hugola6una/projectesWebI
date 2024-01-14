@@ -26,6 +26,7 @@
   const player2 = ref({game_ID: '0', player_ID: 'Waiting...', x_game: 1, y_game:1, direction: "up", hp: 100, xp_win: 0, coins_win:100}); // Info del player2
 
   const who = ref('0'); // 0 player 1; 1 player 2
+  const maxHealth = ref(100); // Vida maxima del player
 
   onMounted(() => {
     getCurrentGame(); // Obtenim la partida actua
@@ -44,6 +45,7 @@
     
     whoIam();
       nRows.value = game.value[0].size; // Actualitzem el numero de rows
+      maxHealth.value = game.value[0].HP_max;
       if (game.value[0].players_games) { // Comprova si hi ha 2 jugadors
         player1.value = game.value[0].players_games[0]; // Actualitzem la info del player1
         playerPosition.value[0] = { row: player1.value.y_game, column: player1.value.x_game, direction: player1.value.direction }; // Actualitzem la posició del player
@@ -263,13 +265,13 @@
   <!-- Header del game mostra info dels player -->
   <header>
     <!-- Vida jugador 1 -->
-    <PlayerLife :playerAux="player1"/> 
+    <PlayerLife v-bind:playerAux="player1" v-bind:maxHealth="maxHealth"/>
     <!-- Infonoms jugadors -->
     <div class="mid">
       <p>{{title}}</p>
     </div>
     <!-- Vida jugador 2 -->
-    <PlayerLife :playerAux="player2"/>
+    <PlayerLife v-bind:playerAux="player2" v-bind:max-health="maxHealth"/>
   </header>
   <main @keydown="keyPressed">
     <!-- Estil board -->

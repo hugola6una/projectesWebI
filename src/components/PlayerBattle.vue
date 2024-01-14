@@ -6,7 +6,7 @@
     // ApiREsquest
     import { getPlayerRequest } from '@/services/api/PlayerRequest.js';
 
-    const props = defineProps(['playerAux']);
+    const props = defineProps(['playerAux', 'maxHealth']);
     const player = ref({});
     const image = ref('');
 
@@ -37,11 +37,10 @@
     <div class="player-life">
         <img :src="image">
         <div class="life-container">
-            <div class="life" :style="{width:50 + '%'}"> <!--Varia en funció de la vida del player-->
-
+            <div class="life" :style="{width:(props.playerAux.hp / props.maxHealth) * 100  + '%'}"> <!--Varia en funció de la vida del player-->
             </div>
         </div>
-        <p>{{ props.playerAux?props.playerAux.hp:'??' }} Hp</p>
+        <p>{{ props.playerAux.hp }} Hp</p>
     </div>
 </template>
 
