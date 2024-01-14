@@ -63,7 +63,7 @@
 
 <template>
     <section v-if="!showPopup" class="sellContent">
-        <h3>TAP TO SELECT</h3>
+        <p>TAP TO SELECT</p>
         <section class="items">
             <ItemStore v-for="attack in attacks" :key="attack.attack_ID" :attack="attack" :isSelected="checkSelected(attack)" @toggleSelection="toggleSelecion(attack)"></ItemStore>
         </section>
@@ -80,7 +80,7 @@
 </template>
 
 <style scoped>
-.sellContent {
+    .sellContent {
         height: 100%;
         width: 100%;
         display: grid;
