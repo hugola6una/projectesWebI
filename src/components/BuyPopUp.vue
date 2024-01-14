@@ -1,7 +1,7 @@
 <script setup>
     import SolicitedItem from '@/components/SolicitedItem.vue';
 
-    const onClosed = defineProps(['selectedAttacks', 'onClosed']);
+    const {selectedAttacks, onClosed} = defineProps(['selectedAttacks', 'onClosed']);
     const emit = defineEmits(['buyItems']);
 
     function buyItems() {

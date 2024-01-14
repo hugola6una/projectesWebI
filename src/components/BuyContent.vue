@@ -15,6 +15,25 @@
         getAttacks()
     })
 
+    // Variables
+    const attacks = ref([]);
+    const selectedAttacks = ref([]);
+    const totalPrice = ref(0);
+    const showPopup = ref(false);
+
+    // Funcions
+    function togglePopup() {
+        showPopup.value = !showPopup.value;
+    }
+
+    const increaseTotal = (item) => {
+        totalPrice.value += item.price;
+    };
+
+    const decreaseTotal = (item) => {
+        totalPrice.value -= item.price;
+    };
+
     async function getAttacks() {
         const token = JSON.parse(localStorage.getItem('player')).token
         try {
@@ -26,24 +45,16 @@
 
     async function buyAttacks() {
         const token = JSON.parse(localStorage.getItem('player')).token
-        try {
-            await buyAttack(token, selectedAttacks.value);
-            getAttacks();
-            selectedAttacks.value = [];
-        } catch (error) {
-            console.log(error);
+        for (let i = 0; i < selectedAttacks.value.length; i++) {
+            const id = selectedAttacks[i].attack_ID;
+
+            try {
+                await buyAttack(token, id);
+                selectedAttacks.value = [];
+            } catch (error) {
+                console.log(error);
+            }
         }
-    }
-
-    // Variables
-    const attacks = ref([]);
-    const selectedAttacks = ref([]);
-    const totalPrice = ref(0);
-    const showPopup = ref(false);
-
-    // Funcions
-    function togglePopup() {
-        showPopup.value = !showPopup.value;
     }
 
     function checkSelected(attack) {
@@ -57,8 +68,10 @@
     function toggleSelecion(attack) {
         if (selectedAttacks.value.includes(attack)) {
             selectedAttacks.value.splice(selectedAttacks.value.indexOf(attack), 1);
+            decreaseTotal(attack);
         } else {
             selectedAttacks.value.push(attack);
+            increaseTotal(attack);
         }
     }
 
@@ -75,7 +88,7 @@
                 <p>TOTAL: {{ totalPrice }}</p>
                 <img src="@/assets/images/icons/coinIcon.png" alt="Coin" class="iCoin">
             </div>
-            <button @click="togglePopup()">BUY</button>
+            <button @click="togglePopup()" :disabled="selectedAttacks.length === 0">BUY</button>
         </article>
         
     </section>

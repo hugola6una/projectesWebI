@@ -1,145 +1,147 @@
 <script setup>
-import { ref } from 'vue';
-import ItemStore from '../components/ItemStore.vue';
-import SelectedItemsPopup from '../components/SellPopUp.vue';
+    import { ref, defineAsyncComponent, onMounted } from 'vue';
+    import ItemStore from '@/components/ItemStore.vue';
+    import { getOwnAttacks, sellAttack } from '@/services/api/AttacksRequest.js'
 
-const items = ref([
-    { id: 1, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0 },
-    { id: 2, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 3, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 4, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 5, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 6, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 7, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 8, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 9, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png' , quantity: 0 },
-    { id: 10, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 11, name: 'Attack1', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 12, name: 'Attack2', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 13, name: 'Attack3', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 14, name: 'Attack4', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-    { id: 15, name: 'Attack5', price: 100, selected: false, image: '/src/assets/images/icons/swordIcon.png', quantity: 0  },
-]);
+    const SellPopUp = defineAsyncComponent(() => import('@/components/SellPopUp.vue'));
 
-const totalPrice = ref(0);
-const selectedItems = ref([]);
-const showPopup = ref(false);
+    onMounted(() => {
+        getAttacks()
+    })
 
-const updateTotal = (item) => {
-    const isSelected = item.selected;
-
-    if (isSelected) {
-        totalPrice.value += item.price;
-        selectedItems.value.push(item);
-    } else {
-        totalPrice.value -= item.price;
-        const index = selectedItems.value.findIndex(selectedItem => selectedItem.id === item.id);
-        if (index !== -1) {
-            selectedItems.value.splice(index, 1);
+    // Funcions
+    async function getAttacks() {
+        const token = JSON.parse(localStorage.getItem('player')).token
+        try {
+            attacks.value = await getOwnAttacks(token);
+        } catch (error) {
+            console.log(error);
         }
     }
-};
 
-const sellButtonClick = () => {
-    showPopup.value = true;
-};
+    async function sellAttacks() {
+        const token = JSON.parse(localStorage.getItem('player')).token
+        for (let i = 0; i < selectedAttacks.value.length; i++) {
+            const id = selectedAttacks[i].attack_ID;
 
-const closePopup = () => {
-    showPopup.value = false;
-};
+            try {
+                await sellAttack(token, id);
+                selectedAttacks.value = [];
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    function togglePopup() {
+        showPopup.value = !showPopup.value;
+    }
+
+    function checkSelected(attack) {
+        if (selectedAttacks.value.includes(attack)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function toggleSelecion(attack) {
+        if (selectedAttacks.value.includes(attack)) {
+            selectedAttacks.value.splice(selectedAttacks.value.indexOf(attack), 1);
+        } else {
+            selectedAttacks.value.push(attack);
+        }
+    }
+
+    // Variables
+    const attacks = ref([]);
+    const totalPrice = ref(0);
+    const selectedAttacks = ref([]);
+    const showPopup = ref(false);
+    
 </script>
 
 <template>
-    <div class="sellContent">
+    <section v-if="!showPopup" class="sellContent">
         <h3>TAP TO SELECT</h3>
         <section class="items">
-            <ItemStore
-                v-for="item in items"
-                :key="item.id"
-                :initialSelected="item.selected"
-                :itemName="item.name"
-                :itemPrice="item.price"
-                :itemImage="item.image"
-                @itemSelected="updateTotal"
-            />
+            <ItemStore v-for="attack in attacks" :key="attack.attack_ID" :attack="attack" :isSelected="checkSelected(attack)" @toggleSelection="toggleSelecion(attack)"></ItemStore>
         </section>
-        <div class="sellAction">
+        <article class="sellAction">
             <div class="amount">
                 <p>TOTAL: {{ totalPrice }}</p>
-                <img src="../assets/images/icons/coinIcon.png" alt="Coin" class="iCoin">
+                <img src="@/assets/images/icons/coinIcon.png" alt="Coin" class="iCoin">
             </div>
-            <button @click="sellButtonClick">SELL</button>
-        </div>
-        <SelectedItemsPopup
-            v-if="showPopup"
-            :selectedItems="selectedItems"
-            @closed="closePopup"
-        />
-    </div>
+            <button @click="togglePopup()">SELL</button>
+        </article>
+        
+    </section>
+    <SellPopUp v-if="showPopup" :selectedAttacks="selectedAttacks" @closed="togglePopup" @sellItems="sellAttacks"/>
 </template>
 
 <style scoped>
 .sellContent {
-    margin: 2vmax;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    background-color: white;
-}
+        height: 100%;
+        width: 100%;
+        display: grid;
+        grid-template-rows: 1fr 6fr 2fr;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background-color: white;
+    }
 
-.sellContent h3 {
-    margin: 2vmax;
-    font-size: 1vmax;
-    color: #362864;
-}
+    .sellContent p {
+        margin: 2vmax;
+        font-size: 1vmax;
+        color: #362864;
+    }
 
-.items {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    overflow-y: auto;
-    height: 40vh;
-    max-height: 40vh;
+    .items {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-y: auto;
+        max-height: 43vh;
 
-}
+    }
 
-.amount {
-    display: flex;
-    margin-top: 2vmax;
-    height: 3vmax;
-    width: 25vmax;
-    background-color: #80547f;
-    color: white;
-    text-align: start;
-    align-items: center;
-}
+    .amount {
+        display: flex;
+        margin-top: 2vmax;
+        height: 3vmax;
+        width: 25vmax;
+        background-color: #80547f;
+        color: white;
+        text-align: start;
+        align-items: center;
+    }
 
-.amount p {
-    font-size: 1vmax;
-}
+    .amount p {
+        color: white;
+        font-size: 1vmax;
+    }
 
-.amount img {
-    margin-left: 0.2vmax;
-    width: 2vmax;
-}
+    .amount img {
+        margin-left: 0.2vmax;
+        width: 2vmax;
+    }
 
-button {
-    color: white;
-    background-color: #362864;
-    height: 5vmax;
-    width: 25vmax;
-    font-size: 3vmax;
-    border: none;
-}
+    button {
+        color: white;
+        background-color: #362864;
+        height: 5vmax;
+        width: 25vmax;
+        font-size: 3vmax;
+        border: none;
+    }
 
-.sellAction {
-    margin-top: 2vmax;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2vmax;
-}
+    .sellAction {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
 
 @media (max-width: 900px) {
     .items {

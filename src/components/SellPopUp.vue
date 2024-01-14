@@ -1,7 +1,13 @@
 <script setup>
-    import SolicitedItem from '../components/SolicitedItem.vue';
+    import SolicitedItem from '@/components/SolicitedItem.vue';
 
-    defineProps(['selectedItems', 'onClosed']);
+    const {selectedAttacks, onClosed} = defineProps(['selectedAttacks', 'onClosed']);
+    const emit = defineEmits(['sellItems']);
+
+    function sellItems() {
+        emit('sellItems');
+        onClosed();
+    }
 
 </script>
 
@@ -13,11 +19,11 @@
                 <button @click="onClosed" class="closeButton">x</button>
             </div>
             <ul>
-                <li v-for="item in selectedItems" :key="item.id">
+                <li v-for="item in selectedAttacks" :key="item.id">
                     <SolicitedItem :item="item" @quantityChanged="handleQuantityChanged" />
                 </li>
             </ul>
-            <button @click="onClosed" class="buyButton">SELL</button>
+            <button @click="sellItems" class="sellButton">BUY</button>
         </div>
     </div>
 </template>
@@ -86,7 +92,6 @@
 }
 
 ul {
-    height: 100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -94,7 +99,7 @@ ul {
     overflow-x: hidden;
 }
 
-.buyButton {
+.sellButton {
     background-color: #362864;
     color: white;
     font-size: 3vmax;

@@ -1,6 +1,5 @@
 <script setup>
-    // Librairies   
-
+    // Llibreries   
     defineProps(['attack', 'isSelected']);
     
 </script>
@@ -8,8 +7,12 @@
 <template>
     <!-- Contigut article representa el item -->
     <article :class="{ 'item': true, sel: isSelected }" @click="$emit('toggleSelection')">
-        <img src="../assets/images/icons/swordIcon.png" alt="attackIcon" class="iSword" />
+        <img src="@/assets/images/icons/swordIcon.png" alt="attackIcon" class="iSword" />
         <p class="name">{{ attack.attack_ID }}</p>
+        <div class="container">
+            <img src="@/assets/images/icons/coinIcon.png" alt="Coin" class="coin"/>
+            <p class="price" v-bind:textContent="attack.price"></p>
+        </div>
     </article>
 </template>
 
@@ -17,10 +20,10 @@
 .item {
     display: flex;
     flex-direction: column;
-    width: 10vh;
+    width: 12vh;
     border: none;
-    padding: 1vh;
-    margin: 1vh;
+    padding: 0.5vh;
+    margin: 0.5vh;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -42,8 +45,26 @@
     word-wrap: break-word;
 }
 
+.price {
+    width: 50%;
+    color: #ffffff;
+    font-size: 1vw;
+    word-wrap: break-word;
+    align-items: left;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #362864;
+    width: 100%;
+}
+
 .sel {
     background-color: #80547f;
+    border: 2px;
+    border-color: #362864;
 }
 
 .sel p {
