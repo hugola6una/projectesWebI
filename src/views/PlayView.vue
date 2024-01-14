@@ -1,343 +1,102 @@
 <script setup>
-import { ref } from 'vue';
-import ItemCollection from '../components/ItemCollection.vue';
-const currentScreen = ref('joc');
-const changeScreen = () => {
-    currentScreen.value = currentScreen.value === 'joc' ? 'howto' : 'joc';
-};
-</script>
-<script>
-  export default {
-  data() {
-    return {
-      piece: {x: 0, y: 0},
-      name: '',
-      size: '',
-      hp: '',
-      board: [],
-      isLargeScreen: window.innerWidth >= 820,
-    };
-  },
-  mounted() {
-    this.name = this.$route.params.name;
-    this.size = this.$route.params.size;
-    this.hp = this.$route.params.hp;
-    this.generateBoard();
-  },
+  // Librairies
+  import { onMounted, ref, watch } from 'vue';
 
-  methods: {
-    generateBoard() {
-      const boardSize = parseInt(this.size);
-      const newBoard = [];
+  // API Requests
+  import { getCurrentGameRequest } from '@/services/api/GamesRequest.js';
 
-      for (let i = 0; i < boardSize; i++) {
-        const row = [];
-        for (let j = 0; j < boardSize; j++) {
-          const color = (i + j) % 2 === 0 ? 'white' : 'black';
-          row.push({ color });
-        }
-        newBoard.push(row);
-      }
+  // Components
+  import PlayerLife from '@/components/PlayerBattle.vue';
 
-      this.board = newBoard;
-    },
+  const game = ref({});
 
-    handleKeyPress(event) {
-      const step = 50;
-      switch (event.key) {
-        case 'w':
-            if (this.piece.x != 0) {
-                this.piece.x -= step;
-            }
-          break;
-        case 's':
-            if (this.piece.x != ((parseInt(this.size)-1)*step)) {
-            this.piece.x += step;
-            }
-          break;
-        case 'a':
-            if (this.piece.y != 0) {
-            this.piece.y -= step;
-            }
-            break;
-        case 'd':
-            if (this.piece.y != ((parseInt(this.size)-1)*step)) {
-            this.piece.y += step;
-            }
-          break;
-      }
-      this.$forceUpdate();
-    },
+  onMounted(() => {
+    getCurrentGame();
+  });
 
-    pieceIsInCell(rowIndex, cellIndex) {
-        return this.piece.x / 50 === rowIndex && this.piece.y / 50 === cellIndex;
-    },
-  },
-};
+  watch(() => game.value, () => {
+    console.log(game.value);
+  });
+
+  async function getCurrentGame() {
+    try {
+      const token = JSON.parse(localStorage.getItem('player')).token;
+      game.value = await getCurrentGameRequest(token);
+      console.log(game.value);
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  function checkPlayerIn() {
+    if (game.value.length > 0 && game.value[0].players_games && game.value[0].players_games.length === 1) {
+      return game.value[0].players_games[0].player_ID + ' VS ' + 'Waiting...';
+    }
+
+    if (game.value.length > 0 && game.value[0].players_games && game.value[0].players_games.length === 2) {
+      return game.value[0].players_games[0].player_ID + ' VS ' + game.value[0].players_games[1].player_ID;
+    }
+  }
 
 </script>
+
 
 <template>
-    <div class="container">
-        <button class="show-content-button" @click="changeScreen()">
-        {{ currentScreen === 'joc' ? 'How to Play' : 'Back to Game' }}
-        </button>
-      <div class="top">
-
-        <img src="..\assets\images\icons\playerdefault.png" class="profile1">
-        <div class="hp1">
-            <div class="hpContainer">
-                <div class="skills level1">1200xp</div>
-            </div>
-        </div>
-        <div class="hp2">
-            <div class="hpContainer">
-                <div class="skills level2">1500xp</div>
-            </div>
-        </div>
-        <img src="..\assets\images\icons\playerdefault.png" class="profile2">
-        <div class="playerText">Player1 VS Player2</div>
-      </div>
-      <div class="arenaContainer" v-show="currentScreen === 'joc'">
-        <div class="arena" @keydown="handleKeyPress" tabindex="0" >
-        <div v-for="(row, rowIndex) in board" :key="rowIndex" class="arena-row">
-          <div
-            v-for="(cell, cellIndex) in row"
-            :key="cellIndex"
-            :class="['arena-cell', cell.color]"
-          >
-          <img v-if="pieceIsInCell(rowIndex, cellIndex)" src="..\assets\images\icons\robot1.png"
-          :style="{ x: piece.x, y: piece.y , width: '100%', height: '100%' }"
-        />
-            
-        </div>
-        </div>
-      </div>
-      </div>
-      <div class="arenaContainer" v-show="currentScreen === 'howto'">
-        <div>
-            <h1>How to Play?</h1>
-            <p>Use w, a, s, d to move</p>
-        </div>
+  <header>
+    <PlayerLife />
+    <div class="mid">
+      <p>{{checkPlayerIn()}}</p>
     </div>
-      <div class="bottom">
-        <router-link to="/home" class="link">
-          <button class="bLogout">
-          <img src="../assets/images/icons/logout_9965863.png" class="profile1">
-        </button>
-        </router-link>
+    <PlayerLife />
+  </header>
+  <main>
+    <p>Body</p>
+  </main>
+  <footer>
+    <p>Peus</p>
+  </footer>
     
-        <div class="bAttacks">
-          <ItemCollection />
-          <ItemCollection />
-          <ItemCollection />
-        </div>
-      </div>
-    </div>
-  </template>
+</template>
 
 <style scoped>
 
-h1 {
-    text-align: center;
-    font-size: 4vh;
-}
-
-p {
-    text-align: center;
-    font-size: 2vh;
-}
-.profile1 {
-    height: 7vmax;
-  width: 7vmax;
-  grid-column: 1;
-  grid-row: 1;
-  margin: 1vh;
-}
-.playerText {
-  grid-column: 1 / span 4; 
-  grid-row: 2;
-  text-align: center;
-  color: white;
-  font-size: 2vmax;
-  margin-top: 1vh; 
-}
-.level1 {width: 90%; background-color: #291D49;}
-.level2 {width: 100%; background-color: #291D49;}
-.hp1 {
-    height: 100%;
-    width: 100%;
-    grid-column: 2;
-    grid-row: 1;
-    display: flex;
-}
-
-.hpContainer {
-    margin-top: 2.5vh;
-    width: 90%;
-    height: 3.5vh;
-    background-color: white;
-    display: flex;
-    align-items: center;
-}
-
-.title {
-    margin-left: 2vh;
-    grid-row: 2;
-    grid-column: 1 / 4;
+  header {
     width: 100%;
     height: 100%;
-}
-
-.skills {
-  color: white;
-  font-size: 1.5vmax;
-  text-align: right;
-}
-.hp2 {
-    height: 100%;
-  width: 100%;
-    grid-column: 3;
-  grid-row: 1;
-  display: flex;
-}
-
-.profile2 {
-    height: 7vmax;
-  width: 7vmax;
-  grid-column: 4;
-  grid-row: 1;
-  margin: 1vh;
-}
-
-
-.arena {
-  display: grid;
-  grid-template-columns: repeat(${boardSize}, 1fr);
-  grid-template-rows: repeat(${boardSize}, 1fr);
-  grid-gap: 2px;
-}
-
-.arena:focus {
-  outline: 0.1em solid #383838;
-}
-
-.arena-row {
-  display: flex;
-}
-
-.arena-cell {
-  height: 7vh;
-  width: 7vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.arena-cell img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.white {
-  background-color: #E1E2FE;
-}
-
-.black {
-  background-color: #291D49;
-}
-
-.show-content-button {
-  margin: 1vmax;
-  font-size: 1vmax;
-  height: 2vmax;
-  border: none;
-}
-
-  .container {
-    display: grid;
-    grid-template-rows: 1fr 5fr 1fr;
-    align-items: center;
-    height: 100vh; 
-  }
-
-  .arenaContainer {
-    background-color: #CACAFB;
-    height: 100%;
-    grid-row: 2;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .top {
     background-color: #ABA9F8;
-    height: 100%;
-    grid-row: 1;
+    justify-content: center;
+    align-items: center;
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    align-items: center;
-    justify-content: center;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    
   }
 
-  .bottom {
-    background-color: #ABA9F8;
+  .mid {
+    width: 100%;
     height: 100%;
-    grid-row: 3;
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-    flex-direction: row;
+    display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .bLogout {
-    justify-self: start;
-    display: flex;
-    box-sizing: border-box;
-    height: 3vmax;
-    width: 4vmax;
-    margin-left: 1vmax;
-    align-items: center;
-    justify-content: center;
-    border: none;
-  }
-
-  .bLogout img {
-    width: 2vmax;
-    height: 2vmax;
-  }
-
-  .bAttacks {
-    display: flex;
-    align-self: center;
-    justify-self: center;
-  }
-
-
-  @media (max-width: 820px) {
-    .container {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 5fr 1fr;
-    }
-
-    .body,
-    .top,
-    .bottom,
-    .arenaContainer {
-      grid-column: 1;
-    }
-
-    .arena-cell {
-        height: 5vh;
-        width: 5vh;
-    }
-
-}
+  } 
   
+
+  main {
+    width: 100%;
+    height: 100%;
+    background-color: #E1E2FE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  footer {
+    width: 100%;
+    height: 100%;
+    background-color: #ABA9F8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 </style>
   

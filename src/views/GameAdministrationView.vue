@@ -36,15 +36,15 @@ function showContent(contentType) {
 <template>
         <!-- Navegador per les diferents opcions del game -->
         <nav class="selectors">
-           <!-- Opcions del game -->
-            <div class="options">
-               <!-- Opcions del create -->
-              <SelectorComponent @click="showContent('create')" imageSrc="src/assets/images/icons/create.png" strAlt="Create" :isSelected="contentToShow === 'create'"/>
-               <!-- Opcions del show -->
-              <SelectorComponent @click="showContent('show')" imageSrc="src/assets/images/icons/show.png" strAlt="Show" :isSelected="contentToShow === 'show'"/> 
-               <!-- Opcions del search -->
-              <SelectorComponent @click="showContent('search')" imageSrc="src/assets/images/icons/search.png" strAlt="Search" :isSelected="contentToShow === 'search'"/>
-            </div>
+          <!-- Opcions del game -->
+          <div class="options">
+              <!-- Opcions del create -->
+            <SelectorComponent @click="showContent('create')" imageSrc="src/assets/images/icons/create.png" strAlt="Create" :isSelected="contentToShow === 'create'"/>
+            <!-- Opcions del show -->
+            <SelectorComponent @click="showContent('show')" imageSrc="src/assets/images/icons/show.png" strAlt="Show" :isSelected="contentToShow === 'show'"/> 
+            <!-- Opcions del search -->
+            <SelectorComponent @click="showContent('search')" imageSrc="src/assets/images/icons/search.png" strAlt="Search" :isSelected="contentToShow === 'search'"/>
+          </div>
         </nav>
         <!-- Secció amb el contigut a mostrar -->
         <section class="content">

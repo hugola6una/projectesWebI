@@ -42,9 +42,10 @@
   }
 
   // Funció per eliminar el player
-  function deleteUser() {
+  async function deleteUser() {
     try {
-      deletePlayerRequest(JSON.parse(localStorage.getItem('player')).token);
+      const token = JSON.parse(localStorage.getItem('player')).token;
+      await deletePlayerRequest(token);
       router.push('/');
     } catch (error) {
       alert(error);
@@ -85,9 +86,9 @@
         <!-- Contigut per elminar el player -->
         <article v-else class="trashContent" v-once>
           <!-- Titol del article -->
-          <h1>DELETE {{name}}</h1>
+          <h1>DELETE {{player.player_ID}}</h1>
           <!-- Missatge d'alerta -->
-          <p>ARE YOU SURE YOU WANT TO DELETE “{{name}}” ?</p>
+          <p>ARE YOU SURE YOU WANT TO DELETE “{{player.player_ID}}” ?</p>
           <p>All player-related information will be deleted</p>
           <!-- Opcions pel delete -->
           <div class="bTrashOptions">

@@ -1,10 +1,10 @@
 <script setup>
- import { ref} from 'vue';
+  import { ref} from 'vue';
 
-// Componentes
- import ErrorSpan from '@/components/ErrorSpan.vue';
- import InputComponent from '@/components/InputComponent.vue';
- import { createGameRequest} from '@/services/api/GamesRequest.js';
+  // Componentes
+  import ErrorSpan from '@/components/ErrorSpan.vue';
+  import InputComponent from '@/components/InputComponent.vue';
+  import { createGameRequest} from '@/services/api/GamesRequest.js';
 
     let size = ref(6);
     let hp = ref(7);
@@ -90,20 +90,20 @@ async function handleSubmit () {
 <template>
   <!-- Contingut de la pagina createGame -->
     <article class="createContent">
-       <!-- Contingut del formulari per demanar les caracteristiques del game -->
-        <form @submit.prevent="handleSubmit">
-          <h4>Customize your game</h4>
-           <!-- Demana nom -->
-          <p>Choose a name for the game</p>
-          <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
-          <!-- Demana mida amb slider -->
-          <p>Choose the size of the Arena (2-10)</p>
-          <input type="range" min="2" max="10" value="6" class="slider" id="sizeSlider" name="size" @input="updateSizeValue">
-          <p>Size:<span id="sizeValue">{{ size }}</span></p>
-          <!-- Demana HP amb slider -->
-          <p>Choose the HP of the players</p>
-          <input type="range" min="15" max="10000" value="50" class="slider" id="hpSlider" name="hp" @input="updateHpValue">
-          <p>Hp:<span id="hpValue">{{ hp }}</span></p> 
+      <!-- Contingut del formulari per demanar les caracteristiques del game -->
+      <form @submit.prevent="handleSubmit">
+        <h4>Customize your game</h4>
+          <!-- Demana nom -->
+        <p>Choose a name for the game</p>
+        <InputComponent inputType="text" inputPlaceholder="Name" :error="errors.name.value" :msgError="errors.name.message" @update:modelValue="(value) => updateModel(value, 'name')"/>
+        <!-- Demana mida amb slider -->
+        <p>Choose the size of the Arena (2-10)</p>
+        <input type="range" min="2" max="10" value="6" class="slider" id="sizeSlider" name="size" @input="updateSizeValue">
+        <p>Size:<span id="sizeValue">{{ size }}</span></p>
+        <!-- Demana HP amb slider -->
+        <p>Choose the HP of the players</p>
+        <input type="range" min="15" max="10000" value="50" class="slider" id="hpSlider" name="hp" @input="updateHpValue">
+        <p>Hp:<span id="hpValue">{{ hp }}</span></p> 
 
           <!-- Boto per crear -->
           <button type="submit" class="createButton">CREATE</button>
