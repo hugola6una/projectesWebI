@@ -18,7 +18,7 @@
   const game = ref({}); // Info de la partida
   const nRows = ref(); // Numero de rows
   const playerPosition = ref({ row: 0, column: 0, direction: "down" },
-                                  { row: nRows.value -1, column: nRows.value-1, direction: "up"}); // Més 5 equival a un row/column
+                              { row: 1, column: 1, direction: "up"}); // Més 5 equival a un row/column
 
   const player1 = ref({}); // Info del player1
   const player2 = ref({}); // Info del player2 
@@ -27,7 +27,8 @@
 
   onMounted(() => {
     getCurrentGame(); // Obtenim la partida actua
-    //window.addEventListener('keydown', keyPressed); // Crea listener en tota la fienstre
+    playerPosition.value[0] = { row: 0, column: 0, direction: "down" }; // Posició inicial del player1
+    playerPosition.value[1] = { row: 0, column: 0, direction: "down" }; // Posició inicial del player1
     //setInterval(getCurrentGame, 5000);
     
   });
@@ -80,8 +81,7 @@
   }
   // Controla les tecles que es prem
   function keyPressed(event) {
-    const { key } = event;
-    
+      const { key } = event;
       switch (key) {
         case 'w':
           if (playerPosition.value[who.value].direction === "up") { //Comprova que el jugador estigui mirant cap a on es mou
@@ -216,7 +216,7 @@
     <!-- Vida jugador 2 -->
     <PlayerLife :playerAux="player2"/>
   </header>
-  <main @keydown="keyPressed()">
+  <main @keydown="keyPressed">
     <!-- Estil board -->
     <div class="board"  tabindex="0">
       <!-- Bucle passant per les columnes -->
