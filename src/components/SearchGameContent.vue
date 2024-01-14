@@ -1,5 +1,16 @@
 <script setup>
     import { ref, onMounted} from 'vue';  
+    // Libraries
+    import { useRouter } from 'vue-router';
+
+    const router = useRouter();
+
+    function navigateToPlay() {
+    router.push('/play');
+    }
+    // API request
+    import { enterGame } from '@/services/api/GamesRequest.js';
+
 
     import ItemGames from '@/components/ItemGames.vue';
     import SearchItem from '@/components/SearchItem.vue';
@@ -21,6 +32,17 @@
             games.game_ID.toLowerCase().includes(value.toLowerCase())
         );
     }
+    
+    // Funció per entrar a game
+    async function joinGame (game_ID) { 
+        const token = JSON.parse(localStorage.getItem('player')).token
+        try {
+            enterGame(token, game_ID);
+            navigateToPlay();
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 </script>
 
@@ -29,7 +51,7 @@
         <h3>Search available games</h3>
             <SearchItem @input="updateSearch"/>
         <section class="games">
-            <ItemGames v-for="game in filteredGames" :key="game.game_ID" :game="game" />
+            <ItemGames v-for="game in filteredGames"  @click="joinGame(game.game_ID)" :key="game.game_ID" :game="game" />
         </section>
     </div>
    

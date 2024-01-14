@@ -15,7 +15,7 @@
   import { createGameRequest} from '@/services/api/GamesRequest.js';
 
     let size = ref(6);
-    let hp = ref(7);
+    let hp = ref(15);
 
     // Variables de error
     const errors = {
